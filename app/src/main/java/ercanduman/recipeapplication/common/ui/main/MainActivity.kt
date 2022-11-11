@@ -1,4 +1,4 @@
-package ercanduman.recipeapplication
+package ercanduman.recipeapplication.common.ui.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,7 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import ercanduman.recipeapplication.ui.theme.RecipeApplicationTheme
+import ercanduman.recipeapplication.common.theme.RecipeApplicationTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -1,4 +1,4 @@
-package ercanduman.recipeapplication.ui.theme
+package ercanduman.recipeapplication.common.theme
 
 import androidx.compose.ui.graphics.Color
 
