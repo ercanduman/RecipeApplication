@@ -4,6 +4,7 @@ plugins {
 
     id 'org.jmailen.kotlinter'
 }
+apply from: "$rootDir/gradle/dependency/test.gradle"
 
 android {
     namespace 'ercanduman.recipeapplication'
@@ -53,6 +54,8 @@ android {
 }
 
 dependencies {
+    // Note: Please do not add any TEST dependencies here. Test dependencies must be stored
+    // them in "$rootDir/gradle/dependency/test.gradle" file.
 
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
@@ -61,11 +64,9 @@ dependencies {
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
     implementation 'androidx.compose.material3:material3:1.0.0-alpha11'
 
-    // Test
-    testImplementation 'junit:junit:4.13.2'
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+    // Retrofit
+    def retrofit_version = "2.9.0"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+
 }
