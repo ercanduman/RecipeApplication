@@ -1,4 +1,4 @@
-package ercanduman.recipeapplication.ui.theme
+package ercanduman.recipeapplication.common.theme
 
 import android.app.Activity
 import android.os.Build
@@ -57,6 +57,7 @@ fun RecipeApplicationTheme(
     if (!view.isInEditMode) {
         SideEffect {
             (view.context as Activity).window.statusBarColor = colorScheme.primary.toArgb()
+            @Suppress("DEPRECATION")
             ViewCompat.getWindowInsetsController(view)?.isAppearanceLightStatusBars = darkTheme
         }
     }
