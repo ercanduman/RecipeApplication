@@ -1,24 +1,27 @@
 package ercanduman.recipeapplication.data.network.model
 
+
 import com.google.gson.annotations.SerializedName
 
-data class RecipeDto(
+data class GetRecipeResponse(
     @SerializedName("pk")
-    val id: Int?,
+    val pk: Int?,
     @SerializedName("title")
     val title: String?,
-    @SerializedName("rating")
-    val rating: Int?,
     @SerializedName("publisher")
     val publisher: String?,
-    @SerializedName("description")
-    val description: String?,
-    @SerializedName("ingredients")
-    val ingredients: List<String>?,
-    @SerializedName("imageUrl")
-    val imageUrl: String?,
+    @SerializedName("featured_image")
+    val featuredImage: String?,
+    @SerializedName("rating")
+    val rating: Int?,
     @SerializedName("source_url")
     val sourceUrl: String?,
+    @SerializedName("description")
+    val description: String?,
+    @SerializedName("cooking_instructions")
+    val cookingInstructions: List<String>?,
+    @SerializedName("ingredients")
+    val ingredients: List<String?>?,
     @SerializedName("date_added")
     val dateAdded: String?,
     @SerializedName("date_updated")
@@ -26,5 +29,5 @@ data class RecipeDto(
     @SerializedName("long_date_added")
     val longDateAdded: Int?,
     @SerializedName("long_date_updated")
-    val longDateUpdated: Int
+    val longDateUpdated: Int?
 )
