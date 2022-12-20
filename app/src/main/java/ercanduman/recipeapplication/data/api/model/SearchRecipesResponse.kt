@@ -1,4 +1,4 @@
-package ercanduman.recipeapplication.data.network.model
+package ercanduman.recipeapplication.data.api.model
 
 import com.google.gson.annotations.SerializedName
 

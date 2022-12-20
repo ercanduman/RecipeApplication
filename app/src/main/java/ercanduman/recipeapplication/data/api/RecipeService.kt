@@ -1,7 +1,7 @@
-package ercanduman.recipeapplication.data.network
+package ercanduman.recipeapplication.data.api
 
-import ercanduman.recipeapplication.data.network.model.GetRecipeResponse
-import ercanduman.recipeapplication.data.network.model.SearchRecipesResponse
+import ercanduman.recipeapplication.data.api.model.GetRecipeResponse
+import ercanduman.recipeapplication.data.api.model.SearchRecipesResponse
 import kotlinx.coroutines.flow.Flow
 import retrofit2.http.GET
 import retrofit2.http.Headers
