@@ -1,4 +1,4 @@
-package ercanduman.recipeapplication.common.ui.main
+package ercanduman.recipeapplication.ui.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

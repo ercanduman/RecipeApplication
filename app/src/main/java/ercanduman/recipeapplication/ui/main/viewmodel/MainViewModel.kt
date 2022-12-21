@@ -1,4 +1,4 @@
-package ercanduman.recipeapplication.common.ui.main.viewmodel
+package ercanduman.recipeapplication.ui.main.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
