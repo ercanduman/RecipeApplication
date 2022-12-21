@@ -1,14 +1,14 @@
 package ercanduman.recipeapplication.ui.main
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
+import androidx.appcompat.app.AppCompatActivity
 import ercanduman.recipeapplication.R
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         setupAppNavigation()
     }
 
@@ -18,7 +18,9 @@ class MainActivity : ComponentActivity() {
      * both Views and Compose. Once each Fragment's contents are in Compose, the next step is to tie
      * all of those screens together with Navigation Compose and remove all of the Fragments.
      *
-     * Details: https://developer.android.com/jetpack/compose/navigation#interoperability
+     * Details:
+     *  1- https://developer.android.com/jetpack/compose/navigation#interoperability
+     *  2- https://developer.android.com/guide/navigation/navigation-getting-started
      */
     private fun setupAppNavigation() {
     }
