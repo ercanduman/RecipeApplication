@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -18,6 +19,11 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import ercanduman.recipeapplication.R
+import ercanduman.recipeapplication.common.ui.theme.AppDimenDefaultDistance
+
+private const val NAVIGATE_BUTTON_WIDTH = 180
+private const val NAVIGATE_BUTTON_HEIGHT = 56
+private const val NAVIGATE_BUTTON_TEXT = "Navigate to Details"
 
 class RecipeListFragment : Fragment() {
 
@@ -34,18 +40,20 @@ class RecipeListFragment : Fragment() {
     @Composable
     private fun FragmentContent() {
         Column(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(AppDimenDefaultDistance),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Recipe List fragment.")
+            Text(text = getString(R.string.label_recipe_list_fragment))
 
             Button(
                 modifier = Modifier
-                    .width(180.dp)
-                    .height(50.dp),
+                    .width(NAVIGATE_BUTTON_WIDTH.dp)
+                    .height(NAVIGATE_BUTTON_HEIGHT.dp),
                 onClick = { findNavController().navigate(R.id.action_navigate_to_recipeDetailFragment) }
             ) {
-                Text(text = "Navigate to Details")
+                Text(text = NAVIGATE_BUTTON_TEXT)
             }
         }
     }
