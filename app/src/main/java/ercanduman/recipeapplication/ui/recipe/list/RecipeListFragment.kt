@@ -18,6 +18,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import ercanduman.recipeapplication.R
 import ercanduman.recipeapplication.common.ui.theme.AppDimenDefaultDistance
 
@@ -25,6 +26,7 @@ private const val NAVIGATE_BUTTON_WIDTH = 180
 private const val NAVIGATE_BUTTON_HEIGHT = 56
 private const val NAVIGATE_BUTTON_TEXT = "Navigate to Details"
 
+@AndroidEntryPoint
 class RecipeListFragment : Fragment() {
 
     override fun onCreateView(
