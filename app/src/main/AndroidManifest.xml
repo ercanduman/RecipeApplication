@@ -13,9 +13,8 @@
         android:theme="@style/Theme.RecipeApplication"
         tools:targetApi="31">
         <activity
-            android:name=".common.ui.main.MainActivity"
-            android:exported="true"
-            android:theme="@style/Theme.RecipeApplication">
+            android:name=".ui.main.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

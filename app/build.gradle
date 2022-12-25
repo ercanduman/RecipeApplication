@@ -56,13 +56,22 @@ android {
 dependencies {
     // Note: Please do not add any TEST dependencies here. Test dependencies must be stored
     // them in "$rootDir/gradle/dependency/test.gradle" file.
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation "androidx.fragment:fragment-ktx:1.5.5"
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
+    implementation "androidx.appcompat:appcompat:1.5.1"
 
-    implementation 'androidx.core:core-ktx:1.8.0'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
-    implementation 'androidx.activity:activity-compose:1.5.1'
+    // Compose
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-    implementation 'androidx.compose.material3:material3:1.0.0-alpha11'
+    implementation 'androidx.compose.material3:material3:1.1.0-alpha03'
+    implementation 'androidx.activity:activity-compose:1.6.1'
+
+    // Jetpack Navigation Component
+    def nav_version = "2.5.3"
+    implementation("androidx.navigation:navigation-compose:$nav_version")
+    implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
+    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
 
     // Retrofit
     def retrofit_version = "2.9.0"
