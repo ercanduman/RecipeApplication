@@ -1,6 +1,6 @@
 package ercanduman.recipeapplication.data.api
 
-import ercanduman.recipeapplication.data.api.model.GetRecipeResponse
+import ercanduman.recipeapplication.data.api.model.RecipeDto
 import ercanduman.recipeapplication.data.api.model.SearchRecipesResponse
 import retrofit2.Response
 import retrofit2.http.GET
@@ -21,5 +21,5 @@ interface RecipeService {
     @GET("get/") // get/?id=9
     suspend fun getRecipe(
         @Query("id") recipeId: Int
-    ): Response<GetRecipeResponse>
+    ): Response<RecipeDto>
 }

@@ -4,7 +4,7 @@ import ercanduman.recipeapplication.common.util.RecipeResult
 import ercanduman.recipeapplication.common.util.safeApiCall
 import ercanduman.recipeapplication.common.util.safeFlowCall
 import ercanduman.recipeapplication.data.api.RecipeService
-import ercanduman.recipeapplication.data.api.model.GetRecipeResponse
+import ercanduman.recipeapplication.data.api.model.RecipeDto
 import ercanduman.recipeapplication.data.api.model.SearchRecipesResponse
 import kotlinx.coroutines.flow.Flow
 
@@ -22,7 +22,7 @@ class RecipeRepositoryImpl(
 
     override suspend fun getRecipe(
         recipeId: Int
-    ): RecipeResult<GetRecipeResponse> {
+    ): RecipeResult<RecipeDto> {
         return safeApiCall {
             service.getRecipe(recipeId)
         }
