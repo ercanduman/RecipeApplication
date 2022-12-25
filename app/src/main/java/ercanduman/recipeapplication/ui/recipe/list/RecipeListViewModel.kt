@@ -2,10 +2,13 @@ package ercanduman.recipeapplication.ui.recipe.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import ercanduman.recipeapplication.domain.usecase.SearchRecipeUseCase
+import javax.inject.Inject
 import kotlinx.coroutines.launch
 
-class RecipeListViewModel(
+@HiltViewModel
+class RecipeListViewModel @Inject constructor(
     private val searchRecipeUseCase: SearchRecipeUseCase
 ) : ViewModel() {
 

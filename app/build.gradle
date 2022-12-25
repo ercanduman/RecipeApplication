@@ -87,6 +87,7 @@ dependencies {
 }
 
 // Hilt - Allow references to generated code
+// https://kotlinlang.org/docs/kapt.html#non-existent-type-correction
 kapt {
     correctErrorTypes = true
 }
