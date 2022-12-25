@@ -1,12 +1,12 @@
-package ercanduman.recipeapplication.ui.main.viewmodel
+package ercanduman.recipeapplication.ui.recipe.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import ercanduman.recipeapplication.data.repository.RecipeRepository
+import ercanduman.recipeapplication.domain.usecase.SearchRecipeUseCase
 import kotlinx.coroutines.launch
 
-class MainViewModel(
-    private val recipeRepository: RecipeRepository
+class RecipeListViewModel(
+    private val searchRecipeUseCase: SearchRecipeUseCase
 ) : ViewModel() {
 
     private val initialPageId = 1
@@ -21,21 +21,15 @@ class MainViewModel(
         fetchRecipes(currentPageId, searchQuery)
     }
 
-    fun getRecipe(recipeId: Int) {
-        viewModelScope.launch {
-            recipeRepository.getRecipe(recipeId)
-        }
-    }
-
     // FIXME: Get current pageId and Update it based on scroll position.
     private fun getPageId(): Int {
         TODO("Not yet implemented")
     }
 
-    private fun fetchRecipes(pageId: Int, searchQuery: String) {
+    private fun fetchRecipes(page: Int, searchQuery: String) {
         viewModelScope.launch {
-            recipeRepository.searchRecipes(
-                page = pageId,
+            searchRecipeUseCase(
+                page = page,
                 searchQuery = searchQuery
             )
         }
