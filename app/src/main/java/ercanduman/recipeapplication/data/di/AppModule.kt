@@ -7,9 +7,9 @@ import dagger.hilt.components.SingletonComponent
 import ercanduman.recipeapplication.data.api.RecipeService
 import ercanduman.recipeapplication.data.repository.RecipeRepository
 import ercanduman.recipeapplication.data.repository.RecipeRepositoryImpl
-import javax.inject.Singleton
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)

@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ercanduman.recipeapplication.R
@@ -28,6 +29,11 @@ private const val NAVIGATE_BUTTON_TEXT = "Navigate to Details"
 
 @AndroidEntryPoint
 class RecipeListFragment : Fragment() {
+
+    // Hilt - An activity or a fragment that is annotated with @AndroidEntryPoint can get the
+    // ViewModel instance as normal using the by viewModels()
+    // https://developer.android.com/training/dependency-injection/hilt-jetpack#kotlin
+    private val viewModel: RecipeListViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
