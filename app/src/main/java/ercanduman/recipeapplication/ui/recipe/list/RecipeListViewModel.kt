@@ -1,5 +1,7 @@
 package ercanduman.recipeapplication.ui.recipe.list
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -8,12 +10,15 @@ import javax.inject.Inject
 import kotlinx.coroutines.launch
 
 private const val INITIAL_PAGE_ID = 1
-private const val INITIAL_SEARCH_QUERY = "beef"
+private const val INITIAL_SEARCH_QUERY = "beef carrot"
 
 @HiltViewModel
 class RecipeListViewModel @Inject constructor(
     private val searchRecipeUseCase: SearchRecipeUseCase
 ) : ViewModel() {
+
+    var recipeListUiState: MutableState<RecipeListUiState> = mutableStateOf(RecipeListUiState.Loading)
+        private set
 
     init {
         fetchRecipes(INITIAL_PAGE_ID, INITIAL_SEARCH_QUERY)
@@ -31,7 +36,7 @@ class RecipeListViewModel @Inject constructor(
 
     private fun fetchRecipes(page: Int, searchQuery: String) {
         viewModelScope.launch {
-            searchRecipeUseCase(
+            recipeListUiState.value = searchRecipeUseCase(
                 page = page,
                 searchQuery = searchQuery
             )
