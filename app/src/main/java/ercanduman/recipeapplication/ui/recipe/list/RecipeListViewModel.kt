@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ercanduman.recipeapplication.domain.usecase.SearchRecipeUseCase
-import javax.inject.Inject
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 private const val INITIAL_PAGE_ID = 1
 private const val INITIAL_SEARCH_QUERY = "beef carrot"
