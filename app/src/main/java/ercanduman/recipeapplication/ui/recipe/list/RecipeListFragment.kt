@@ -1,6 +1,7 @@
 package ercanduman.recipeapplication.ui.recipe.list
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,6 +48,18 @@ class RecipeListFragment : Fragment() {
 
     @Composable
     private fun FragmentContent() {
+        when (val recipeListUiState = viewModel.recipeListUiState.value) {
+            is RecipeListUiState.Error -> {
+                Log.d("TAG", "FragmentContent: Error")
+            }
+            RecipeListUiState.Loading -> {
+                Log.d("TAG", "FragmentContent: Loading")
+            }
+            is RecipeListUiState.Success -> {
+                Log.d("TAG", "FragmentContent: ${recipeListUiState.recipeList.size}")
+            }
+        }
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
