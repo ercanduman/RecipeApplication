@@ -3,6 +3,9 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 
     id 'org.jmailen.kotlinter'
+
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
 }
 apply from: "$rootDir/gradle/dependency/test.gradle"
 
@@ -78,4 +81,13 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 
+    // Hilt Dependency Injection
+    kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
+    implementation("com.google.dagger:hilt-android:$hilt_version")
+}
+
+// Hilt - Allow references to generated code
+// https://kotlinlang.org/docs/kapt.html#non-existent-type-correction
+kapt {
+    correctErrorTypes = true
 }
