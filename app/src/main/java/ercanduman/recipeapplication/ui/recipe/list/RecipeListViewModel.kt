@@ -20,13 +20,16 @@ class RecipeListViewModel @Inject constructor(
     var recipeListUiState: MutableState<RecipeListUiState> = mutableStateOf(RecipeListUiState.Loading)
         private set
 
+    var searchQuery: MutableState<String> = mutableStateOf("")
+        private set
+
     init {
         fetchRecipes(INITIAL_PAGE_ID, INITIAL_SEARCH_QUERY)
     }
 
-    fun searchRecipes(searchQuery: String) {
+    fun searchRecipes() {
         val currentPageId: Int = getPageId()
-        fetchRecipes(currentPageId, searchQuery)
+        fetchRecipes(currentPageId, searchQuery.value)
     }
 
     // FIXME: Get current pageId and Update it based on scroll position.
@@ -41,5 +44,9 @@ class RecipeListViewModel @Inject constructor(
                 searchQuery = searchQuery
             )
         }
+    }
+
+    fun onQueryChanged(newQuery: String) {
+        searchQuery.value = newQuery
     }
 }

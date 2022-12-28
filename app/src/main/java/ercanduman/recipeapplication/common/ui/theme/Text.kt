@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.TextUnit
 
 @Suppress("LongParameterList")
 @Composable
-fun RecipeAppText(
+fun AppText(
     text: String,
     modifier: Modifier = Modifier,
     color: Color = AppColorDarkGrey,
