@@ -6,23 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
-import ercanduman.recipeapplication.R
-import ercanduman.recipeapplication.common.ui.theme.AppDimenDefaultDistance
+import ercanduman.recipeapplication.common.ui.theme.AppTheme
+import ercanduman.recipeapplication.domain.model.Recipe
 
 private const val NAVIGATE_BUTTON_WIDTH = 180
 private const val NAVIGATE_BUTTON_HEIGHT = 56
@@ -48,34 +38,48 @@ class RecipeListFragment : Fragment() {
 
     @Composable
     private fun FragmentContent() {
-        when (val recipeListUiState = viewModel.recipeListUiState.value) {
-            is RecipeListUiState.Error -> {
-                Log.d("TAG", "FragmentContent: Error")
-            }
-            RecipeListUiState.Loading -> {
-                Log.d("TAG", "FragmentContent: Loading")
-            }
-            is RecipeListUiState.Success -> {
-                Log.d("TAG", "FragmentContent: ${recipeListUiState.recipeList.size}")
-            }
-        }
-
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(AppDimenDefaultDistance),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(text = getString(R.string.label_recipe_list_fragment))
-
-            Button(
-                modifier = Modifier
-                    .width(NAVIGATE_BUTTON_WIDTH.dp)
-                    .height(NAVIGATE_BUTTON_HEIGHT.dp),
-                onClick = { findNavController().navigate(R.id.action_navigate_to_recipeDetailFragment) }
-            ) {
-                Text(text = NAVIGATE_BUTTON_TEXT)
+        AppTheme {
+            when (val recipeListUiState = viewModel.recipeListUiState.value) {
+                is RecipeListUiState.Error -> {
+                    Log.d("TAG", "FragmentContent: Error")
+                }
+                RecipeListUiState.Loading -> {
+                    Log.d("TAG", "FragmentContent: Loading")
+                }
+                is RecipeListUiState.Success -> {
+                    Log.d("TAG", "FragmentContent: ${recipeListUiState.recipeList.size}")
+                    RecipeListMainContentComposable(recipeListUiState.recipeList)
+                }
             }
         }
+    }
+
+    /*
+    This screen will contain 3 major component
+        1 - Search Toolbar
+        2 - Horizontal scrollable category Chips
+        3 - List of Recipes
+    */
+    @Composable
+    private fun RecipeListMainContentComposable(
+        recipes: List<Recipe>
+    ) {
+        Column {
+            SearchToolbarComposable()
+            CategoryChipsComposable()
+            RecipeListComposable(recipes)
+        }
+    }
+
+    @Composable
+    private fun SearchToolbarComposable() {
+    }
+
+    @Composable
+    private fun CategoryChipsComposable() {
+    }
+
+    @Composable
+    private fun RecipeListComposable(recipes: List<Recipe>) {
     }
 }

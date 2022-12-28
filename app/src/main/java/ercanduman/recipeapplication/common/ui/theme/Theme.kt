@@ -24,11 +24,12 @@ private val DarkColorScheme = darkColorScheme(
 private val LightColorScheme = lightColorScheme(
     primary = AppColorDarkPink,
     secondary = AppColorDarkGrey,
-    tertiary = AppColorPink
+    tertiary = AppColorPink,
+    background = AppColorBackgroundGrey
 )
 
 @Composable
-fun RecipeApplicationTheme(
+fun AppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
