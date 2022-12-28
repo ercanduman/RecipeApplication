@@ -133,7 +133,7 @@ class RecipeListFragment : Fragment() {
                     keyboardActions = KeyboardActions(
                         onSearch = {
                             // Start a new search
-                            viewModel::searchRecipes
+                            viewModel.searchRecipes()
 
                             // Hide keyboard
                             keyboardController?.hide()
