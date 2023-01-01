@@ -64,9 +64,8 @@ class RecipeListFragment : Fragment() {
     @Composable
     private fun FragmentContent() {
         Surface(
-            modifier = Modifier
-                .background(AppColorBackgroundGrey)
-                .padding(AppDimenDefaultDistance)
+            shape = MaterialTheme.shapes.small,
+            modifier = Modifier.background(AppColorBackgroundGrey)
         ) {
             when (val recipeListUiState = viewModel.recipeListUiState.value) {
                 is RecipeListUiState.Error -> {
@@ -86,18 +85,24 @@ class RecipeListFragment : Fragment() {
     /*
     This screen will contain 3 major component
         1 - Search Toolbar
-        2 - Horizontal scrollable category Chips
+        2 - Horizontal scrollable food category Chips
         3 - List of Recipes
     */
     @Composable
     private fun RecipeListMainContentComposable(
         recipes: List<Recipe>
     ) {
-        Column {
+        Column(
+            modifier = Modifier.padding(AppDimenDefaultDistance)
+        ) {
             SearchToolbarComposable()
 
             Spacer(modifier = Modifier.padding(top = AppDimenDefaultDistance))
-            CategoryChipsComposable(viewModel.getAllPredefinedFoodCategories())
+            CategoryChipsComposable(
+                categories = viewModel.getAllPredefinedFoodCategories(),
+                selectedCategory = viewModel.selectedCategory.value,
+                onCategoryClicked = viewModel::onCategoryClicked
+            )
 
             Spacer(modifier = Modifier.padding(top = AppDimenDefaultDistance))
             RecipeListComposable(recipes)

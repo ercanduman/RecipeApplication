@@ -15,6 +15,7 @@ import javax.inject.Inject
 
 private const val INITIAL_PAGE_ID = 1
 private const val INITIAL_SEARCH_QUERY = "beef carrot"
+private const val INITIAL_EMPTY_SEARCH_QUERY = ""
 private const val TAG = "RecipeListViewModel"
 
 @HiltViewModel
@@ -26,11 +27,14 @@ class RecipeListViewModel @Inject constructor(
     var recipeListUiState: MutableState<RecipeListUiState> = mutableStateOf(RecipeListUiState.Loading)
         private set
 
-    var searchQuery: MutableState<String> = mutableStateOf("")
+    var searchQuery: MutableState<String> = mutableStateOf(INITIAL_EMPTY_SEARCH_QUERY)
+        private set
+
+    var selectedCategory: MutableState<Category> = mutableStateOf(Category.NotProvided)
         private set
 
     init {
-        fetchRecipes(INITIAL_PAGE_ID, INITIAL_SEARCH_QUERY)
+        searchRecipes()
     }
 
     fun searchRecipes() {
@@ -56,16 +60,17 @@ class RecipeListViewModel @Inject constructor(
         return foodCategoryProvider.allPredefinedFoodCategories()
     }
 
-    fun getFoodCategory(categoryName: String) {
-        when (val category = foodCategoryProvider.getFoodCategory(categoryName)) {
-            Category.NotProvided -> {
-                // FIXME: Start a search without category
-            }
-            is Category.Provided -> {
-                Log.d(TAG, "getFoodCategory: selected category is: ${category.foodCategory.value}")
-                // FIXME: Start a search with category
-            }
+    fun onCategoryClicked(categoryName: String) {
+        val category: Category = foodCategoryProvider.getFoodCategory(categoryName)
+        if (category is Category.Provided) {
+            Log.d(TAG, "getFoodCategory: selected category is: ${category.foodCategory.value}")
+            // Update selected category
+            selectedCategory.value = category
         }
+
+        // Update query and start a new search
+        onQueryChanged(categoryName)
+        searchRecipes()
     }
 
     fun onQueryChanged(newQuery: String) {
@@ -74,5 +79,6 @@ class RecipeListViewModel @Inject constructor(
 
     fun onRecipeClicked(recipeId: Int) {
         Log.d("TAG", "onRecipeClicked: clicked on recipe id:$recipeId")
+        // FIXME: Navigate to RecipeDetailFragment
     }
 }
