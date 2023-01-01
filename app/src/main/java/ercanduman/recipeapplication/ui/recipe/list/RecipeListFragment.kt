@@ -36,7 +36,7 @@ import ercanduman.recipeapplication.common.ui.theme.AppColorBackgroundGrey
 import ercanduman.recipeapplication.common.ui.theme.AppDimenDefaultDistance
 import ercanduman.recipeapplication.common.ui.theme.AppText
 import ercanduman.recipeapplication.domain.model.Recipe
-import ercanduman.recipeapplication.ui.recipe.list.compose.RecipeItemDetailComposable
+import ercanduman.recipeapplication.ui.recipe.list.compose.RecipeItemListComposable
 
 const val DEFAULT_CONTENT_DESCRIPTION = "Recipe app image"
 
@@ -154,7 +154,7 @@ class RecipeListFragment : Fragment() {
     private fun RecipeListComposable(recipes: List<Recipe>) {
         LazyColumn {
             items(items = recipes) { recipe: Recipe ->
-                RecipeItemDetailComposable(
+                RecipeItemListComposable(
                     recipe = recipe,
                     onRecipeClick = viewModel::onRecipeClicked
                 )
