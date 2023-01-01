@@ -7,15 +7,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ercanduman.recipeapplication.domain.usecase.SearchRecipeUseCase
+import ercanduman.recipeapplication.ui.recipe.list.model.Category
+import ercanduman.recipeapplication.ui.recipe.list.model.FoodCategory
+import ercanduman.recipeapplication.ui.recipe.list.model.FoodCategoryProvider
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val INITIAL_PAGE_ID = 1
 private const val INITIAL_SEARCH_QUERY = "beef carrot"
+private const val TAG = "RecipeListViewModel"
 
 @HiltViewModel
 class RecipeListViewModel @Inject constructor(
-    private val searchRecipeUseCase: SearchRecipeUseCase
+    private val searchRecipeUseCase: SearchRecipeUseCase,
+    private val foodCategoryProvider: FoodCategoryProvider
 ) : ViewModel() {
 
     var recipeListUiState: MutableState<RecipeListUiState> = mutableStateOf(RecipeListUiState.Loading)
@@ -44,6 +49,22 @@ class RecipeListViewModel @Inject constructor(
                 page = page,
                 searchQuery = searchQuery
             )
+        }
+    }
+
+    fun provideAllFoodCategories(): List<FoodCategory> {
+        return foodCategoryProvider.allFoodCategories()
+    }
+
+    fun getFoodCategory(categoryName: String) {
+        when (val category = foodCategoryProvider.getFoodCategory(categoryName)) {
+            Category.NotProvided -> {
+                // FIXME: Start a search without category
+            }
+            is Category.Provided -> {
+                Log.d(TAG, "getFoodCategory: selected category is: ${category.foodCategory.value}")
+                // FIXME: Start a search with category
+            }
         }
     }
 
