@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import ercanduman.recipeapplication.common.ui.theme.AppDimenDefaultDistance
@@ -16,9 +15,7 @@ fun RecipeItemListComposable(
     recipe: Recipe,
     onRecipeClick: (Int) -> Unit
 ) {
-    Card(
-        shape = MaterialTheme.shapes.small
-    ) {
+    Card {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
