@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,17 +30,22 @@ private const val RECIPE_IMAGE_HEIGHT = 200
 private const val INGREDIENTS_TITLE = "Ingredients"
 
 @Composable
-fun RecipeItemComposable(
+fun RecipeItemDetailComposable(
     recipe: Recipe,
     onRecipeClick: (Int) -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onRecipeClick(recipe.id) }
+    Card(
+        shape = MaterialTheme.shapes.medium,
+        modifier = Modifier.padding(AppDimenDefaultDistance)
     ) {
-        RecipeImageComposable(recipe.imageUrl)
-        RecipeContentComposable(recipe)
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { onRecipeClick(recipe.id) }
+        ) {
+            RecipeImageComposable(recipe.imageUrl)
+            RecipeContentComposable(recipe)
+        }
     }
 }
 
@@ -56,7 +63,10 @@ private fun RecipeContentComposable(recipe: Recipe) {
                 fontSize = AppTextSize20
             )
 
-            AppText(text = recipe.rating)
+            AppText(
+                text = recipe.rating,
+                fontWeight = FontWeight.Bold
+            )
         }
 
         Spacer(modifier = Modifier.padding(top = AppDimenDefaultDistance))
@@ -65,9 +75,7 @@ private fun RecipeContentComposable(recipe: Recipe) {
             fontWeight = FontWeight.Bold
         )
         for (ingredient in recipe.ingredients) {
-            AppText(
-                text = ingredient
-            )
+            AppText(text = ingredient)
         }
     }
 }
@@ -87,7 +95,7 @@ private fun RecipeImageComposable(imageUrl: String) {
 
 @Preview(showBackground = true)
 @Composable
-private fun RecipeItemComposablePreview() {
+private fun RecipeItemDetailComposablePreview() {
     val ingredients = listOf(
         "1/4 teaspoon Dijon mustard",
         "2 hard boiled eggs, chopped",
@@ -105,5 +113,5 @@ private fun RecipeItemComposablePreview() {
         imageUrl = "https://nyc3.digitaloceanspaces.com/food2fork/food2fork-static/featured_images/9/featured_image.png",
         ingredients = ingredients
     )
-    RecipeItemComposable(recipe = previewRecipe, onRecipeClick = {})
+    RecipeItemDetailComposable(recipe = previewRecipe, onRecipeClick = {})
 }

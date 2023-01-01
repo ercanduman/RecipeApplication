@@ -36,9 +36,8 @@ import ercanduman.recipeapplication.common.ui.theme.AppColorBackgroundGrey
 import ercanduman.recipeapplication.common.ui.theme.AppDimenDefaultDistance
 import ercanduman.recipeapplication.common.ui.theme.AppText
 import ercanduman.recipeapplication.domain.model.Recipe
-import ercanduman.recipeapplication.ui.recipe.list.compose.RecipeItemComposable
+import ercanduman.recipeapplication.ui.recipe.list.compose.RecipeItemDetailComposable
 
-private const val NAVIGATE_BUTTON_HEIGHT = 56
 const val DEFAULT_CONTENT_DESCRIPTION = "Recipe app image"
 
 @AndroidEntryPoint
@@ -155,7 +154,7 @@ class RecipeListFragment : Fragment() {
     private fun RecipeListComposable(recipes: List<Recipe>) {
         LazyColumn {
             items(items = recipes) { recipe: Recipe ->
-                RecipeItemComposable(
+                RecipeItemDetailComposable(
                     recipe = recipe,
                     onRecipeClick = viewModel::onRecipeClicked
                 )
