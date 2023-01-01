@@ -1,5 +1,6 @@
 package ercanduman.recipeapplication.ui.recipe.list
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -51,5 +52,6 @@ class RecipeListViewModel @Inject constructor(
     }
 
     fun onRecipeClicked(recipeId: Int) {
+        Log.d("TAG", "onRecipeClicked: clicked on recipe id:$recipeId")
     }
 }
