@@ -38,6 +38,7 @@ import ercanduman.recipeapplication.common.ui.theme.AppColorBackgroundGrey
 import ercanduman.recipeapplication.common.ui.theme.AppDimenDefaultDistance
 import ercanduman.recipeapplication.common.ui.theme.AppText
 import ercanduman.recipeapplication.domain.model.Recipe
+import ercanduman.recipeapplication.ui.recipe.list.compose.CategoryChipsComposable
 import ercanduman.recipeapplication.ui.recipe.list.compose.RecipeItemListComposable
 
 const val DEFAULT_CONTENT_DESCRIPTION = "Recipe app image"
@@ -90,7 +91,7 @@ class RecipeListFragment : Fragment() {
     ) {
         Column {
             SearchToolbarComposable()
-            CategoryChipsComposable()
+            CategoryChipsComposable(viewModel.getAllPredefinedFoodCategories())
             RecipeListComposable(recipes)
         }
     }
@@ -146,10 +147,6 @@ class RecipeListFragment : Fragment() {
                 )
             }
         }
-    }
-
-    @Composable
-    private fun CategoryChipsComposable() {
     }
 
     @Composable

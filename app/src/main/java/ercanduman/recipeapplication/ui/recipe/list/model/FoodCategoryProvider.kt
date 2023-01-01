@@ -3,7 +3,9 @@ package ercanduman.recipeapplication.ui.recipe.list.model
 import javax.inject.Inject
 
 class FoodCategoryProvider @Inject constructor() {
-    fun allFoodCategories(): List<FoodCategory> = FoodCategory.values().toList()
+    fun allPredefinedFoodCategories(): List<FoodCategory> {
+        return FoodCategory.values().toList()
+    }
 
     fun getFoodCategory(categoryName: String): Category {
         val category: Category = try {

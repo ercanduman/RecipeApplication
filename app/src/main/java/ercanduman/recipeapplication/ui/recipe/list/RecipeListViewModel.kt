@@ -52,8 +52,8 @@ class RecipeListViewModel @Inject constructor(
         }
     }
 
-    fun provideAllFoodCategories(): List<FoodCategory> {
-        return foodCategoryProvider.allFoodCategories()
+    fun getAllPredefinedFoodCategories(): List<FoodCategory> {
+        return foodCategoryProvider.allPredefinedFoodCategories()
     }
 
     fun getFoodCategory(categoryName: String) {
