@@ -11,9 +11,8 @@ class RecipeListMapper @Inject constructor() {
             Recipe(
                 id = it.recipeId ?: return@mapNotNull null,
                 title = it.title ?: return@mapNotNull null,
-                rating = it.rating ?: return@mapNotNull null,
+                rating = it.rating?.toString() ?: return@mapNotNull null,
                 imageUrl = it.imageUrl ?: return@mapNotNull null,
-                description = it.description ?: return@mapNotNull null,
                 ingredients = it.ingredients ?: return@mapNotNull null
             )
         }
