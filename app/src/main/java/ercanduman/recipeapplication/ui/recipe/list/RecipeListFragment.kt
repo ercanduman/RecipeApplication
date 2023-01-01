@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -63,7 +63,11 @@ class RecipeListFragment : Fragment() {
 
     @Composable
     private fun FragmentContent() {
-        Surface(modifier = Modifier.background(AppColorBackgroundGrey)) {
+        Surface(
+            modifier = Modifier
+                .background(AppColorBackgroundGrey)
+                .padding(AppDimenDefaultDistance)
+        ) {
             when (val recipeListUiState = viewModel.recipeListUiState.value) {
                 is RecipeListUiState.Error -> {
                     Log.d("TAG", "FragmentContent: Error")
@@ -91,7 +95,11 @@ class RecipeListFragment : Fragment() {
     ) {
         Column {
             SearchToolbarComposable()
+
+            Spacer(modifier = Modifier.padding(top = AppDimenDefaultDistance))
             CategoryChipsComposable(viewModel.getAllPredefinedFoodCategories())
+
+            Spacer(modifier = Modifier.padding(top = AppDimenDefaultDistance))
             RecipeListComposable(recipes)
         }
     }
@@ -100,9 +108,7 @@ class RecipeListFragment : Fragment() {
     @Composable
     private fun SearchToolbarComposable() {
         Surface(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(AppDimenDefaultDistance),
+            modifier = Modifier.fillMaxWidth(),
             shape = MaterialTheme.shapes.small,
             color = MaterialTheme.colorScheme.primary
         ) {
@@ -152,7 +158,6 @@ class RecipeListFragment : Fragment() {
     @Composable
     private fun RecipeListComposable(recipes: List<Recipe>) {
         LazyColumn(
-            contentPadding = PaddingValues(AppDimenDefaultDistance),
             verticalArrangement = Arrangement.spacedBy(AppDimenDefaultDistance)
         ) {
             items(items = recipes) { recipe: Recipe ->
