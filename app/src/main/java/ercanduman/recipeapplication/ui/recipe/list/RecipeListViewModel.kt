@@ -49,4 +49,7 @@ class RecipeListViewModel @Inject constructor(
     fun onQueryChanged(newQuery: String) {
         searchQuery.value = newQuery
     }
+
+    fun onRecipeClicked(recipeId: Int) {
+    }
 }

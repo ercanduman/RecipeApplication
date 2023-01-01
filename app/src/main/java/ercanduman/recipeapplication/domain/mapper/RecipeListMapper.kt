@@ -9,6 +9,7 @@ class RecipeListMapper @Inject constructor() {
         // All fields are mandatory, if any field is NULL, neglect that recipe.
         return recipeDtoList.mapNotNull {
             Recipe(
+                id = it.recipeId ?: return@mapNotNull null,
                 title = it.title ?: return@mapNotNull null,
                 rating = it.rating ?: return@mapNotNull null,
                 imageUrl = it.imageUrl ?: return@mapNotNull null,

@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -34,6 +36,7 @@ import ercanduman.recipeapplication.common.ui.theme.AppColorBackgroundGrey
 import ercanduman.recipeapplication.common.ui.theme.AppDimenDefaultDistance
 import ercanduman.recipeapplication.common.ui.theme.AppText
 import ercanduman.recipeapplication.domain.model.Recipe
+import ercanduman.recipeapplication.ui.recipe.list.compose.RecipeItemComposable
 
 private const val NAVIGATE_BUTTON_HEIGHT = 56
 const val DEFAULT_CONTENT_DESCRIPTION = "Recipe app image"
@@ -150,5 +153,13 @@ class RecipeListFragment : Fragment() {
 
     @Composable
     private fun RecipeListComposable(recipes: List<Recipe>) {
+        LazyColumn {
+            items(items = recipes) { recipe: Recipe ->
+                RecipeItemComposable(
+                    recipe = recipe,
+                    onRecipeClick = viewModel::onRecipeClicked
+                )
+            }
+        }
     }
 }
