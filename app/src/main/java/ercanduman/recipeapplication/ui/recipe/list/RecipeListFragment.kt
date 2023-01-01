@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -152,7 +154,10 @@ class RecipeListFragment : Fragment() {
 
     @Composable
     private fun RecipeListComposable(recipes: List<Recipe>) {
-        LazyColumn {
+        LazyColumn(
+            contentPadding = PaddingValues(AppDimenDefaultDistance),
+            verticalArrangement = Arrangement.spacedBy(AppDimenDefaultDistance)
+        ) {
             items(items = recipes) { recipe: Recipe ->
                 RecipeItemListComposable(
                     recipe = recipe,

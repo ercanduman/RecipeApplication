@@ -17,8 +17,7 @@ fun RecipeItemListComposable(
     onRecipeClick: (Int) -> Unit
 ) {
     Card(
-        shape = MaterialTheme.shapes.medium,
-        modifier = Modifier.padding(AppDimenDefaultDistance)
+        shape = MaterialTheme.shapes.small
     ) {
         Column(
             modifier = Modifier

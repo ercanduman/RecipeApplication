@@ -11,7 +11,7 @@ import coil.compose.AsyncImage
 import ercanduman.recipeapplication.R
 import ercanduman.recipeapplication.ui.recipe.list.DEFAULT_CONTENT_DESCRIPTION
 
-private const val RECIPE_IMAGE_HEIGHT = 200
+private const val RECIPE_IMAGE_HEIGHT = 256
 
 @Composable
 fun RecipeImageComposable(imageUrl: String) {
