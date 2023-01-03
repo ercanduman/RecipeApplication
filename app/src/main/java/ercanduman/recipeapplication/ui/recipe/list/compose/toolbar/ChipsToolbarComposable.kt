@@ -4,7 +4,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
-import ercanduman.recipeapplication.ui.recipe.list.compose.CategoryChipsComposable
 import ercanduman.recipeapplication.ui.recipe.list.model.Category
 import ercanduman.recipeapplication.ui.recipe.list.model.FoodCategory
 import kotlinx.coroutines.launch

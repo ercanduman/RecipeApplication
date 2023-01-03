@@ -17,7 +17,10 @@ private const val TITLE_MAX_LINES = 1
 private const val TITLE_WEIGHT = 1f
 
 @Composable
-fun RecipeTitleAndRatingComposable(title: String, rating: String) {
+fun RecipeTitleAndRatingComposable(
+    title: String,
+    rating: String
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,

@@ -65,12 +65,7 @@ class RecipeListViewModel @Inject constructor(
     }
 
     fun onCategoryClicked(categoryName: String) {
-        val category: Category = foodCategoryProvider.getFoodCategory(categoryName)
-        if (category is Category.Provided) {
-            Log.d(TAG, "getFoodCategory: selected category is: ${category.foodCategory.value}")
-            // Update selected category
-            selectedCategory.value = category
-        }
+        selectedCategory.value = foodCategoryProvider.getFoodCategory(categoryName)
 
         // Update query and start a new search
         onQueryChanged(categoryName)

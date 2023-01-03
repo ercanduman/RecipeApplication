@@ -1,23 +1,20 @@
-package ercanduman.recipeapplication.ui.recipe.list.compose
+package ercanduman.recipeapplication.ui.recipe.list.compose.toolbar
 
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import ercanduman.recipeapplication.common.ui.theme.AppDimenSmallDistance
 import ercanduman.recipeapplication.common.ui.theme.AppText
 import ercanduman.recipeapplication.ui.recipe.list.model.Category
 import ercanduman.recipeapplication.ui.recipe.list.model.FoodCategory
-import ercanduman.recipeapplication.ui.recipe.list.model.FoodCategoryProvider
 
 @Composable
 fun CategoryChipsComposable(
@@ -68,16 +65,4 @@ private fun CategoryChipItemComposable(
             color = MaterialTheme.colorScheme.onPrimary
         )
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun CategoryChipsComposablePreview() {
-    val categoryProvider = FoodCategoryProvider()
-    CategoryChipsComposable(
-        categories = categoryProvider.allPredefinedFoodCategories(),
-        selectedCategory = Category.NotProvided,
-        onCategoryClicked = {},
-        rememberScrollState()
-    )
 }
