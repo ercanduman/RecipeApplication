@@ -1,5 +1,6 @@
 package ercanduman.recipeapplication.ui.recipe.list.compose
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -19,16 +20,14 @@ import ercanduman.recipeapplication.ui.recipe.list.model.FoodCategory
 import ercanduman.recipeapplication.ui.recipe.list.model.FoodCategoryProvider
 
 @Composable
-fun CategoryChipsComposable(
+fun CategoryChipsContentComposable(
     categories: List<FoodCategory>,
     selectedCategory: Category,
-    onCategoryClicked: (String) -> Unit
+    onCategoryClicked: (String) -> Unit,
+    horizontalScrollState: ScrollState
 ) {
-    val horizontalScrollState = rememberScrollState()
-
     Row(
-        modifier = Modifier
-            .horizontalScroll(horizontalScrollState),
+        modifier = Modifier.horizontalScroll(horizontalScrollState),
         horizontalArrangement = Arrangement.spacedBy(AppDimenSmallDistance)
     ) {
         categories.forEach { category ->
@@ -73,11 +72,12 @@ private fun CategoryChipItemComposable(
 
 @Preview(showBackground = true)
 @Composable
-private fun CategoryChipsComposablePreview() {
+private fun CategoryChipsContentComposablePreview() {
     val categoryProvider = FoodCategoryProvider()
-    CategoryChipsComposable(
+    CategoryChipsContentComposable(
         categories = categoryProvider.allPredefinedFoodCategories(),
         selectedCategory = Category.NotProvided,
-        onCategoryClicked = {}
+        onCategoryClicked = {},
+        rememberScrollState()
     )
 }

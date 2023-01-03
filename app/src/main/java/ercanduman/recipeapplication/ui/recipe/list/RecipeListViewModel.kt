@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val INITIAL_PAGE_ID = 1
+private const val INITIAL_POSITION = 0
 private const val INITIAL_SEARCH_QUERY = "beef carrot"
 private const val INITIAL_EMPTY_SEARCH_QUERY = ""
 private const val TAG = "RecipeListViewModel"
@@ -31,6 +32,9 @@ class RecipeListViewModel @Inject constructor(
         private set
 
     var selectedCategory: MutableState<Category> = mutableStateOf(Category.NotProvided)
+        private set
+
+    var selectedCategoryPosition: Int = INITIAL_POSITION
         private set
 
     init {
@@ -71,6 +75,10 @@ class RecipeListViewModel @Inject constructor(
         // Update query and start a new search
         onQueryChanged(categoryName)
         searchRecipes()
+    }
+
+    fun onCategoryPositionChanged(position: Int) {
+        selectedCategoryPosition = position
     }
 
     fun onQueryChanged(newQuery: String) {

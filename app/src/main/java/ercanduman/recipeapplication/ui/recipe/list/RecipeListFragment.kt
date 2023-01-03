@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -24,22 +25,27 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import ercanduman.recipeapplication.R
-import ercanduman.recipeapplication.common.ui.theme.AppColorBackgroundGrey
+import ercanduman.recipeapplication.common.ui.theme.AppColorDarkGrey
 import ercanduman.recipeapplication.common.ui.theme.AppDimenDefaultDistance
+import ercanduman.recipeapplication.common.ui.theme.AppDimenSmallDistance
 import ercanduman.recipeapplication.common.ui.theme.AppText
 import ercanduman.recipeapplication.domain.model.Recipe
-import ercanduman.recipeapplication.ui.recipe.list.compose.CategoryChipsComposable
+import ercanduman.recipeapplication.ui.recipe.list.compose.CategoryChipsContentComposable
 import ercanduman.recipeapplication.ui.recipe.list.compose.RecipeItemListComposable
+import kotlinx.coroutines.launch
 
 const val DEFAULT_CONTENT_DESCRIPTION = "Recipe app image"
 
@@ -64,8 +70,7 @@ class RecipeListFragment : Fragment() {
     @Composable
     private fun FragmentContent() {
         Surface(
-            shape = MaterialTheme.shapes.small,
-            modifier = Modifier.background(AppColorBackgroundGrey)
+            modifier = Modifier.background(AppColorDarkGrey)
         ) {
             when (val recipeListUiState = viewModel.recipeListUiState.value) {
                 is RecipeListUiState.Error -> {
@@ -93,20 +98,50 @@ class RecipeListFragment : Fragment() {
         recipes: List<Recipe>
     ) {
         Column(
-            modifier = Modifier.padding(AppDimenDefaultDistance)
+            modifier = Modifier
+                .padding(
+                    end = AppDimenDefaultDistance,
+                    start = AppDimenDefaultDistance
+                )
         ) {
-            SearchToolbarComposable()
+            Surface(
+                shadowElevation = 8.dp,
+                modifier = Modifier.padding(bottom = AppDimenDefaultDistance)
+            ) {
+                Column(Modifier.padding(AppDimenSmallDistance)) {
+                    SearchToolbarComposable()
+                    Spacer(modifier = Modifier.padding(top = AppDimenDefaultDistance))
 
-            Spacer(modifier = Modifier.padding(top = AppDimenDefaultDistance))
-            CategoryChipsComposable(
-                categories = viewModel.getAllPredefinedFoodCategories(),
-                selectedCategory = viewModel.selectedCategory.value,
-                onCategoryClicked = viewModel::onCategoryClicked
-            )
+                    CategoryChipsComposable()
+                    Spacer(modifier = Modifier.padding(bottom = AppDimenSmallDistance))
+                }
+            }
 
-            Spacer(modifier = Modifier.padding(top = AppDimenDefaultDistance))
             RecipeListComposable(recipes)
         }
+    }
+
+    @Composable
+    private fun CategoryChipsComposable() {
+        val horizontalScrollState = rememberScrollState()
+        val rememberCoroutineScope = rememberCoroutineScope()
+        val selectedCategoryPosition = viewModel.selectedCategoryPosition
+
+        LaunchedEffect(key1 = selectedCategoryPosition) {
+            rememberCoroutineScope.launch {
+                horizontalScrollState.scrollTo(selectedCategoryPosition)
+            }
+        }
+
+        CategoryChipsContentComposable(
+            categories = viewModel.getAllPredefinedFoodCategories(),
+            selectedCategory = viewModel.selectedCategory.value,
+            horizontalScrollState = horizontalScrollState,
+            onCategoryClicked = {
+                viewModel.onCategoryClicked(it)
+                viewModel.onCategoryPositionChanged(horizontalScrollState.value)
+            }
+        )
     }
 
     @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
@@ -114,7 +149,7 @@ class RecipeListFragment : Fragment() {
     private fun SearchToolbarComposable() {
         Surface(
             modifier = Modifier.fillMaxWidth(),
-            shape = MaterialTheme.shapes.small,
+            shape = MaterialTheme.shapes.medium,
             color = MaterialTheme.colorScheme.primary
         ) {
             Row {
