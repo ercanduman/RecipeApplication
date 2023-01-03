@@ -64,20 +64,16 @@ class RecipeListViewModel @Inject constructor(
         return foodCategoryProvider.allPredefinedFoodCategories()
     }
 
-    fun onCategoryClicked(categoryName: String) {
-        selectedCategory.value = foodCategoryProvider.getFoodCategory(categoryName)
+    fun onQueryChanged(newQuery: String) {
+        selectedCategory.value = foodCategoryProvider.getFoodCategory(newQuery)
 
         // Update query and start a new search
-        onQueryChanged(categoryName)
+        searchQuery.value = newQuery
         executeNewSearch()
     }
 
     fun onCategoryPositionChanged(position: Int) {
         selectedCategoryPosition = position
-    }
-
-    fun onQueryChanged(newQuery: String) {
-        searchQuery.value = newQuery
     }
 
     fun onRecipeClicked(recipeId: Int) {

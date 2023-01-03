@@ -20,7 +20,7 @@ import ercanduman.recipeapplication.ui.recipe.list.model.FoodCategory
 fun CategoryChipsComposable(
     categories: List<FoodCategory>,
     selectedCategory: Category,
-    onCategoryClicked: (String) -> Unit,
+    onValueChanged: (String) -> Unit,
     horizontalScrollState: ScrollState
 ) {
     Row(
@@ -32,7 +32,7 @@ fun CategoryChipsComposable(
             CategoryChipItemComposable(
                 category = category,
                 isSelected = isSelected,
-                onCategoryClicked = onCategoryClicked
+                onValueChanged = onValueChanged
             )
         }
     }
@@ -46,18 +46,17 @@ fun isFoodCategorySelected(category: FoodCategory, selectedCategory: Category): 
 private fun CategoryChipItemComposable(
     category: FoodCategory,
     isSelected: Boolean = false,
-    onCategoryClicked: (String) -> Unit
+    onValueChanged: (String) -> Unit
 ) {
     val backgroundColor: Color = if (isSelected) Color.LightGray else MaterialTheme.colorScheme.primary
 
     Surface(
         shape = MaterialTheme.shapes.small,
         color = backgroundColor,
-        modifier = Modifier
-            .toggleable(
-                value = isSelected,
-                onValueChange = { onCategoryClicked(category.value) }
-            )
+        modifier = Modifier.toggleable(
+            value = isSelected,
+            onValueChange = { onValueChanged(category.value) }
+        )
     ) {
         AppText(
             text = category.value,

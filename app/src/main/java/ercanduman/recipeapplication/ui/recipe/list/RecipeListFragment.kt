@@ -111,7 +111,7 @@ class RecipeListFragment : Fragment() {
                 ChipsToolbarComposable(
                     categories = categories,
                     selectedCategory = selectedCategory,
-                    onCategoryClicked = viewModel::onCategoryClicked,
+                    onValueChanged = viewModel::onQueryChanged,
                     selectedCategoryPosition = selectedCategoryPosition,
                     onCategoryPositionChanged = viewModel::onCategoryPositionChanged
                 )
