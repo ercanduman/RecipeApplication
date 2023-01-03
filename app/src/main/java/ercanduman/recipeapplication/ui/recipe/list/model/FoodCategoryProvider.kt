@@ -9,11 +9,15 @@ class FoodCategoryProvider @Inject constructor() {
 
     fun getFoodCategory(categoryName: String): Category {
         val category: Category = try {
-            val foodCategory = FoodCategory.valueOf(categoryName)
+            val foodCategory = doesFoodCategoryMatch(categoryName)
             Category.Provided(foodCategory)
-        } catch (e: IllegalArgumentException) {
+        } catch (e: NoSuchElementException) {
             Category.NotProvided
         }
         return category
+    }
+
+    private fun doesFoodCategoryMatch(categoryName: String): FoodCategory {
+        return enumValues<FoodCategory>().first { it.value == categoryName }
     }
 }
