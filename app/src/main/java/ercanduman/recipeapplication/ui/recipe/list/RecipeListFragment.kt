@@ -8,44 +8,26 @@ import android.view.ViewGroup
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import ercanduman.recipeapplication.R
 import ercanduman.recipeapplication.common.ui.theme.AppColorDarkGrey
 import ercanduman.recipeapplication.common.ui.theme.AppDimenDefaultDistance
 import ercanduman.recipeapplication.common.ui.theme.AppDimenSmallDistance
-import ercanduman.recipeapplication.common.ui.theme.AppText
 import ercanduman.recipeapplication.domain.model.Recipe
-import ercanduman.recipeapplication.ui.recipe.list.compose.CategoryChipsContentComposable
 import ercanduman.recipeapplication.ui.recipe.list.compose.RecipeItemListComposable
-import kotlinx.coroutines.launch
+import ercanduman.recipeapplication.ui.recipe.list.compose.toolbar.ChipsToolbarComposable
+import ercanduman.recipeapplication.ui.recipe.list.compose.toolbar.SearchToolbarComposable
 
 const val DEFAULT_CONTENT_DESCRIPTION = "Recipe app image"
 
@@ -98,99 +80,43 @@ class RecipeListFragment : Fragment() {
         recipes: List<Recipe>
     ) {
         Column(
-            modifier = Modifier
-                .padding(
-                    end = AppDimenDefaultDistance,
-                    start = AppDimenDefaultDistance
-                )
+            modifier = Modifier.padding(
+                end = AppDimenDefaultDistance,
+                start = AppDimenDefaultDistance
+            )
         ) {
-            Surface(
-                shadowElevation = 8.dp,
-                modifier = Modifier.padding(bottom = AppDimenDefaultDistance)
-            ) {
-                Column(Modifier.padding(AppDimenSmallDistance)) {
-                    SearchToolbarComposable()
-                    Spacer(modifier = Modifier.padding(top = AppDimenDefaultDistance))
-
-                    CategoryChipsComposable()
-                    Spacer(modifier = Modifier.padding(bottom = AppDimenSmallDistance))
-                }
-            }
-
+            ToolbarContentComposable()
             RecipeListComposable(recipes)
         }
     }
 
     @Composable
-    private fun CategoryChipsComposable() {
-        val horizontalScrollState = rememberScrollState()
-        val rememberCoroutineScope = rememberCoroutineScope()
-        val selectedCategoryPosition = viewModel.selectedCategoryPosition
-
-        LaunchedEffect(key1 = selectedCategoryPosition) {
-            rememberCoroutineScope.launch {
-                horizontalScrollState.scrollTo(selectedCategoryPosition)
-            }
-        }
-
-        CategoryChipsContentComposable(
-            categories = viewModel.getAllPredefinedFoodCategories(),
-            selectedCategory = viewModel.selectedCategory.value,
-            horizontalScrollState = horizontalScrollState,
-            onCategoryClicked = {
-                viewModel.onCategoryClicked(it)
-                viewModel.onCategoryPositionChanged(horizontalScrollState.value)
-            }
-        )
-    }
-
-    @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
-    @Composable
-    private fun SearchToolbarComposable() {
+    private fun ToolbarContentComposable() {
         Surface(
-            modifier = Modifier.fillMaxWidth(),
             shape = MaterialTheme.shapes.medium,
-            color = MaterialTheme.colorScheme.primary
+            shadowElevation = AppDimenSmallDistance
         ) {
-            Row {
+            Column(Modifier.padding(AppDimenSmallDistance)) {
                 val query = viewModel.searchQuery.value
-                val keyboardController = LocalSoftwareKeyboardController.current
-
-                TextField(
-                    value = query,
-                    modifier = Modifier.fillMaxWidth(),
-                    onValueChange = { viewModel.onQueryChanged(it) },
-
-                    label = {
-                        AppText(text = getString(R.string.search))
-                    },
-
-                    leadingIcon = {
-                        Icon(
-                            imageVector = Icons.Filled.Search,
-                            contentDescription = DEFAULT_CONTENT_DESCRIPTION
-                        )
-                    },
-
-                    textStyle = TextStyle(
-                        color = MaterialTheme.colorScheme.onBackground,
-                        background = MaterialTheme.colorScheme.background
-                    ),
-
-                    keyboardOptions = KeyboardOptions(
-                        imeAction = ImeAction.Search
-                    ),
-
-                    keyboardActions = KeyboardActions(
-                        onSearch = {
-                            // Start a new search
-                            viewModel.searchRecipes()
-
-                            // Hide keyboard
-                            keyboardController?.hide()
-                        }
-                    )
+                SearchToolbarComposable(
+                    query = query,
+                    onQueryChanged = viewModel::onQueryChanged,
+                    onExecuteNewSearch = viewModel::executeNewSearch
                 )
+                Spacer(modifier = Modifier.padding(bottom = AppDimenDefaultDistance))
+
+                val categories = viewModel.getAllPredefinedFoodCategories()
+                val selectedCategory = viewModel.selectedCategory.value
+                val selectedCategoryPosition = viewModel.selectedCategoryPosition
+                ChipsToolbarComposable(
+                    categories = categories,
+                    selectedCategory = selectedCategory,
+                    onCategoryClicked = viewModel::onCategoryClicked,
+                    selectedCategoryPosition = selectedCategoryPosition,
+                    onCategoryPositionChanged = viewModel::onCategoryPositionChanged
+                )
+
+                Spacer(modifier = Modifier.padding(bottom = AppDimenSmallDistance))
             }
         }
     }
@@ -198,6 +124,7 @@ class RecipeListFragment : Fragment() {
     @Composable
     private fun RecipeListComposable(recipes: List<Recipe>) {
         LazyColumn(
+            contentPadding = PaddingValues(top = AppDimenDefaultDistance),
             verticalArrangement = Arrangement.spacedBy(AppDimenDefaultDistance)
         ) {
             items(items = recipes) { recipe: Recipe ->

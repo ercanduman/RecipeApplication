@@ -8,9 +8,9 @@ enum class FoodCategory(
     SOUP("Soup"),
     DESSERT("Dessert"),
     VEGETARIAN("Vegetarian"),
+    PIZZA("Pizza"),
     MILK("Milk"),
     VEGAN("Vegan"),
-    PIZZA("Pizza"),
     DONUT("Donut")
 }
 

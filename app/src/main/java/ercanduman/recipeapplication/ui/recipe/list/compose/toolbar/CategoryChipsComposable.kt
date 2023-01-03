@@ -20,7 +20,7 @@ import ercanduman.recipeapplication.ui.recipe.list.model.FoodCategory
 import ercanduman.recipeapplication.ui.recipe.list.model.FoodCategoryProvider
 
 @Composable
-fun CategoryChipsContentComposable(
+fun CategoryChipsComposable(
     categories: List<FoodCategory>,
     selectedCategory: Category,
     onCategoryClicked: (String) -> Unit,
@@ -72,9 +72,9 @@ private fun CategoryChipItemComposable(
 
 @Preview(showBackground = true)
 @Composable
-private fun CategoryChipsContentComposablePreview() {
+private fun CategoryChipsComposablePreview() {
     val categoryProvider = FoodCategoryProvider()
-    CategoryChipsContentComposable(
+    CategoryChipsComposable(
         categories = categoryProvider.allPredefinedFoodCategories(),
         selectedCategory = Category.NotProvided,
         onCategoryClicked = {},

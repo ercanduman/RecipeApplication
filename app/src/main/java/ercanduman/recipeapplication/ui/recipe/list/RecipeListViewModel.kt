@@ -38,10 +38,10 @@ class RecipeListViewModel @Inject constructor(
         private set
 
     init {
-        searchRecipes()
+        executeNewSearch()
     }
 
-    fun searchRecipes() {
+    fun executeNewSearch() {
         val currentPageId: Int = getPageId()
         fetchRecipes(currentPageId, searchQuery.value)
     }
@@ -74,7 +74,7 @@ class RecipeListViewModel @Inject constructor(
 
         // Update query and start a new search
         onQueryChanged(categoryName)
-        searchRecipes()
+        executeNewSearch()
     }
 
     fun onCategoryPositionChanged(position: Int) {
