@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import ercanduman.recipeapplication.domain.model.Recipe
+import ercanduman.recipeapplication.ui.common.compose.shimmer.RecipeItemShimmerComposable
 import ercanduman.recipeapplication.ui.common.theme.AppColorDarkGrey
 import ercanduman.recipeapplication.ui.common.theme.AppDimenDefaultDistance
 import ercanduman.recipeapplication.ui.common.theme.AppDimenSmallDistance
@@ -61,6 +62,14 @@ class RecipeListFragment : Fragment() {
                 RecipeListUiState.Loading -> {
                     // FIXME: Display a shimmer effect here.
                     Log.d("TAG", "FragmentContent: Loading")
+                    Column(
+                        modifier = Modifier.padding(
+                            end = AppDimenDefaultDistance,
+                            start = AppDimenDefaultDistance
+                        )
+                    ) {
+                        RecipeItemShimmerComposable()
+                    }
                 }
                 is RecipeListUiState.Success -> {
                     Log.d("TAG", "FragmentContent: ${recipeListUiState.recipeList.size}")
