@@ -59,6 +59,7 @@ class RecipeListFragment : Fragment() {
                     Log.d("TAG", "FragmentContent: Error")
                 }
                 RecipeListUiState.Loading -> {
+                    // FIXME: Display a shimmer effect here.
                     Log.d("TAG", "FragmentContent: Loading")
                 }
                 is RecipeListUiState.Success -> {
@@ -124,7 +125,10 @@ class RecipeListFragment : Fragment() {
     @Composable
     private fun RecipeListComposable(recipes: List<Recipe>) {
         LazyColumn(
-            contentPadding = PaddingValues(top = AppDimenDefaultDistance),
+            contentPadding = PaddingValues(
+                top = AppDimenDefaultDistance,
+                bottom = AppDimenDefaultDistance
+            ),
             verticalArrangement = Arrangement.spacedBy(AppDimenDefaultDistance)
         ) {
             items(items = recipes) { recipe: Recipe ->

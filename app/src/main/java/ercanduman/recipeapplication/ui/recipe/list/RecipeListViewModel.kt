@@ -15,7 +15,6 @@ import javax.inject.Inject
 
 private const val INITIAL_PAGE_ID = 1
 private const val INITIAL_POSITION = 0
-private const val INITIAL_SEARCH_QUERY = "beef carrot"
 private const val INITIAL_EMPTY_SEARCH_QUERY = ""
 private const val TAG = "RecipeListViewModel"
 
@@ -65,10 +64,8 @@ class RecipeListViewModel @Inject constructor(
     }
 
     fun onQueryChanged(newQuery: String) {
-        selectedCategory.value = foodCategoryProvider.getFoodCategory(newQuery)
-
-        // Update query and start a new search
         searchQuery.value = newQuery
+        selectedCategory.value = foodCategoryProvider.getFoodCategory(newQuery)
         executeNewSearch()
     }
 
