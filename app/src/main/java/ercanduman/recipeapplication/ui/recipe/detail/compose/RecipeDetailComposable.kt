@@ -10,15 +10,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import ercanduman.recipeapplication.domain.model.Recipe
-import ercanduman.recipeapplication.ui.recipe.list.compose.RecipeImageComposable
+import ercanduman.recipeapplication.ui.common.compose.RecipeImageComposable
+import ercanduman.recipeapplication.ui.common.theme.AppDimenDefaultDistance
+import ercanduman.recipeapplication.ui.common.theme.AppText
 import ercanduman.recipeapplication.ui.recipe.list.compose.RecipeTitleAndRatingComposable
-import ercanduman.recipeapplication.ui.theme.AppDimenDefaultDistance
-import ercanduman.recipeapplication.ui.theme.AppText
 
 private const val INGREDIENTS_TITLE = "Ingredients"
 
 @Composable
-fun RecipeItemDetailComposable(recipe: Recipe) {
+fun RecipeDetailComposable(recipe: Recipe) {
     Card(
         shape = MaterialTheme.shapes.medium,
         modifier = Modifier.padding(AppDimenDefaultDistance)
@@ -67,5 +67,5 @@ private fun RecipeItemDetailComposablePreview() {
         imageUrl = "https://nyc3.digitaloceanspaces.com/food2fork/food2fork-static/featured_images/9/featured_image.png",
         ingredients = ingredients
     )
-    RecipeItemDetailComposable(recipe = previewRecipe)
+    RecipeDetailComposable(recipe = previewRecipe)
 }

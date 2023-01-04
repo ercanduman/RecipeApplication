@@ -1,4 +1,4 @@
-package ercanduman.recipeapplication.ui.recipe.list.compose
+package ercanduman.recipeapplication.ui.common.compose
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -11,7 +11,7 @@ import coil.compose.AsyncImage
 import ercanduman.recipeapplication.R
 import ercanduman.recipeapplication.ui.recipe.list.DEFAULT_CONTENT_DESCRIPTION
 
-private const val RECIPE_IMAGE_HEIGHT = 256
+const val RECIPE_IMAGE_HEIGHT = 256
 
 @Composable
 fun RecipeImageComposable(imageUrl: String) {

@@ -1,4 +1,4 @@
-package ercanduman.recipeapplication.ui.theme
+package ercanduman.recipeapplication.ui.common.theme
 
 import android.app.Activity
 import android.os.Build

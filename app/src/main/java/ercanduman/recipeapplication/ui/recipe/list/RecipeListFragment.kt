@@ -22,12 +22,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import ercanduman.recipeapplication.domain.model.Recipe
-import ercanduman.recipeapplication.ui.recipe.list.compose.RecipeItemListComposable
+import ercanduman.recipeapplication.ui.common.theme.AppColorDarkGrey
+import ercanduman.recipeapplication.ui.common.theme.AppDimenDefaultDistance
+import ercanduman.recipeapplication.ui.common.theme.AppDimenSmallDistance
+import ercanduman.recipeapplication.ui.recipe.list.compose.RecipeItemComposable
 import ercanduman.recipeapplication.ui.recipe.list.compose.toolbar.ChipsToolbarComposable
 import ercanduman.recipeapplication.ui.recipe.list.compose.toolbar.SearchToolbarComposable
-import ercanduman.recipeapplication.ui.theme.AppColorDarkGrey
-import ercanduman.recipeapplication.ui.theme.AppDimenDefaultDistance
-import ercanduman.recipeapplication.ui.theme.AppDimenSmallDistance
 
 const val DEFAULT_CONTENT_DESCRIPTION = "Recipe app image"
 
@@ -132,7 +132,7 @@ class RecipeListFragment : Fragment() {
             verticalArrangement = Arrangement.spacedBy(AppDimenDefaultDistance)
         ) {
             items(items = recipes) { recipe: Recipe ->
-                RecipeItemListComposable(
+                RecipeItemComposable(
                     recipe = recipe,
                     onRecipeClick = viewModel::onRecipeClicked
                 )
