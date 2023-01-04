@@ -50,35 +50,6 @@ class RecipeListFragment : Fragment() {
         }
     }
 
-    @Composable
-    private fun FragmentContent() {
-        Surface(
-            modifier = Modifier.background(AppColorDarkGrey)
-        ) {
-            when (val recipeListUiState = viewModel.recipeListUiState.value) {
-                is RecipeListUiState.Error -> {
-                    Log.d("TAG", "FragmentContent: Error")
-                }
-                RecipeListUiState.Loading -> {
-                    // FIXME: Display a shimmer effect here.
-                    Log.d("TAG", "FragmentContent: Loading")
-                    Column(
-                        modifier = Modifier.padding(
-                            end = AppDimenDefaultDistance,
-                            start = AppDimenDefaultDistance
-                        )
-                    ) {
-                        RecipeItemShimmerComposable()
-                    }
-                }
-                is RecipeListUiState.Success -> {
-                    Log.d("TAG", "FragmentContent: ${recipeListUiState.recipeList.size}")
-                    RecipeListMainContentComposable(recipeListUiState.recipeList)
-                }
-            }
-        }
-    }
-
     /*
     This screen will contain 3 major component
         1 - Search Toolbar
@@ -86,17 +57,31 @@ class RecipeListFragment : Fragment() {
         3 - List of Recipes
     */
     @Composable
-    private fun RecipeListMainContentComposable(
-        recipes: List<Recipe>
-    ) {
-        Column(
-            modifier = Modifier.padding(
-                end = AppDimenDefaultDistance,
-                start = AppDimenDefaultDistance
-            )
+    private fun FragmentContent() {
+        Surface(
+            modifier = Modifier.background(AppColorDarkGrey)
         ) {
-            ToolbarContentComposable()
-            RecipeListComposable(recipes)
+            Column(
+                modifier = Modifier.padding(
+                    end = AppDimenDefaultDistance,
+                    start = AppDimenDefaultDistance
+                )
+            ) {
+                ToolbarContentComposable()
+
+                when (val recipeListUiState = viewModel.recipeListUiState.value) {
+                    is RecipeListUiState.Error -> {
+                        Log.d("TAG", "FragmentContent: Error")
+                    }
+                    RecipeListUiState.Loading -> {
+                        RecipeItemShimmerComposable()
+                    }
+                    is RecipeListUiState.Success -> {
+                        Log.d("TAG", "FragmentContent: ${recipeListUiState.recipeList.size}")
+                        RecipeListComposable(recipeListUiState.recipeList)
+                    }
+                }
+            }
         }
     }
 

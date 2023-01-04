@@ -51,6 +51,7 @@ class RecipeListViewModel @Inject constructor(
     }
 
     private fun fetchRecipes(page: Int, searchQuery: String) {
+        recipeListUiState.value = RecipeListUiState.Loading
         viewModelScope.launch {
             recipeListUiState.value = searchRecipeUseCase(
                 page = page,

@@ -26,7 +26,8 @@ import ercanduman.recipeapplication.ui.common.compose.RECIPE_IMAGE_HEIGHT
 import ercanduman.recipeapplication.ui.common.theme.AppDimenDefaultDistance
 import ercanduman.recipeapplication.ui.common.theme.AppDimenExtraLargeDistance
 
-private const val ANIMATION_DURATION = 1000
+private const val ANIMATION_DELAY = 300
+private const val ANIMATION_DURATION = 1300
 private const val ANIMATION_INITIAL_VALUE = 0f
 private const val ANIMATION_TARGET_VALUE = 2000f
 private const val ANIMATION_COLOR_ALPHA_VALUE_DARK = 0.9f
@@ -44,8 +45,9 @@ fun RecipeItemShimmerComposable() {
         targetValue = ANIMATION_TARGET_VALUE,
         animationSpec = infiniteRepeatable(
             animation = tween(
-                ANIMATION_DURATION,
-                easing = LinearEasing
+                easing = LinearEasing,
+                delayMillis = ANIMATION_DELAY,
+                durationMillis = ANIMATION_DURATION
             )
         )
     )
