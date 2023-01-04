@@ -9,9 +9,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import ercanduman.recipeapplication.common.ui.theme.AppDimenDefaultDistance
-import ercanduman.recipeapplication.common.ui.theme.AppText
-import ercanduman.recipeapplication.common.ui.theme.AppTextSize20
+import ercanduman.recipeapplication.ui.theme.AppDimenDefaultDistance
+import ercanduman.recipeapplication.ui.theme.AppText
+import ercanduman.recipeapplication.ui.theme.AppTextSize20
 
 private const val TITLE_MAX_LINES = 1
 private const val TITLE_WEIGHT = 1f

@@ -11,10 +11,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import ercanduman.recipeapplication.common.ui.theme.AppDimenSmallDistance
-import ercanduman.recipeapplication.common.ui.theme.AppText
 import ercanduman.recipeapplication.ui.recipe.list.model.Category
 import ercanduman.recipeapplication.ui.recipe.list.model.FoodCategory
+import ercanduman.recipeapplication.ui.theme.AppDimenSmallDistance
+import ercanduman.recipeapplication.ui.theme.AppText
 
 @Composable
 fun CategoryChipsComposable(

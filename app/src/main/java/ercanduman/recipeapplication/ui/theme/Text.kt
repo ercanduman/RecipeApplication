@@ -1,4 +1,4 @@
-package ercanduman.recipeapplication.common.ui.theme
+package ercanduman.recipeapplication.ui.theme
 
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text

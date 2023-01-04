@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import ercanduman.recipeapplication.common.ui.theme.AppDimenDefaultDistance
 import ercanduman.recipeapplication.domain.model.Recipe
+import ercanduman.recipeapplication.ui.theme.AppDimenDefaultDistance
 
 @Composable
 fun RecipeItemListComposable(

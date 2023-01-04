@@ -19,8 +19,8 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import ercanduman.recipeapplication.R
-import ercanduman.recipeapplication.common.ui.theme.AppText
 import ercanduman.recipeapplication.ui.recipe.list.DEFAULT_CONTENT_DESCRIPTION
+import ercanduman.recipeapplication.ui.theme.AppText
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
