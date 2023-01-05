@@ -68,9 +68,7 @@ fun RecipeItemShimmerComposable() {
 
 @Composable
 private fun ShimmerItems(linearGradientBrush: Brush) {
-    Surface(
-        shape = MaterialTheme.shapes.medium
-    ) {
+    Surface(shape = MaterialTheme.shapes.medium) {
         Column(
             modifier = Modifier.verticalScroll(rememberScrollState())
         ) {
@@ -85,7 +83,6 @@ private fun ShimmerItems(linearGradientBrush: Brush) {
 private fun ShimmerItem(linearGradientBrush: Brush) {
     Spacer(
         modifier = Modifier
-            .padding(top = AppDimenExtraLargeDistance)
             .fillMaxWidth()
             .clip(MaterialTheme.shapes.medium)
             .height(RECIPE_IMAGE_HEIGHT.dp)
@@ -100,4 +97,5 @@ private fun ShimmerItem(linearGradientBrush: Brush) {
             .height(SHIMMER_RECIPE_ITEM_TITLE_HEIGHT.dp)
             .background(brush = linearGradientBrush)
     )
+    Spacer(modifier = Modifier.padding(bottom = AppDimenExtraLargeDistance))
 }

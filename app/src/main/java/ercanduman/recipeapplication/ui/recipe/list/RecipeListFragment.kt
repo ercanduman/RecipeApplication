@@ -23,9 +23,10 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import ercanduman.recipeapplication.domain.model.Recipe
 import ercanduman.recipeapplication.ui.common.compose.shimmer.RecipeItemShimmerComposable
-import ercanduman.recipeapplication.ui.common.theme.AppColorDarkGrey
+import ercanduman.recipeapplication.ui.common.theme.AppColorBackgroundGrey
 import ercanduman.recipeapplication.ui.common.theme.AppDimenDefaultDistance
 import ercanduman.recipeapplication.ui.common.theme.AppDimenSmallDistance
+import ercanduman.recipeapplication.ui.common.theme.AppTheme
 import ercanduman.recipeapplication.ui.recipe.list.compose.RecipeItemComposable
 import ercanduman.recipeapplication.ui.recipe.list.compose.toolbar.ChipsToolbarComposable
 import ercanduman.recipeapplication.ui.recipe.list.compose.toolbar.SearchToolbarComposable
@@ -58,27 +59,33 @@ class RecipeListFragment : Fragment() {
     */
     @Composable
     private fun FragmentContent() {
-        Surface(
-            modifier = Modifier.background(AppColorDarkGrey)
-        ) {
+        AppTheme {
             Column(
-                modifier = Modifier.padding(
-                    end = AppDimenDefaultDistance,
-                    start = AppDimenDefaultDistance
-                )
+                modifier = Modifier
+                    .background(AppColorBackgroundGrey)
+                    .padding(
+                        end = AppDimenDefaultDistance,
+                        start = AppDimenDefaultDistance
+                    )
+
             ) {
                 ToolbarContentComposable()
+                Spacer(modifier = Modifier.padding(bottom = AppDimenSmallDistance))
 
-                when (val recipeListUiState = viewModel.recipeListUiState.value) {
-                    is RecipeListUiState.Error -> {
-                        Log.d("TAG", "FragmentContent: Error")
-                    }
-                    RecipeListUiState.Loading -> {
-                        RecipeItemShimmerComposable()
-                    }
-                    is RecipeListUiState.Success -> {
-                        Log.d("TAG", "FragmentContent: ${recipeListUiState.recipeList.size}")
-                        RecipeListComposable(recipeListUiState.recipeList)
+                Surface(
+                    shape = MaterialTheme.shapes.medium
+                ) {
+                    when (val recipeListUiState = viewModel.recipeListUiState.value) {
+                        is RecipeListUiState.Error -> {
+                            Log.d("TAG", "FragmentContent: Error")
+                        }
+                        RecipeListUiState.Loading -> {
+                            RecipeItemShimmerComposable()
+                        }
+                        is RecipeListUiState.Success -> {
+                            Log.d("TAG", "FragmentContent: ${recipeListUiState.recipeList.size}")
+                            RecipeListComposable(recipeListUiState.recipeList)
+                        }
                     }
                 }
             }
@@ -91,7 +98,7 @@ class RecipeListFragment : Fragment() {
             shape = MaterialTheme.shapes.medium,
             shadowElevation = AppDimenSmallDistance
         ) {
-            Column(Modifier.padding(AppDimenSmallDistance)) {
+            Column(modifier = Modifier.padding(AppDimenSmallDistance)) {
                 val query = viewModel.searchQuery.value
                 SearchToolbarComposable(
                     query = query,
@@ -119,10 +126,7 @@ class RecipeListFragment : Fragment() {
     @Composable
     private fun RecipeListComposable(recipes: List<Recipe>) {
         LazyColumn(
-            contentPadding = PaddingValues(
-                top = AppDimenDefaultDistance,
-                bottom = AppDimenDefaultDistance
-            ),
+            contentPadding = PaddingValues(bottom = AppDimenDefaultDistance),
             verticalArrangement = Arrangement.spacedBy(AppDimenDefaultDistance)
         ) {
             items(items = recipes) { recipe: Recipe ->
