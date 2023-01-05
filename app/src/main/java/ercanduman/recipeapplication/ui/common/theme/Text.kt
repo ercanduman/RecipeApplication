@@ -1,17 +1,21 @@
-package ercanduman.recipeapplication.common.ui.theme
+package ercanduman.recipeapplication.ui.common.theme
 
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.PlatformTextStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 
-@Suppress("LongParameterList")
+@Suppress("LongParameterList", "DEPRECATION")
 @Composable
-fun RecipeAppText(
+fun AppText(
     text: String,
     modifier: Modifier = Modifier,
     color: Color = AppColorDarkGrey,
@@ -30,6 +34,17 @@ fun RecipeAppText(
         maxLines = maxLines,
         overflow = overflow,
         textAlign = textAlign,
-        fontFamily = Typography.bodyMedium.fontFamily
+        fontFamily = Typography.bodyMedium.fontFamily,
+        style = LocalTextStyle.current.merge(
+            TextStyle(
+                platformStyle = PlatformTextStyle(
+                    includeFontPadding = false
+                ),
+                lineHeightStyle = LineHeightStyle(
+                    alignment = LineHeightStyle.Alignment.Center,
+                    trim = LineHeightStyle.Trim.None
+                )
+            )
+        )
     )
 }

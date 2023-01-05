@@ -84,6 +84,9 @@ dependencies {
     // Hilt Dependency Injection
     kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
     implementation("com.google.dagger:hilt-android:$hilt_version")
+
+    // Coil - Image loader
+    implementation("io.coil-kt:coil-compose:2.2.2")
 }
 
 // Hilt - Allow references to generated code

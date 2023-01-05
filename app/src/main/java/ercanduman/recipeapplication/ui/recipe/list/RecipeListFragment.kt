@@ -1,31 +1,36 @@
 package ercanduman.recipeapplication.ui.recipe.list
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
-import ercanduman.recipeapplication.R
-import ercanduman.recipeapplication.common.ui.theme.AppDimenDefaultDistance
+import ercanduman.recipeapplication.domain.model.Recipe
+import ercanduman.recipeapplication.ui.common.compose.shimmer.RecipeItemShimmerComposable
+import ercanduman.recipeapplication.ui.common.theme.AppColorDarkGrey
+import ercanduman.recipeapplication.ui.common.theme.AppDimenDefaultDistance
+import ercanduman.recipeapplication.ui.common.theme.AppDimenSmallDistance
+import ercanduman.recipeapplication.ui.recipe.list.compose.RecipeItemComposable
+import ercanduman.recipeapplication.ui.recipe.list.compose.toolbar.ChipsToolbarComposable
+import ercanduman.recipeapplication.ui.recipe.list.compose.toolbar.SearchToolbarComposable
 
-private const val NAVIGATE_BUTTON_WIDTH = 180
-private const val NAVIGATE_BUTTON_HEIGHT = 56
-private const val NAVIGATE_BUTTON_TEXT = "Navigate to Details"
+const val DEFAULT_CONTENT_DESCRIPTION = "Recipe app image"
 
 @AndroidEntryPoint
 class RecipeListFragment : Fragment() {
@@ -45,23 +50,86 @@ class RecipeListFragment : Fragment() {
         }
     }
 
+    /*
+    This screen will contain 3 major component
+        1 - Search Toolbar
+        2 - Horizontal scrollable food category Chips
+        3 - List of Recipes
+    */
     @Composable
     private fun FragmentContent() {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(AppDimenDefaultDistance),
-            horizontalAlignment = Alignment.CenterHorizontally
+        Surface(
+            modifier = Modifier.background(AppColorDarkGrey)
         ) {
-            Text(text = getString(R.string.label_recipe_list_fragment))
-
-            Button(
-                modifier = Modifier
-                    .width(NAVIGATE_BUTTON_WIDTH.dp)
-                    .height(NAVIGATE_BUTTON_HEIGHT.dp),
-                onClick = { findNavController().navigate(R.id.action_navigate_to_recipeDetailFragment) }
+            Column(
+                modifier = Modifier.padding(
+                    end = AppDimenDefaultDistance,
+                    start = AppDimenDefaultDistance
+                )
             ) {
-                Text(text = NAVIGATE_BUTTON_TEXT)
+                ToolbarContentComposable()
+
+                when (val recipeListUiState = viewModel.recipeListUiState.value) {
+                    is RecipeListUiState.Error -> {
+                        Log.d("TAG", "FragmentContent: Error")
+                    }
+                    RecipeListUiState.Loading -> {
+                        RecipeItemShimmerComposable()
+                    }
+                    is RecipeListUiState.Success -> {
+                        Log.d("TAG", "FragmentContent: ${recipeListUiState.recipeList.size}")
+                        RecipeListComposable(recipeListUiState.recipeList)
+                    }
+                }
+            }
+        }
+    }
+
+    @Composable
+    private fun ToolbarContentComposable() {
+        Surface(
+            shape = MaterialTheme.shapes.medium,
+            shadowElevation = AppDimenSmallDistance
+        ) {
+            Column(Modifier.padding(AppDimenSmallDistance)) {
+                val query = viewModel.searchQuery.value
+                SearchToolbarComposable(
+                    query = query,
+                    onQueryChanged = viewModel::onQueryChanged,
+                    onExecuteNewSearch = viewModel::executeNewSearch
+                )
+                Spacer(modifier = Modifier.padding(bottom = AppDimenDefaultDistance))
+
+                val categories = viewModel.getAllPredefinedFoodCategories()
+                val selectedCategory = viewModel.selectedCategory.value
+                val selectedCategoryPosition = viewModel.selectedCategoryPosition
+                ChipsToolbarComposable(
+                    categories = categories,
+                    selectedCategory = selectedCategory,
+                    onValueChanged = viewModel::onQueryChanged,
+                    selectedCategoryPosition = selectedCategoryPosition,
+                    onCategoryPositionChanged = viewModel::onCategoryPositionChanged
+                )
+
+                Spacer(modifier = Modifier.padding(bottom = AppDimenSmallDistance))
+            }
+        }
+    }
+
+    @Composable
+    private fun RecipeListComposable(recipes: List<Recipe>) {
+        LazyColumn(
+            contentPadding = PaddingValues(
+                top = AppDimenDefaultDistance,
+                bottom = AppDimenDefaultDistance
+            ),
+            verticalArrangement = Arrangement.spacedBy(AppDimenDefaultDistance)
+        ) {
+            items(items = recipes) { recipe: Recipe ->
+                RecipeItemComposable(
+                    recipe = recipe,
+                    onRecipeClick = viewModel::onRecipeClicked
+                )
             }
         }
     }

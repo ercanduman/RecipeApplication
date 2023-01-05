@@ -1,4 +1,4 @@
-package ercanduman.recipeapplication.common.ui.theme
+package ercanduman.recipeapplication.ui.common.theme
 
 import android.app.Activity
 import android.os.Build
@@ -24,11 +24,12 @@ private val DarkColorScheme = darkColorScheme(
 private val LightColorScheme = lightColorScheme(
     primary = AppColorDarkPink,
     secondary = AppColorDarkGrey,
-    tertiary = AppColorPink
+    tertiary = AppColorPink,
+    background = AppColorBackgroundGrey
 )
 
 @Composable
-fun RecipeApplicationTheme(
+fun AppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,

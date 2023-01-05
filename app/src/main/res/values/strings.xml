@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">RecipeApplication</string>
 
+    <string name="search">Search</string>
+
     <string name="label_recipe_list_fragment">Recipes</string>
     <string name="label_recipe_detail_fragment">Details</string>
 </resources>
