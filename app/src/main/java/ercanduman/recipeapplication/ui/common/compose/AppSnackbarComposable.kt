@@ -10,8 +10,10 @@ import androidx.compose.ui.Modifier
 import ercanduman.recipeapplication.ui.common.theme.AppColorWhite
 import ercanduman.recipeapplication.ui.common.theme.AppText
 
-private const val DEFAULT_ACTION_LABEL = ""
-
+/**
+ * For more details and customization of Snackbar, the following url can be visited.
+ * https://developer.android.com/reference/kotlin/androidx/compose/material3/package-summary.html#Snackbar(androidx.compose.ui.Modifier,kotlin.Function0,kotlin.Function0,kotlin.Boolean,androidx.compose.ui.graphics.Shape,androidx.compose.ui.graphics.Color,androidx.compose.ui.graphics.Color,androidx.compose.ui.graphics.Color,androidx.compose.ui.graphics.Color,kotlin.Function0)
+ */
 @Composable
 fun AppSnackbarComposable(
     snackbarHostState: SnackbarHostState,
@@ -26,12 +28,13 @@ fun AppSnackbarComposable(
                 shape = MaterialTheme.shapes.medium,
                 dismissAction = { onDismiss?.invoke() },
                 action = {
-                    val actionLabel = snackbarData.visuals.actionLabel ?: DEFAULT_ACTION_LABEL
-                    TextButton(onClick = { snackbarData.performAction() }) {
-                        AppText(
-                            text = actionLabel,
-                            textColor = AppColorWhite
-                        )
+                    snackbarData.visuals.actionLabel?.let { actionLabel ->
+                        TextButton(onClick = { snackbarData.performAction() }) {
+                            AppText(
+                                text = actionLabel,
+                                textColor = AppColorWhite
+                            )
+                        }
                     }
                 }
             ) {

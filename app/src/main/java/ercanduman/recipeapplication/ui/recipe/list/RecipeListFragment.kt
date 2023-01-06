@@ -82,7 +82,10 @@ class RecipeListFragment : Fragment() {
                         start = AppDimenDefaultDistance
                     ),
                 snackbarHost = {
-                    AppSnackbarComposable(snackbarHostState = snackbarHostState)
+                    AppSnackbarComposable(
+                        snackbarHostState = snackbarHostState,
+                        modifier = Modifier.padding(bottom = AppDimenDefaultDistance)
+                    )
                 }
             ) { innerPaddings ->
                 Surface(
