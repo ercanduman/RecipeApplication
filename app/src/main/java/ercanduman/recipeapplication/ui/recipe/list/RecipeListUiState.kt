@@ -11,4 +11,8 @@ sealed class RecipeListUiState {
     data class Success(
         val recipeList: List<Recipe>
     ) : RecipeListUiState()
+
+    data class DisplayRecipeDetails(
+        val recipeId: Int
+    ) : RecipeListUiState()
 }

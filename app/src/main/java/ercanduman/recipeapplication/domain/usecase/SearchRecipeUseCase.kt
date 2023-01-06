@@ -1,8 +1,10 @@
 package ercanduman.recipeapplication.domain.usecase
 
 import ercanduman.recipeapplication.common.util.RecipeResult
+import ercanduman.recipeapplication.data.api.model.RecipeDto
 import ercanduman.recipeapplication.data.repository.RecipeRepository
 import ercanduman.recipeapplication.domain.mapper.RecipeListMapper
+import ercanduman.recipeapplication.domain.model.Recipe
 import ercanduman.recipeapplication.ui.recipe.list.RecipeListUiState
 import javax.inject.Inject
 
@@ -20,13 +22,13 @@ class SearchRecipeUseCase @Inject constructor(
             }
 
             is RecipeResult.Error -> {
-                val errorMessage = searchResult.message
+                val errorMessage: String = searchResult.message
                 RecipeListUiState.Error(errorMessage)
             }
 
             is RecipeResult.Success -> {
-                val recipeDtoList = searchResult.data.recipes
-                val recipes = recipeListMapper.map(recipeDtoList)
+                val recipeDtoList: List<RecipeDto> = searchResult.data.recipes
+                val recipes: List<Recipe> = recipeListMapper.map(recipeDtoList)
                 RecipeListUiState.Success(recipes)
             }
         }

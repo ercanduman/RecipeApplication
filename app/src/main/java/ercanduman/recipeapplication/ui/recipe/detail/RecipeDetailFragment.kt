@@ -10,6 +10,8 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import dagger.hilt.android.AndroidEntryPoint
 
+const val KEY_RECIPE_ID = "recipeId"
+
 @AndroidEntryPoint
 class RecipeDetailFragment : Fragment() {
 

@@ -24,16 +24,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ercanduman.recipeapplication.BuildConfig
+import ercanduman.recipeapplication.R
 import ercanduman.recipeapplication.domain.model.Recipe
 import ercanduman.recipeapplication.ui.common.compose.AppSnackbarComposable
 import ercanduman.recipeapplication.ui.common.compose.shimmer.RecipeShimmerComposable
 import ercanduman.recipeapplication.ui.common.theme.AppDimenDefaultDistance
 import ercanduman.recipeapplication.ui.common.theme.AppDimenSmallDistance
 import ercanduman.recipeapplication.ui.common.theme.AppTheme
+import ercanduman.recipeapplication.ui.recipe.detail.KEY_RECIPE_ID
 import ercanduman.recipeapplication.ui.recipe.list.compose.RecipeItemComposable
 import ercanduman.recipeapplication.ui.recipe.list.compose.toolbar.ChipsToolbarComposable
 import ercanduman.recipeapplication.ui.recipe.list.compose.toolbar.SearchToolbarComposable
@@ -93,6 +97,10 @@ class RecipeListFragment : Fragment() {
                     modifier = Modifier.padding(innerPaddings)
                 ) {
                     when (val recipeListUiState = viewModel.recipeListUiState.value) {
+                        RecipeListUiState.Loading -> {
+                            RecipeShimmerComposable()
+                        }
+
                         is RecipeListUiState.Error -> {
                             showErrorMessageInSnackbar(
                                 errorMessage = recipeListUiState.errorMessage,
@@ -100,11 +108,18 @@ class RecipeListFragment : Fragment() {
                                 snackbarHostState = snackbarHostState
                             )
                         }
-                        RecipeListUiState.Loading -> {
-                            RecipeShimmerComposable()
-                        }
+
                         is RecipeListUiState.Success -> {
                             RecipeContentComposable(recipeListUiState.recipeList)
+                        }
+
+                        is RecipeListUiState.DisplayRecipeDetails -> {
+                            val recipeId = recipeListUiState.recipeId
+                            val bundle = bundleOf(KEY_RECIPE_ID to recipeId)
+                            findNavController().navigate(
+                                args = bundle,
+                                resId = R.id.action_navigate_to_recipeDetailFragment
+                            )
                         }
                     }
                 }
@@ -163,7 +178,10 @@ class RecipeListFragment : Fragment() {
     private fun RecipeContentComposable(recipes: List<Recipe>) {
         if (BuildConfig.DEBUG) Log.d("TAG", "FragmentContent: item size=${recipes.size}")
         LazyColumn(
-            contentPadding = PaddingValues(bottom = AppDimenDefaultDistance),
+            contentPadding = PaddingValues(
+                top = AppDimenDefaultDistance,
+                bottom = AppDimenDefaultDistance
+            ),
             verticalArrangement = Arrangement.spacedBy(AppDimenDefaultDistance)
         ) {
             items(items = recipes) { recipe: Recipe ->

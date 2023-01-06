@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import ercanduman.recipeapplication.BuildConfig
 import ercanduman.recipeapplication.domain.usecase.SearchRecipeUseCase
 import ercanduman.recipeapplication.ui.recipe.list.model.Category
 import ercanduman.recipeapplication.ui.recipe.list.model.FoodCategory
@@ -75,7 +76,7 @@ class RecipeListViewModel @Inject constructor(
     }
 
     fun onRecipeClicked(recipeId: Int) {
-        Log.d("TAG", "onRecipeClicked: clicked on recipe id:$recipeId")
-        // FIXME: Navigate to RecipeDetailFragment
+        if (BuildConfig.DEBUG) Log.d("TAG", "onRecipeClicked: clicked on recipe id:$recipeId")
+        recipeListUiState.value = RecipeListUiState.DisplayRecipeDetails(recipeId)
     }
 }
