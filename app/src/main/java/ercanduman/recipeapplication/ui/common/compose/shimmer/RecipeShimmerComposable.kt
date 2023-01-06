@@ -33,12 +33,17 @@ private const val ANIMATION_TARGET_VALUE = 2000f
 private const val ANIMATION_COLOR_ALPHA_VALUE_DARK = 0.9f
 private const val ANIMATION_COLOR_ALPHA_VALUE_LIGHT = 0.3f
 
-private const val SHIMMER_RECIPE_ITEM_COUNT = 3
-private const val SHIMMER_RECIPE_ITEM_TITLE_HEIGHT = RECIPE_IMAGE_HEIGHT / 10
+private const val RECIPE_ITEMS_COUNT = 3
+private const val RECIPE_ITEM_TITLE_HEIGHT = RECIPE_IMAGE_HEIGHT / 10
 
 @Composable
-fun RecipeItemShimmerComposable() {
+fun RecipeShimmerComposable() {
     val transition = rememberInfiniteTransition()
+    val shimmerColors = listOf(
+        Color.LightGray.copy(alpha = ANIMATION_COLOR_ALPHA_VALUE_DARK),
+        Color.LightGray.copy(alpha = ANIMATION_COLOR_ALPHA_VALUE_LIGHT),
+        Color.LightGray.copy(alpha = ANIMATION_COLOR_ALPHA_VALUE_DARK)
+    )
 
     val animationFloating = transition.animateFloat(
         initialValue = ANIMATION_INITIAL_VALUE,
@@ -52,35 +57,30 @@ fun RecipeItemShimmerComposable() {
         )
     )
 
-    val shimmerColors = listOf(
-        Color.LightGray.copy(alpha = ANIMATION_COLOR_ALPHA_VALUE_DARK),
-        Color.LightGray.copy(alpha = ANIMATION_COLOR_ALPHA_VALUE_LIGHT),
-        Color.LightGray.copy(alpha = ANIMATION_COLOR_ALPHA_VALUE_DARK)
-    )
     val linearGradientBrush = Brush.linearGradient(
         colors = shimmerColors,
         start = Offset.Zero,
         end = Offset(animationFloating.value, animationFloating.value)
     )
 
-    ShimmerItems(linearGradientBrush)
+    RecipeShimmerItemsComposable(linearGradientBrush)
 }
 
 @Composable
-private fun ShimmerItems(linearGradientBrush: Brush) {
+private fun RecipeShimmerItemsComposable(linearGradientBrush: Brush) {
     Surface(shape = MaterialTheme.shapes.medium) {
         Column(
             modifier = Modifier.verticalScroll(rememberScrollState())
         ) {
-            repeat(SHIMMER_RECIPE_ITEM_COUNT) {
-                ShimmerItem(linearGradientBrush)
+            repeat(RECIPE_ITEMS_COUNT) {
+                RecipeShimmerItemComposable(linearGradientBrush)
             }
         }
     }
 }
 
 @Composable
-private fun ShimmerItem(linearGradientBrush: Brush) {
+private fun RecipeShimmerItemComposable(linearGradientBrush: Brush) {
     Spacer(
         modifier = Modifier
             .fillMaxWidth()
@@ -88,13 +88,13 @@ private fun ShimmerItem(linearGradientBrush: Brush) {
             .height(RECIPE_IMAGE_HEIGHT.dp)
             .background(brush = linearGradientBrush)
     )
+    Spacer(modifier = Modifier.padding(bottom = AppDimenDefaultDistance))
 
-    Spacer(modifier = Modifier.padding(top = AppDimenDefaultDistance))
     Spacer(
         modifier = Modifier
-            .clip(MaterialTheme.shapes.small)
+            .clip(MaterialTheme.shapes.medium)
             .fillMaxWidth()
-            .height(SHIMMER_RECIPE_ITEM_TITLE_HEIGHT.dp)
+            .height(RECIPE_ITEM_TITLE_HEIGHT.dp)
             .background(brush = linearGradientBrush)
     )
     Spacer(modifier = Modifier.padding(bottom = AppDimenExtraLargeDistance))

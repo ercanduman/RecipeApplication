@@ -22,7 +22,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import ercanduman.recipeapplication.domain.model.Recipe
-import ercanduman.recipeapplication.ui.common.compose.shimmer.RecipeItemShimmerComposable
+import ercanduman.recipeapplication.ui.common.compose.shimmer.RecipeShimmerComposable
 import ercanduman.recipeapplication.ui.common.theme.AppColorBackgroundGrey
 import ercanduman.recipeapplication.ui.common.theme.AppDimenDefaultDistance
 import ercanduman.recipeapplication.ui.common.theme.AppDimenSmallDistance
@@ -80,7 +80,7 @@ class RecipeListFragment : Fragment() {
                             Log.d("TAG", "FragmentContent: Error")
                         }
                         RecipeListUiState.Loading -> {
-                            RecipeItemShimmerComposable()
+                            RecipeShimmerComposable()
                         }
                         is RecipeListUiState.Success -> {
                             Log.d("TAG", "FragmentContent: ${recipeListUiState.recipeList.size}")
