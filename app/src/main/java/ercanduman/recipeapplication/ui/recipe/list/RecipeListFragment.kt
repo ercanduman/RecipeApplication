@@ -13,22 +13,32 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
+import ercanduman.recipeapplication.BuildConfig
 import ercanduman.recipeapplication.domain.model.Recipe
-import ercanduman.recipeapplication.ui.common.compose.shimmer.RecipeItemShimmerComposable
-import ercanduman.recipeapplication.ui.common.theme.AppColorDarkGrey
+import ercanduman.recipeapplication.ui.common.compose.AppSnackbarComposable
+import ercanduman.recipeapplication.ui.common.compose.shimmer.RecipeShimmerComposable
 import ercanduman.recipeapplication.ui.common.theme.AppDimenDefaultDistance
 import ercanduman.recipeapplication.ui.common.theme.AppDimenSmallDistance
+import ercanduman.recipeapplication.ui.common.theme.AppTheme
 import ercanduman.recipeapplication.ui.recipe.list.compose.RecipeItemComposable
 import ercanduman.recipeapplication.ui.recipe.list.compose.toolbar.ChipsToolbarComposable
 import ercanduman.recipeapplication.ui.recipe.list.compose.toolbar.SearchToolbarComposable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 const val DEFAULT_CONTENT_DESCRIPTION = "Recipe app image"
 
@@ -56,32 +66,65 @@ class RecipeListFragment : Fragment() {
         2 - Horizontal scrollable food category Chips
         3 - List of Recipes
     */
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     private fun FragmentContent() {
-        Surface(
-            modifier = Modifier.background(AppColorDarkGrey)
-        ) {
-            Column(
-                modifier = Modifier.padding(
-                    end = AppDimenDefaultDistance,
-                    start = AppDimenDefaultDistance
-                )
-            ) {
-                ToolbarContentComposable()
+        AppTheme {
+            val coroutineScope = rememberCoroutineScope()
+            val snackbarHostState = remember { SnackbarHostState() }
 
-                when (val recipeListUiState = viewModel.recipeListUiState.value) {
-                    is RecipeListUiState.Error -> {
-                        Log.d("TAG", "FragmentContent: Error")
-                    }
-                    RecipeListUiState.Loading -> {
-                        RecipeItemShimmerComposable()
-                    }
-                    is RecipeListUiState.Success -> {
-                        Log.d("TAG", "FragmentContent: ${recipeListUiState.recipeList.size}")
-                        RecipeListComposable(recipeListUiState.recipeList)
+            Scaffold(
+                topBar = { ToolbarContentComposable() },
+                modifier = Modifier
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(
+                        end = AppDimenDefaultDistance,
+                        start = AppDimenDefaultDistance
+                    ),
+                snackbarHost = {
+                    AppSnackbarComposable(
+                        snackbarHostState = snackbarHostState,
+                        modifier = Modifier.padding(bottom = AppDimenDefaultDistance)
+                    )
+                }
+            ) { innerPaddings ->
+                Surface(
+                    shape = MaterialTheme.shapes.medium,
+                    modifier = Modifier.padding(innerPaddings)
+                ) {
+                    when (val recipeListUiState = viewModel.recipeListUiState.value) {
+                        is RecipeListUiState.Error -> {
+                            showErrorMessageInSnackbar(
+                                errorMessage = recipeListUiState.errorMessage,
+                                coroutineScope = coroutineScope,
+                                snackbarHostState = snackbarHostState
+                            )
+                        }
+                        RecipeListUiState.Loading -> {
+                            RecipeShimmerComposable()
+                        }
+                        is RecipeListUiState.Success -> {
+                            RecipeContentComposable(recipeListUiState.recipeList)
+                        }
                     }
                 }
             }
+        }
+    }
+
+    private fun showErrorMessageInSnackbar(
+        errorMessage: String,
+        coroutineScope: CoroutineScope,
+        snackbarHostState: SnackbarHostState
+    ) {
+        if (BuildConfig.DEBUG) Log.d("TAG", "FragmentContent: Error message=$errorMessage")
+        coroutineScope.launch {
+            // If there is already a message on the screen, dismiss it before displaying a new one.
+            snackbarHostState.currentSnackbarData?.dismiss()
+            snackbarHostState.showSnackbar(
+                message = errorMessage,
+                duration = SnackbarDuration.Short
+            )
         }
     }
 
@@ -91,7 +134,7 @@ class RecipeListFragment : Fragment() {
             shape = MaterialTheme.shapes.medium,
             shadowElevation = AppDimenSmallDistance
         ) {
-            Column(Modifier.padding(AppDimenSmallDistance)) {
+            Column(modifier = Modifier.padding(AppDimenSmallDistance)) {
                 val query = viewModel.searchQuery.value
                 SearchToolbarComposable(
                     query = query,
@@ -117,12 +160,10 @@ class RecipeListFragment : Fragment() {
     }
 
     @Composable
-    private fun RecipeListComposable(recipes: List<Recipe>) {
+    private fun RecipeContentComposable(recipes: List<Recipe>) {
+        if (BuildConfig.DEBUG) Log.d("TAG", "FragmentContent: item size=${recipes.size}")
         LazyColumn(
-            contentPadding = PaddingValues(
-                top = AppDimenDefaultDistance,
-                bottom = AppDimenDefaultDistance
-            ),
+            contentPadding = PaddingValues(bottom = AppDimenDefaultDistance),
             verticalArrangement = Arrangement.spacedBy(AppDimenDefaultDistance)
         ) {
             items(items = recipes) { recipe: Recipe ->

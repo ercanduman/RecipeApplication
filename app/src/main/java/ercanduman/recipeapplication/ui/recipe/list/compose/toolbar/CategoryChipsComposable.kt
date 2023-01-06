@@ -4,6 +4,7 @@ import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material3.MaterialTheme
@@ -11,8 +12,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
+import ercanduman.recipeapplication.ui.common.theme.AppDimenDefaultDistance
 import ercanduman.recipeapplication.ui.common.theme.AppDimenSmallDistance
 import ercanduman.recipeapplication.ui.common.theme.AppText
+import ercanduman.recipeapplication.ui.common.theme.AppTheme
 import ercanduman.recipeapplication.ui.recipe.list.model.Category
 import ercanduman.recipeapplication.ui.recipe.list.model.FoodCategory
 
@@ -48,7 +52,8 @@ private fun CategoryChipItemComposable(
     isSelected: Boolean = false,
     onValueChanged: (String) -> Unit
 ) {
-    val backgroundColor: Color = if (isSelected) Color.LightGray else MaterialTheme.colorScheme.primary
+    val backgroundColor: Color =
+        if (!isSelected) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.secondaryContainer
 
     Surface(
         shape = MaterialTheme.shapes.small,
@@ -60,8 +65,38 @@ private fun CategoryChipItemComposable(
     ) {
         AppText(
             text = category.value,
-            modifier = Modifier.padding(AppDimenSmallDistance),
-            color = MaterialTheme.colorScheme.onPrimary
+            textColor = MaterialTheme.colorScheme.onSecondary,
+            modifier = Modifier.padding(AppDimenSmallDistance)
         )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun CategoryChipItemComposablePreview() {
+    AppTheme {
+        Row {
+            CategoryChipItemComposable(
+                category = FoodCategory.CHICKEN,
+                isSelected = false,
+                onValueChanged = {}
+            )
+
+            Spacer(modifier = Modifier.padding(start = AppDimenDefaultDistance))
+
+            CategoryChipItemComposable(
+                category = FoodCategory.CHICKEN,
+                isSelected = true,
+                onValueChanged = {}
+            )
+
+            Spacer(modifier = Modifier.padding(start = AppDimenDefaultDistance))
+
+            CategoryChipItemComposable(
+                category = FoodCategory.CHICKEN,
+                isSelected = false,
+                onValueChanged = {}
+            )
+        }
     }
 }

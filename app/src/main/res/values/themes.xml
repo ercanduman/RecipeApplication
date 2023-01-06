@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.RecipeApplication" parent="Theme.AppCompat.Light.NoActionBar" />
+    <!-- Only statusBarColor is important here, the theme is obtained from Theme.kt file -->
+    <style name="Theme.RecipeApplication" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/color_primary_dark</item>
+    </style>
 </resources>
