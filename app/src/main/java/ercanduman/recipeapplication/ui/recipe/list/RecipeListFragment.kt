@@ -119,6 +119,8 @@ class RecipeListFragment : Fragment() {
     ) {
         if (BuildConfig.DEBUG) Log.d("TAG", "FragmentContent: Error message=$errorMessage")
         coroutineScope.launch {
+            // If there is already a message on the screen, dismiss it before displaying a new one.
+            snackbarHostState.currentSnackbarData?.dismiss()
             snackbarHostState.showSnackbar(
                 message = errorMessage,
                 duration = SnackbarDuration.Short
