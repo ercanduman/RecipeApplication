@@ -1,6 +1,5 @@
 package ercanduman.recipeapplication.ui.common.compose
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
@@ -9,7 +8,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import ercanduman.recipeapplication.ui.common.theme.AppColorWhite
-import ercanduman.recipeapplication.ui.common.theme.AppDimenDefaultDistance
 import ercanduman.recipeapplication.ui.common.theme.AppText
 
 private const val DEFAULT_ACTION_LABEL = "Hide"
@@ -18,16 +16,15 @@ private const val DEFAULT_ACTION_LABEL = "Hide"
 fun AppSnackbarComposable(
     snackbarHostState: SnackbarHostState,
     modifier: Modifier = Modifier,
-    onDismiss: () -> Unit
+    onDismiss: (() -> Unit)? = null
 ) {
     SnackbarHost(
         hostState = snackbarHostState,
         modifier = modifier,
         snackbar = { snackbarData ->
             Snackbar(
-                modifier = Modifier.padding(AppDimenDefaultDistance),
                 shape = MaterialTheme.shapes.medium,
-                dismissAction = { onDismiss() },
+                dismissAction = { onDismiss?.invoke() },
                 action = {
                     val actionLabel = snackbarData.visuals.actionLabel ?: DEFAULT_ACTION_LABEL
                     TextButton(onClick = { snackbarData.performAction() }) {
