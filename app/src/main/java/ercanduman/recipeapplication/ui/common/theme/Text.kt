@@ -18,8 +18,8 @@ import androidx.compose.ui.unit.TextUnit
 fun AppText(
     text: String,
     modifier: Modifier = Modifier,
-    color: Color = AppColorDarkGrey,
     maxLines: Int = Int.MAX_VALUE,
+    textColor: Color = AppColorDarkGrey,
     fontSize: TextUnit = AppTextSize16,
     overflow: TextOverflow = TextOverflow.Clip,
     textAlign: TextAlign = TextAlign.Start,
@@ -27,7 +27,7 @@ fun AppText(
 ) {
     Text(
         text = text,
-        color = color,
+        color = textColor,
         modifier = modifier,
         fontWeight = fontWeight,
         fontSize = fontSize,

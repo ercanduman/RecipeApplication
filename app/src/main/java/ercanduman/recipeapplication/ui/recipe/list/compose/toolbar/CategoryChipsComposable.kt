@@ -65,7 +65,7 @@ private fun CategoryChipItemComposable(
     ) {
         AppText(
             text = category.value,
-            color = MaterialTheme.colorScheme.onSecondary,
+            textColor = MaterialTheme.colorScheme.onSecondary,
             modifier = Modifier.padding(AppDimenSmallDistance)
         )
     }

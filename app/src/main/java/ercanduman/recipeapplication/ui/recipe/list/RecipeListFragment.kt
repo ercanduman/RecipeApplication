@@ -77,19 +77,23 @@ class RecipeListFragment : Fragment() {
                 ) {
                     when (val recipeListUiState = viewModel.recipeListUiState.value) {
                         is RecipeListUiState.Error -> {
-                            Log.d("TAG", "FragmentContent: Error")
+                            RecipeErrorComposable(recipeListUiState.errorMessage)
                         }
                         RecipeListUiState.Loading -> {
                             RecipeShimmerComposable()
                         }
                         is RecipeListUiState.Success -> {
-                            Log.d("TAG", "FragmentContent: ${recipeListUiState.recipeList.size}")
-                            RecipeListComposable(recipeListUiState.recipeList)
+                            RecipeContentComposable(recipeListUiState.recipeList)
                         }
                     }
                 }
             }
         }
+    }
+
+    @Composable
+    private fun RecipeErrorComposable(errorMessage: String) {
+        Log.d("TAG", "FragmentContent: Error message=$errorMessage")
     }
 
     @Composable
@@ -124,7 +128,8 @@ class RecipeListFragment : Fragment() {
     }
 
     @Composable
-    private fun RecipeListComposable(recipes: List<Recipe>) {
+    private fun RecipeContentComposable(recipes: List<Recipe>) {
+        Log.d("TAG", "FragmentContent: item size=${recipes.size}")
         LazyColumn(
             contentPadding = PaddingValues(bottom = AppDimenDefaultDistance),
             verticalArrangement = Arrangement.spacedBy(AppDimenDefaultDistance)
