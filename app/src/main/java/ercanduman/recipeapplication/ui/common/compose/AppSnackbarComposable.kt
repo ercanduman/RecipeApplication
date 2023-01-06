@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import ercanduman.recipeapplication.ui.common.theme.AppColorWhite
 import ercanduman.recipeapplication.ui.common.theme.AppText
 
-private const val DEFAULT_ACTION_LABEL = "Hide"
+private const val DEFAULT_ACTION_LABEL = ""
 
 @Composable
 fun AppSnackbarComposable(
