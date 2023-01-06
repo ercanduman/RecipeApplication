@@ -26,6 +26,7 @@ fun AppSnackbarComposable(
         snackbar = { snackbarData ->
             Snackbar(
                 shape = MaterialTheme.shapes.medium,
+                containerColor = MaterialTheme.colorScheme.secondary,
                 dismissAction = { onDismiss?.invoke() },
                 action = {
                     snackbarData.visuals.actionLabel?.let { actionLabel ->
