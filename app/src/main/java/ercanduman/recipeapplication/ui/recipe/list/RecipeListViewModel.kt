@@ -14,10 +14,14 @@ import ercanduman.recipeapplication.ui.recipe.list.model.FoodCategoryProvider
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-private const val INITIAL_PAGE_ID = 1
 private const val INITIAL_POSITION = 0
 private const val INITIAL_EMPTY_SEARCH_QUERY = ""
 private const val TAG = "RecipeListViewModel"
+
+// Pagination related constants, also match values in the API.
+private const val PAGING_PAGE_SIZE = 30
+private const val PAGING_INITIAL_PAGE = 1
+private const val PAGING_INCREMENT_SIZE = 1
 
 @HiltViewModel
 class RecipeListViewModel @Inject constructor(
@@ -37,26 +41,69 @@ class RecipeListViewModel @Inject constructor(
     var selectedCategoryPosition: Int = INITIAL_POSITION
         private set
 
+    private val currentPage = mutableStateOf(PAGING_INITIAL_PAGE)
+
+    private var recipeListScrollPosition = INITIAL_POSITION
+
     init {
         executeNewSearch()
     }
 
     fun executeNewSearch() {
-        val currentPageId: Int = getPageId()
-        fetchRecipes(currentPageId, searchQuery.value)
-    }
-
-    // FIXME: Get current pageId and Update it based on scroll position.
-    private fun getPageId(): Int {
-        return INITIAL_PAGE_ID
-    }
-
-    private fun fetchRecipes(page: Int, searchQuery: String) {
         recipeListUiState.value = RecipeListUiState.Loading
+        fetchRecipes()
+    }
+
+    private fun executeNextPageSearch() {
+        incrementPageSize()
+
+        // Check, this may not be needed
+        if (currentPage.value > PAGING_INITIAL_PAGE) {
+            fetchRecipes()
+        }
+    }
+
+    private fun incrementPageSize() {
+        currentPage.value = currentPage.value + PAGING_INCREMENT_SIZE
+    }
+
+    fun onRecipeListScrollPositionChanged(position: Int) {
+        recipeListScrollPosition = position
+        Log.d(TAG, "onRecipeListScrollPositionChanged: position:$recipeListScrollPosition")
+        Log.d(
+            TAG,
+            "onRecipeListScrollPositionChanged: hasReachedTheEndOfTheList:${hasReachedTheEndOfTheList()}"
+        )
+        // Request next page items if the $recipeListScrollPosition has reached the end of the list and
+        // UiState is not currently loading
+        if (hasReachedTheEndOfTheList() && !isUiStateLoading()) {
+            viewModelScope.launch { executeNextPageSearch() }
+        }
+    }
+
+    /*
+    Prevent duplicate events due to recompose happening quickly
+    Ex: If $currentPage=1, the fetched item size is currentPage*PAGE_SIZE -> 1*30=30. Next page items
+    should be fetched only if the $recipeListScrollPosition has reached the end of the list
+    */
+    private fun hasReachedTheEndOfTheList(): Boolean {
+        Log.d(TAG, "hasReachedTheEndOfTheList: recipeListScrollPosition =$recipeListScrollPosition")
+        Log.d(
+            TAG,
+            "hasReachedTheEndOfTheList: currentPage size =${currentPage.value * PAGING_PAGE_SIZE}"
+        )
+        return recipeListScrollPosition >= currentPage.value * PAGING_PAGE_SIZE
+    }
+
+    private fun isUiStateLoading(): Boolean {
+        return recipeListUiState.value is RecipeListUiState.Loading
+    }
+
+    private fun fetchRecipes() {
         viewModelScope.launch {
             recipeListUiState.value = searchRecipeUseCase(
-                page = page,
-                searchQuery = searchQuery
+                page = currentPage.value,
+                searchQuery = searchQuery.value
             )
         }
     }
@@ -76,7 +123,7 @@ class RecipeListViewModel @Inject constructor(
     }
 
     fun onRecipeClicked(recipeId: Int) {
-        if (BuildConfig.DEBUG) Log.d("TAG", "onRecipeClicked: clicked on recipe id:$recipeId")
-        recipeListUiState.value = RecipeListUiState.DisplayRecipeDetails(recipeId)
+        if (BuildConfig.DEBUG) Log.d(TAG, "onRecipeClicked: clicked on recipe id:$recipeId")
+//        recipeListUiState.value = RecipeListUiState.DisplayRecipeDetails(recipeId)
     }
 }

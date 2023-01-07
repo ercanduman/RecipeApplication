@@ -12,6 +12,8 @@ class SearchRecipeUseCase @Inject constructor(
     private val repository: RecipeRepository,
     private val recipeListMapper: RecipeListMapper
 ) {
+    private val currentRecipeList: MutableList<Recipe> = mutableListOf()
+
     suspend operator fun invoke(
         page: Int,
         searchQuery: String
@@ -29,8 +31,16 @@ class SearchRecipeUseCase @Inject constructor(
             is RecipeResult.Success -> {
                 val recipeDtoList: List<RecipeDto> = searchResult.data.recipes
                 val recipes: List<Recipe> = recipeListMapper.map(recipeDtoList)
-                RecipeListUiState.Success(recipes)
+                appendRecipesToCurrentList(recipes)
+                RecipeListUiState.Success(currentRecipeList)
             }
         }
+    }
+
+    /**
+     * Append new recipes to the current list of recipes
+     */
+    private fun appendRecipesToCurrentList(newRecipeList: List<Recipe>) {
+        currentRecipeList.addAll(newRecipeList)
     }
 }
