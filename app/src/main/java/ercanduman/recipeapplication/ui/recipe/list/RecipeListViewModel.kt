@@ -50,17 +50,19 @@ class RecipeListViewModel @Inject constructor(
     }
 
     fun executeNewSearch() {
-        recipeListUiState.value = RecipeListUiState.Loading
         fetchRecipes()
     }
 
     private fun executeNextPageSearch() {
         incrementPageSize()
+        fetchRecipes()
+    }
 
-        // Check, this may not be needed
-        if (currentPage.value > PAGING_INITIAL_PAGE) {
-            fetchRecipes()
-        }
+    private fun resetSearchState() {
+        recipeListUiState.value = RecipeListUiState.Loading
+        currentPage.value = PAGING_INITIAL_PAGE
+        recipeListScrollPosition = INITIAL_POSITION
+        searchRecipeUseCase.clearCurrentRecipeList()
     }
 
     private fun incrementPageSize() {
@@ -77,7 +79,7 @@ class RecipeListViewModel @Inject constructor(
         // Request next page items if the $recipeListScrollPosition has reached the end of the list and
         // UiState is not currently loading
         if (hasReachedTheEndOfTheList() && !isUiStateLoading()) {
-            viewModelScope.launch { executeNextPageSearch() }
+            executeNextPageSearch()
         }
     }
 
@@ -87,12 +89,7 @@ class RecipeListViewModel @Inject constructor(
     should be fetched only if the $recipeListScrollPosition has reached the end of the list
     */
     private fun hasReachedTheEndOfTheList(): Boolean {
-        Log.d(TAG, "hasReachedTheEndOfTheList: recipeListScrollPosition =$recipeListScrollPosition")
-        Log.d(
-            TAG,
-            "hasReachedTheEndOfTheList: currentPage size =${currentPage.value * PAGING_PAGE_SIZE}"
-        )
-        return recipeListScrollPosition >= currentPage.value * PAGING_PAGE_SIZE
+        return recipeListScrollPosition + PAGING_INCREMENT_SIZE >= currentPage.value * PAGING_PAGE_SIZE
     }
 
     private fun isUiStateLoading(): Boolean {
@@ -113,6 +110,7 @@ class RecipeListViewModel @Inject constructor(
     }
 
     fun onQueryChanged(newQuery: String) {
+        resetSearchState()
         searchQuery.value = newQuery
         selectedCategory.value = foodCategoryProvider.getFoodCategory(newQuery)
         executeNewSearch()

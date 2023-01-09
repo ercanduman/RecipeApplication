@@ -1,7 +1,6 @@
 package ercanduman.recipeapplication.domain.usecase
 
 import ercanduman.recipeapplication.common.util.RecipeResult
-import ercanduman.recipeapplication.data.api.model.RecipeDto
 import ercanduman.recipeapplication.data.repository.RecipeRepository
 import ercanduman.recipeapplication.domain.mapper.RecipeListMapper
 import ercanduman.recipeapplication.domain.model.Recipe
@@ -29,18 +28,27 @@ class SearchRecipeUseCase @Inject constructor(
             }
 
             is RecipeResult.Success -> {
-                val recipeDtoList: List<RecipeDto> = searchResult.data.recipes
+                val recipeDtoList = searchResult.data.recipes
                 val recipes: List<Recipe> = recipeListMapper.map(recipeDtoList)
-                appendRecipesToCurrentList(recipes)
-                RecipeListUiState.Success(currentRecipeList)
+                appendRecipesToCurrentRecipeList(recipes)
             }
         }
     }
 
-    /**
-     * Append new recipes to the current list of recipes
-     */
-    private fun appendRecipesToCurrentList(newRecipeList: List<Recipe>) {
-        currentRecipeList.addAll(newRecipeList)
+    private fun appendRecipesToCurrentRecipeList(recipes: List<Recipe>): RecipeListUiState {
+        // Append new recipes to the current list of recipes for pagination.
+        currentRecipeList.addAll(recipes)
+
+        // Immutable version of list must be provided to Compose components
+        val appendedRecipeList: List<Recipe> = currentRecipeList.toList()
+        return if (appendedRecipeList.isEmpty()) {
+            RecipeListUiState.Error("No data found!")
+        } else {
+            RecipeListUiState.Success(appendedRecipeList)
+        }
+    }
+
+    fun clearCurrentRecipeList() {
+        currentRecipeList.clear()
     }
 }
