@@ -6,12 +6,12 @@ import ercanduman.recipeapplication.domain.mapper.RecipeDetailMapper
 import ercanduman.recipeapplication.ui.recipe.detail.model.RecipeDetailUiState
 import javax.inject.Inject
 
-class GetRecipeUseCase @Inject constructor(
+class FetchRecipeDetailsUseCase @Inject constructor(
     private val repository: RecipeRepository,
     private val recipeDetailMapper: RecipeDetailMapper
 ) {
     suspend operator fun invoke(recipeId: Int): RecipeDetailUiState {
-        return when (val result = repository.getRecipe(recipeId)) {
+        return when (val result = repository.fetchRecipeDetails(recipeId)) {
             RecipeResult.Loading -> RecipeDetailUiState.Loading
             is RecipeResult.Error -> RecipeDetailUiState.Error(result.message)
             is RecipeResult.Success -> recipeDetailMapper.map(result.data)

@@ -11,7 +11,7 @@ interface RecipeRepository {
         searchQuery: String
     ): RecipeResult<SearchRecipesResponse>
 
-    suspend fun getRecipe(
+    suspend fun fetchRecipeDetails(
         recipeId: Int
     ): RecipeResult<RecipeDto>
 }

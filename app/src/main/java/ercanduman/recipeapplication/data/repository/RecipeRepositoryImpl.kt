@@ -18,11 +18,11 @@ class RecipeRepositoryImpl(
         }
     }
 
-    override suspend fun getRecipe(
+    override suspend fun fetchRecipeDetails(
         recipeId: Int
     ): RecipeResult<RecipeDto> {
         return safeApiCall {
-            service.getRecipe(recipeId)
+            service.fetchRecipeDetails(recipeId)
         }
     }
 }
