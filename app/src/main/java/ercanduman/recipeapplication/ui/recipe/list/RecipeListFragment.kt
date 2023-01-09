@@ -42,6 +42,7 @@ import ercanduman.recipeapplication.ui.recipe.detail.KEY_RECIPE_ID
 import ercanduman.recipeapplication.ui.recipe.list.compose.RecipeItemComposable
 import ercanduman.recipeapplication.ui.recipe.list.compose.toolbar.ChipsToolbarComposable
 import ercanduman.recipeapplication.ui.recipe.list.compose.toolbar.SearchToolbarComposable
+import ercanduman.recipeapplication.ui.recipe.list.model.RecipeListUiState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

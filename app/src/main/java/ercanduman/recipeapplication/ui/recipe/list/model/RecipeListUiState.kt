@@ -1,4 +1,4 @@
-package ercanduman.recipeapplication.ui.recipe.list
+package ercanduman.recipeapplication.ui.recipe.list.model
 
 import ercanduman.recipeapplication.domain.model.Recipe
 import ercanduman.recipeapplication.ui.recipe.detail.INVALID_RECIPE_ID

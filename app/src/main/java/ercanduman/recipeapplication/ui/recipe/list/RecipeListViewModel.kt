@@ -12,6 +12,7 @@ import ercanduman.recipeapplication.ui.recipe.detail.INVALID_RECIPE_ID
 import ercanduman.recipeapplication.ui.recipe.list.model.Category
 import ercanduman.recipeapplication.ui.recipe.list.model.FoodCategory
 import ercanduman.recipeapplication.ui.recipe.list.model.FoodCategoryProvider
+import ercanduman.recipeapplication.ui.recipe.list.model.RecipeListUiState
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

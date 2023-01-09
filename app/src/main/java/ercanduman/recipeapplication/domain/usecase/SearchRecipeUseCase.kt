@@ -4,7 +4,7 @@ import ercanduman.recipeapplication.common.util.RecipeResult
 import ercanduman.recipeapplication.data.repository.RecipeRepository
 import ercanduman.recipeapplication.domain.mapper.RecipeListMapper
 import ercanduman.recipeapplication.domain.model.Recipe
-import ercanduman.recipeapplication.ui.recipe.list.RecipeListUiState
+import ercanduman.recipeapplication.ui.recipe.list.model.RecipeListUiState
 import javax.inject.Inject
 
 class SearchRecipeUseCase @Inject constructor(
