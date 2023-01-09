@@ -24,7 +24,7 @@ import ercanduman.recipeapplication.ui.recipe.list.model.FoodCategory
 fun CategoryChipsComposable(
     categories: List<FoodCategory>,
     selectedCategory: Category,
-    onValueChanged: (String) -> Unit,
+    onValueChange: (String) -> Unit,
     horizontalScrollState: ScrollState
 ) {
     Row(
@@ -36,7 +36,7 @@ fun CategoryChipsComposable(
             CategoryChipItemComposable(
                 category = category,
                 isSelected = isSelected,
-                onValueChanged = onValueChanged
+                onValueChange = onValueChange
             )
         }
     }
@@ -50,7 +50,7 @@ fun isFoodCategorySelected(category: FoodCategory, selectedCategory: Category): 
 private fun CategoryChipItemComposable(
     category: FoodCategory,
     isSelected: Boolean = false,
-    onValueChanged: (String) -> Unit
+    onValueChange: (String) -> Unit
 ) {
     val backgroundColor: Color =
         if (!isSelected) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.secondaryContainer
@@ -60,7 +60,7 @@ private fun CategoryChipItemComposable(
         color = backgroundColor,
         modifier = Modifier.toggleable(
             value = isSelected,
-            onValueChange = { onValueChanged(category.value) }
+            onValueChange = { onValueChange(category.value) }
         )
     ) {
         AppText(
@@ -79,7 +79,7 @@ private fun CategoryChipItemComposablePreview() {
             CategoryChipItemComposable(
                 category = FoodCategory.CHICKEN,
                 isSelected = false,
-                onValueChanged = {}
+                onValueChange = {}
             )
 
             Spacer(modifier = Modifier.padding(start = AppDimenDefaultDistance))
@@ -87,7 +87,7 @@ private fun CategoryChipItemComposablePreview() {
             CategoryChipItemComposable(
                 category = FoodCategory.CHICKEN,
                 isSelected = true,
-                onValueChanged = {}
+                onValueChange = {}
             )
 
             Spacer(modifier = Modifier.padding(start = AppDimenDefaultDistance))
@@ -95,7 +95,7 @@ private fun CategoryChipItemComposablePreview() {
             CategoryChipItemComposable(
                 category = FoodCategory.CHICKEN,
                 isSelected = false,
-                onValueChanged = {}
+                onValueChange = {}
             )
         }
     }

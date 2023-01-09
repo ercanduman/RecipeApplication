@@ -153,7 +153,7 @@ class RecipeListFragment : Fragment() {
                 val query = viewModel.searchQuery.value
                 SearchToolbarComposable(
                     query = query,
-                    onQueryChanged = viewModel::onQueryChanged,
+                    onQueryChange = viewModel::onQueryChanged,
                     onExecuteNewSearch = viewModel::executeNewSearch
                 )
                 Spacer(modifier = Modifier.padding(bottom = AppDimenDefaultDistance))
@@ -164,9 +164,9 @@ class RecipeListFragment : Fragment() {
                 ChipsToolbarComposable(
                     categories = categories,
                     selectedCategory = selectedCategory,
-                    onValueChanged = viewModel::onQueryChanged,
+                    onValueChange = viewModel::onQueryChanged,
                     selectedCategoryPosition = selectedCategoryPosition,
-                    onCategoryPositionChanged = viewModel::onCategoryPositionChanged
+                    onCategoryPositionChange = viewModel::onCategoryPositionChanged
                 )
 
                 Spacer(modifier = Modifier.padding(bottom = AppDimenSmallDistance))

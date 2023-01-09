@@ -26,7 +26,7 @@ import ercanduman.recipeapplication.ui.recipe.list.DEFAULT_CONTENT_DESCRIPTION
 @Composable
 fun SearchToolbarComposable(
     query: String,
-    onQueryChanged: (String) -> Unit,
+    onQueryChange: (String) -> Unit,
     onExecuteNewSearch: () -> Unit
 ) {
     Surface(
@@ -41,7 +41,7 @@ fun SearchToolbarComposable(
             TextField(
                 value = query,
                 modifier = Modifier.fillMaxWidth(),
-                onValueChange = { onQueryChanged(it) },
+                onValueChange = { onQueryChange(it) },
 
                 label = {
                     AppText(text = context.getString(R.string.search))
