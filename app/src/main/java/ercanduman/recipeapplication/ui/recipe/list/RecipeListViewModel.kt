@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ercanduman.recipeapplication.BuildConfig
 import ercanduman.recipeapplication.domain.usecase.SearchRecipeUseCase
+import ercanduman.recipeapplication.ui.recipe.detail.INVALID_RECIPE_ID
 import ercanduman.recipeapplication.ui.recipe.list.model.Category
 import ercanduman.recipeapplication.ui.recipe.list.model.FoodCategory
 import ercanduman.recipeapplication.ui.recipe.list.model.FoodCategoryProvider
@@ -118,6 +119,13 @@ class RecipeListViewModel @Inject constructor(
 
     fun onRecipeClicked(recipeId: Int) {
         if (BuildConfig.DEBUG) Log.d(TAG, "onRecipeClicked: clicked on recipe id:$recipeId")
-        recipeListUiState.value = RecipeListUiState.DisplayRecipeDetails(recipeId)
+        val currentUiState: RecipeListUiState = recipeListUiState.value
+        if (currentUiState is RecipeListUiState.Success) {
+            recipeListUiState.value = currentUiState.copy(recipeId = recipeId)
+        }
+    }
+
+    fun navigatedToDetails(success: RecipeListUiState.Success) {
+        recipeListUiState.value = success.copy(recipeId = INVALID_RECIPE_ID)
     }
 }

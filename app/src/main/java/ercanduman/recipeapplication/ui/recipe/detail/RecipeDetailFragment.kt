@@ -12,7 +12,7 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 
 const val KEY_RECIPE_ID = "RecipeDetailFragment.recipeId"
-private const val INVALID_RECIPE_ID = -1
+const val INVALID_RECIPE_ID = -1
 
 @AndroidEntryPoint
 class RecipeDetailFragment : Fragment() {

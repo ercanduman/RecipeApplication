@@ -37,6 +37,7 @@ import ercanduman.recipeapplication.ui.common.compose.shimmer.RecipeShimmerCompo
 import ercanduman.recipeapplication.ui.common.theme.AppDimenDefaultDistance
 import ercanduman.recipeapplication.ui.common.theme.AppDimenSmallDistance
 import ercanduman.recipeapplication.ui.common.theme.AppTheme
+import ercanduman.recipeapplication.ui.recipe.detail.INVALID_RECIPE_ID
 import ercanduman.recipeapplication.ui.recipe.detail.KEY_RECIPE_ID
 import ercanduman.recipeapplication.ui.recipe.list.compose.RecipeItemComposable
 import ercanduman.recipeapplication.ui.recipe.list.compose.toolbar.ChipsToolbarComposable
@@ -110,16 +111,8 @@ class RecipeListFragment : Fragment() {
                         }
 
                         is RecipeListUiState.Success -> {
-                            RecipeContentComposable(recipeListUiState.recipeList)
-                        }
-
-                        is RecipeListUiState.DisplayRecipeDetails -> {
-                            val recipeId = recipeListUiState.recipeId
-                            val bundle = bundleOf(KEY_RECIPE_ID to recipeId)
-                            findNavController().navigate(
-                                args = bundle,
-                                resId = R.id.action_navigate_to_recipeDetailFragment
-                            )
+                            RecipeContentComposable(recipeListUiState.recipes)
+                            checkUiStateForNavigatingToRecipeDetails(recipeListUiState)
                         }
                     }
                 }
@@ -191,6 +184,20 @@ class RecipeListFragment : Fragment() {
                 )
                 viewModel.onRecipeListScrollPositionChanged(index)
             }
+        }
+    }
+
+    private fun checkUiStateForNavigatingToRecipeDetails(recipeListUiState: RecipeListUiState.Success) {
+        val recipeId = recipeListUiState.recipeId
+        if (recipeId != INVALID_RECIPE_ID) {
+            val bundle = bundleOf(KEY_RECIPE_ID to recipeId)
+            findNavController().navigate(
+                args = bundle,
+                resId = R.id.action_navigate_to_recipeDetailFragment
+            )
+
+            // After navigation, reset the UiState for the clicked item
+            viewModel.navigatedToDetails(recipeListUiState)
         }
     }
 }
