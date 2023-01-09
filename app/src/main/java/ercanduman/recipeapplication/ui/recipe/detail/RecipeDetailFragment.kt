@@ -8,12 +8,22 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 
-const val KEY_RECIPE_ID = "recipeId"
+const val KEY_RECIPE_ID = "RecipeDetailFragment.recipeId"
+private const val INVALID_RECIPE_ID = -1
 
 @AndroidEntryPoint
 class RecipeDetailFragment : Fragment() {
+
+    private val viewModel: RecipeDetailViewModel by viewModels()
+
+    private var recipeId: Int = INVALID_RECIPE_ID
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        recipeId = arguments?.getInt(KEY_RECIPE_ID, INVALID_RECIPE_ID) ?: INVALID_RECIPE_ID
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,6 +37,11 @@ class RecipeDetailFragment : Fragment() {
 
     @Composable
     private fun FragmentContent() {
-        Text(text = "Recipe Detail fragment.")
+        if (recipeId == INVALID_RECIPE_ID) {
+            Text(text = "Recipe Detail fragment. Invalid Recipe Id!")
+        } else {
+            Text(text = "Recipe Detail fragment. recipeId=$recipeId")
+//            viewModel.getRecipe(recipeId)
+        }
     }
 }

@@ -71,11 +71,7 @@ class RecipeListViewModel @Inject constructor(
 
     fun onRecipeListScrollPositionChanged(position: Int) {
         recipeListScrollPosition = position
-        Log.d(TAG, "onRecipeListScrollPositionChanged: position:$recipeListScrollPosition")
-        Log.d(
-            TAG,
-            "onRecipeListScrollPositionChanged: hasReachedTheEndOfTheList:${hasReachedTheEndOfTheList()}"
-        )
+
         // Request next page items if the $recipeListScrollPosition has reached the end of the list and
         // UiState is not currently loading
         if (hasReachedTheEndOfTheList() && !isUiStateLoading()) {
@@ -122,6 +118,6 @@ class RecipeListViewModel @Inject constructor(
 
     fun onRecipeClicked(recipeId: Int) {
         if (BuildConfig.DEBUG) Log.d(TAG, "onRecipeClicked: clicked on recipe id:$recipeId")
-//        recipeListUiState.value = RecipeListUiState.DisplayRecipeDetails(recipeId)
+        recipeListUiState.value = RecipeListUiState.DisplayRecipeDetails(recipeId)
     }
 }
