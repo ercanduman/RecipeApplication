@@ -3,6 +3,8 @@ package ercanduman.recipeapplication.ui.recipe.detail.compose
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -22,7 +24,8 @@ private const val TITLE_MAX_LINES = Int.MAX_VALUE
 @Composable
 fun RecipeDetailComposable(recipe: Recipe) {
     Card(
-        shape = MaterialTheme.shapes.medium
+        shape = MaterialTheme.shapes.medium,
+        modifier = Modifier.verticalScroll(rememberScrollState())
     ) {
         Column {
             RecipeImageComposable(recipe.imageUrl)

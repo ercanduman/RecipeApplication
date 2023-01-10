@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -16,11 +14,11 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import ercanduman.recipeapplication.R
 import ercanduman.recipeapplication.ui.common.theme.AppDimenDefaultDistance
 import ercanduman.recipeapplication.ui.common.theme.AppText
 import ercanduman.recipeapplication.ui.common.theme.AppTheme
 import ercanduman.recipeapplication.ui.recipe.detail.compose.RecipeDetailComposable
+import ercanduman.recipeapplication.ui.recipe.detail.compose.RecipeDetailsShimmerComposable
 import ercanduman.recipeapplication.ui.recipe.detail.model.RecipeDetailUiState
 
 const val KEY_RECIPE_ID: String = "RecipeDetailFragment.recipeId"
@@ -52,15 +50,12 @@ class RecipeDetailFragment : Fragment() {
         AppTheme {
             Column(
                 modifier = Modifier
-                    .verticalScroll(rememberScrollState())
                     .background(MaterialTheme.colorScheme.background)
                     .padding(AppDimenDefaultDistance)
             ) {
                 when (val uiState = viewModel.recipeDetailUiState.value) {
-                    RecipeDetailUiState.Loading -> {
-                        // FIXME: Display Shimmer effect
-                        AppText(text = getString(R.string.loading))
-                    }
+                    RecipeDetailUiState.Loading -> RecipeDetailsShimmerComposable()
+
                     is RecipeDetailUiState.Error -> {
                         AppText(
                             text = uiState.errorMessage,
