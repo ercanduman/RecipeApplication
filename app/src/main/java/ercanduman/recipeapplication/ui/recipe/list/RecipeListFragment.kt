@@ -33,13 +33,13 @@ import ercanduman.recipeapplication.BuildConfig
 import ercanduman.recipeapplication.R
 import ercanduman.recipeapplication.domain.model.Recipe
 import ercanduman.recipeapplication.ui.common.compose.AppSnackbarComposable
-import ercanduman.recipeapplication.ui.common.compose.shimmer.RecipeShimmerComposable
 import ercanduman.recipeapplication.ui.common.theme.AppDimenDefaultDistance
 import ercanduman.recipeapplication.ui.common.theme.AppDimenSmallDistance
 import ercanduman.recipeapplication.ui.common.theme.AppTheme
 import ercanduman.recipeapplication.ui.recipe.detail.INVALID_RECIPE_ID
 import ercanduman.recipeapplication.ui.recipe.detail.KEY_RECIPE_ID
 import ercanduman.recipeapplication.ui.recipe.list.compose.RecipeListItemComposable
+import ercanduman.recipeapplication.ui.recipe.list.compose.shimmer.RecipeListShimmerComposable
 import ercanduman.recipeapplication.ui.recipe.list.compose.toolbar.ChipsToolbarComposable
 import ercanduman.recipeapplication.ui.recipe.list.compose.toolbar.SearchToolbarComposable
 import ercanduman.recipeapplication.ui.recipe.list.model.RecipeListUiState
@@ -99,9 +99,7 @@ class RecipeListFragment : Fragment() {
                     modifier = Modifier.padding(innerPaddings)
                 ) {
                     when (val recipeListUiState = viewModel.recipeListUiState.value) {
-                        RecipeListUiState.Loading -> {
-                            RecipeShimmerComposable()
-                        }
+                        RecipeListUiState.Loading -> RecipeListShimmerComposable()
 
                         is RecipeListUiState.Error -> {
                             showErrorMessageInSnackbar(
