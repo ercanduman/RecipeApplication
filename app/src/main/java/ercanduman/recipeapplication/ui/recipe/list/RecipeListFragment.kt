@@ -39,7 +39,7 @@ import ercanduman.recipeapplication.ui.common.theme.AppDimenSmallDistance
 import ercanduman.recipeapplication.ui.common.theme.AppTheme
 import ercanduman.recipeapplication.ui.recipe.detail.INVALID_RECIPE_ID
 import ercanduman.recipeapplication.ui.recipe.detail.KEY_RECIPE_ID
-import ercanduman.recipeapplication.ui.recipe.list.compose.RecipeItemComposable
+import ercanduman.recipeapplication.ui.recipe.list.compose.RecipeListItemComposable
 import ercanduman.recipeapplication.ui.recipe.list.compose.toolbar.ChipsToolbarComposable
 import ercanduman.recipeapplication.ui.recipe.list.compose.toolbar.SearchToolbarComposable
 import ercanduman.recipeapplication.ui.recipe.list.model.RecipeListUiState
@@ -178,7 +178,7 @@ class RecipeListFragment : Fragment() {
             verticalArrangement = Arrangement.spacedBy(AppDimenDefaultDistance)
         ) {
             itemsIndexed(items = recipes) { index: Int, recipe: Recipe ->
-                RecipeItemComposable(
+                RecipeListItemComposable(
                     recipe = recipe,
                     onRecipeClick = viewModel::onRecipeClicked
                 )

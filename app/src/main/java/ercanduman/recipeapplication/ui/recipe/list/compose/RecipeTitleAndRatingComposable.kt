@@ -13,13 +13,14 @@ import ercanduman.recipeapplication.ui.common.theme.AppDimenDefaultDistance
 import ercanduman.recipeapplication.ui.common.theme.AppText
 import ercanduman.recipeapplication.ui.common.theme.AppTextSize20
 
-private const val TITLE_MAX_LINES = 1
 private const val TITLE_WEIGHT = 1f
+private const val TITLE_MAX_LINES = 1
 
 @Composable
 fun RecipeTitleAndRatingComposable(
     title: String,
-    rating: String
+    rating: String,
+    titleMaxLines: Int = TITLE_MAX_LINES
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -30,7 +31,7 @@ fun RecipeTitleAndRatingComposable(
             text = title,
             fontWeight = FontWeight.Bold,
             fontSize = AppTextSize20,
-            maxLines = TITLE_MAX_LINES,
+            maxLines = titleMaxLines,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.weight(TITLE_WEIGHT)
         )

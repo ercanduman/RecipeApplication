@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
@@ -19,6 +18,7 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import ercanduman.recipeapplication.R
 import ercanduman.recipeapplication.ui.common.theme.AppDimenDefaultDistance
+import ercanduman.recipeapplication.ui.common.theme.AppText
 import ercanduman.recipeapplication.ui.common.theme.AppTheme
 import ercanduman.recipeapplication.ui.recipe.detail.compose.RecipeDetailComposable
 import ercanduman.recipeapplication.ui.recipe.detail.model.RecipeDetailUiState
@@ -59,11 +59,14 @@ class RecipeDetailFragment : Fragment() {
                 when (val uiState = viewModel.recipeDetailUiState.value) {
                     RecipeDetailUiState.Loading -> {
                         // FIXME: Display Shimmer effect
-                        Text(text = getString(R.string.loading))
+                        AppText(text = getString(R.string.loading))
                     }
                     is RecipeDetailUiState.Error -> {
                         // FIXME: Display Error message
-                        Text(text = uiState.errorMessage)
+                        AppText(
+                            text = uiState.errorMessage,
+                            textColor = MaterialTheme.colorScheme.error
+                        )
                     }
                     is RecipeDetailUiState.Success -> {
                         RecipeDetailComposable(uiState.recipe)
