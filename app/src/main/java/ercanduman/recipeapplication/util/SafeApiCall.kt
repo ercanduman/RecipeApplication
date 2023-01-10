@@ -1,13 +1,10 @@
 package ercanduman.recipeapplication.util
 
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import retrofit2.Response
 
 suspend fun <T> safeApiCall(
-    apiCall: suspend () -> Response<T>
+    apiCall: suspend () -> Response<T>,
 ): RecipeResult<T> {
     return try {
         val response = apiCall.invoke()
@@ -22,8 +19,7 @@ suspend fun <T> safeApiCall(
         val errorMessage = "Network failure. Error: ${exception.code()} - ${exception.message()}"
         RecipeResult.Error(message = errorMessage)
     } catch (throwable: Throwable) {
-        val errorMessage =
-            "Unexpected exception occurred during network call. Error: ${throwable.message}"
+        val errorMessage = "${throwable.message}"
         RecipeResult.Error(errorMessage)
     }
 }

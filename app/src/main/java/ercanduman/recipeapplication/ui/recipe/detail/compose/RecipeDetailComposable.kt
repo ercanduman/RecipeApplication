@@ -20,8 +20,7 @@ private const val INGREDIENTS_TITLE = "Ingredients"
 @Composable
 fun RecipeDetailComposable(recipe: Recipe) {
     Card(
-        shape = MaterialTheme.shapes.medium,
-        modifier = Modifier.padding(AppDimenDefaultDistance)
+        shape = MaterialTheme.shapes.medium
     ) {
         Column {
             RecipeImageComposable(recipe.imageUrl)
