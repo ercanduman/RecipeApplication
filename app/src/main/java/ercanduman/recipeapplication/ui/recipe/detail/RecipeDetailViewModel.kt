@@ -23,7 +23,7 @@ class RecipeDetailViewModel @Inject constructor(
     fun fetchRecipeDetails(recipeId: Int) {
         viewModelScope.launch {
             if (recipeId == INVALID_RECIPE_ID) {
-                val errorMessage = appResourcesProvider.getString(
+                val errorMessage: String = appResourcesProvider.getString(
                     resourceId = R.string.error_invalid_recipe_id,
                     substitutingValue = "$recipeId"
                 )

@@ -17,7 +17,9 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
+import ercanduman.recipeapplication.R
 import ercanduman.recipeapplication.ui.common.theme.AppDimenDefaultDistance
+import ercanduman.recipeapplication.ui.common.theme.AppTheme
 import ercanduman.recipeapplication.ui.recipe.detail.model.RecipeDetailUiState
 
 const val KEY_RECIPE_ID: String = "RecipeDetailFragment.recipeId"
@@ -30,7 +32,7 @@ class RecipeDetailFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val recipeId = arguments?.getInt(KEY_RECIPE_ID, INVALID_RECIPE_ID) ?: INVALID_RECIPE_ID
+        val recipeId: Int = arguments?.getInt(KEY_RECIPE_ID, INVALID_RECIPE_ID) ?: INVALID_RECIPE_ID
         viewModel.fetchRecipeDetails(recipeId)
     }
 
@@ -46,24 +48,26 @@ class RecipeDetailFragment : Fragment() {
 
     @Composable
     private fun FragmentContent() {
-        Column(
-            modifier = Modifier
-                .verticalScroll(rememberScrollState())
-                .background(MaterialTheme.colorScheme.background)
-                .padding(AppDimenDefaultDistance)
-        ) {
-            when (val uiState = viewModel.recipeDetailUiState.value) {
-                RecipeDetailUiState.Loading -> {
-                    // FIXME: Display Shimmer effect
-                    Text(text = "Loading...")
-                }
-                is RecipeDetailUiState.Error -> {
-                    // FIXME: Display Error message
-                    Text(text = "Error... ${uiState.errorMessage}")
-                }
-                is RecipeDetailUiState.Success -> {
-                    // FIXME: Display Recipe details
-                    Text(text = "Recipe Details: \n${uiState.recipe}")
+        AppTheme {
+            Column(
+                modifier = Modifier
+                    .verticalScroll(rememberScrollState())
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(AppDimenDefaultDistance)
+            ) {
+                when (val uiState = viewModel.recipeDetailUiState.value) {
+                    RecipeDetailUiState.Loading -> {
+                        // FIXME: Display Shimmer effect
+                        Text(text = getString(R.string.loading))
+                    }
+                    is RecipeDetailUiState.Error -> {
+                        // FIXME: Display Error message
+                        Text(text = uiState.errorMessage)
+                    }
+                    is RecipeDetailUiState.Success -> {
+                        // FIXME: Display Recipe details
+                        Text(text = "Recipe Details: \n${uiState.recipe}")
+                    }
                 }
             }
         }
