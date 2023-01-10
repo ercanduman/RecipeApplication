@@ -1,4 +1,4 @@
-package ercanduman.recipeapplication.common.util
+package ercanduman.recipeapplication.util
 
 sealed class RecipeResult<out T> {
     object Loading : RecipeResult<Nothing>()

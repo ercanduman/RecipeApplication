@@ -1,10 +1,10 @@
 package ercanduman.recipeapplication.domain.usecase
 
-import ercanduman.recipeapplication.common.util.RecipeResult
 import ercanduman.recipeapplication.data.repository.RecipeRepository
 import ercanduman.recipeapplication.domain.mapper.RecipeListMapper
 import ercanduman.recipeapplication.domain.model.Recipe
 import ercanduman.recipeapplication.ui.recipe.list.model.RecipeListUiState
+import ercanduman.recipeapplication.util.RecipeResult
 import javax.inject.Inject
 
 class SearchRecipeUseCase @Inject constructor(
@@ -42,7 +42,7 @@ class SearchRecipeUseCase @Inject constructor(
         // Immutable version of list must be provided to Compose components
         val appendedRecipeList: List<Recipe> = currentRecipeList.toList()
         return if (appendedRecipeList.isEmpty()) {
-            RecipeListUiState.Error("No data found!")
+            RecipeListUiState.Error(errorMessage = "No data found!")
         } else {
             RecipeListUiState.Success(appendedRecipeList)
         }

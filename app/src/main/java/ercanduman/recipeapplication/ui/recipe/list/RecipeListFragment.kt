@@ -46,7 +46,7 @@ import ercanduman.recipeapplication.ui.recipe.list.model.RecipeListUiState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-const val DEFAULT_CONTENT_DESCRIPTION = "Recipe app image"
+const val DEFAULT_CONTENT_DESCRIPTION: String = "Recipe app image"
 
 @AndroidEntryPoint
 class RecipeListFragment : Fragment() {
@@ -126,7 +126,7 @@ class RecipeListFragment : Fragment() {
         coroutineScope: CoroutineScope,
         snackbarHostState: SnackbarHostState
     ) {
-        if (BuildConfig.DEBUG) Log.d("TAG", "FragmentContent: Error message=$errorMessage")
+        if (BuildConfig.DEBUG) Log.d("TAG", errorMessage)
         coroutineScope.launch {
             // If there is already a message on the screen, dismiss it before displaying a new one.
             snackbarHostState.currentSnackbarData?.dismiss()
@@ -170,7 +170,6 @@ class RecipeListFragment : Fragment() {
 
     @Composable
     private fun RecipeContentComposable(recipes: List<Recipe>) {
-        if (BuildConfig.DEBUG) Log.d("TAG", "FragmentContent: item size=${recipes.size}")
         LazyColumn(
             contentPadding = PaddingValues(
                 top = AppDimenDefaultDistance,

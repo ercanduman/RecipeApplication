@@ -3,6 +3,8 @@
 
     <string name="search">Search</string>
 
+    <string name="error_invalid_recipe_id">"Invalid recipe id was provided as: %s"</string>
+
     <string name="label_recipe_list_fragment">Recipes</string>
     <string name="label_recipe_detail_fragment">Details</string>
 </resources>

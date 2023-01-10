@@ -1,4 +1,4 @@
-package ercanduman.recipeapplication.common.util
+package ercanduman.recipeapplication.util
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch

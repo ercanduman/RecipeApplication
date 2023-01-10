@@ -1,9 +1,9 @@
 package ercanduman.recipeapplication.domain.usecase
 
-import ercanduman.recipeapplication.common.util.RecipeResult
 import ercanduman.recipeapplication.data.repository.RecipeRepository
 import ercanduman.recipeapplication.domain.mapper.RecipeDetailMapper
 import ercanduman.recipeapplication.ui.recipe.detail.model.RecipeDetailUiState
+import ercanduman.recipeapplication.util.RecipeResult
 import javax.inject.Inject
 
 class FetchRecipeDetailsUseCase @Inject constructor(
