@@ -4,7 +4,7 @@ import retrofit2.HttpException
 import retrofit2.Response
 
 suspend fun <T> safeApiCall(
-    apiCall: suspend () -> Response<T>,
+    apiCall: suspend () -> Response<T>
 ): RecipeResult<T> {
     return try {
         val response = apiCall.invoke()
@@ -21,20 +21,5 @@ suspend fun <T> safeApiCall(
     } catch (throwable: Throwable) {
         val errorMessage = "${throwable.message}"
         RecipeResult.Error(errorMessage)
-    }
-}
-
-private val initialResult = RecipeResult.Loading
-
-suspend fun <T> safeFlowCall(
-    apiCall: suspend () -> Response<T>
-): Flow<RecipeResult<T>> {
-    return flow {
-        emit(initialResult)
-        val response = safeApiCall { apiCall.invoke() }
-        emit(response)
-    }.catch {
-        val errorMessage = "Unexpected Exception occurred during Flow call.$it"
-        emit(RecipeResult.Error(errorMessage))
     }
 }
