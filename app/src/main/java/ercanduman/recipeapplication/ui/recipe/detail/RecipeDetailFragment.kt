@@ -62,7 +62,6 @@ class RecipeDetailFragment : Fragment() {
                         AppText(text = getString(R.string.loading))
                     }
                     is RecipeDetailUiState.Error -> {
-                        // FIXME: Display Error message
                         AppText(
                             text = uiState.errorMessage,
                             textColor = MaterialTheme.colorScheme.error

@@ -45,9 +45,10 @@ fun RecipeDetailComposable(recipe: Recipe) {
 private fun RecipeIngredientsComposable(ingredients: List<String>) {
     AppText(
         text = INGREDIENTS_TITLE,
-        fontWeight = FontWeight.Bold,
-        fontSize = AppTextSize20
+        fontSize = AppTextSize20,
+        fontWeight = FontWeight.Bold
     )
+    Spacer(modifier = Modifier.padding(bottom = AppDimenDefaultDistance))
     for (ingredient in ingredients) {
         AppText(text = ingredient)
     }
