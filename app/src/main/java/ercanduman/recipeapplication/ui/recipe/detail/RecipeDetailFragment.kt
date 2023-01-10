@@ -5,9 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
@@ -48,7 +48,8 @@ class RecipeDetailFragment : Fragment() {
     @Composable
     private fun FragmentContent() {
         AppTheme {
-            Column(
+            Surface(
+                shape = MaterialTheme.shapes.medium,
                 modifier = Modifier
                     .background(MaterialTheme.colorScheme.background)
                     .padding(AppDimenDefaultDistance)
