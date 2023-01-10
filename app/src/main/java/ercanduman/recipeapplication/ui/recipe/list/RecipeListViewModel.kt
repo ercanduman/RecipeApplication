@@ -1,12 +1,10 @@
 package ercanduman.recipeapplication.ui.recipe.list
 
-import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import ercanduman.recipeapplication.BuildConfig
 import ercanduman.recipeapplication.domain.usecase.SearchRecipeUseCase
 import ercanduman.recipeapplication.ui.recipe.detail.INVALID_RECIPE_ID
 import ercanduman.recipeapplication.ui.recipe.list.model.Category
@@ -17,13 +15,12 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val INITIAL_POSITION = 0
-private const val INITIAL_EMPTY_SEARCH_QUERY = ""
-private const val TAG = "RecipeListViewModel"
+private const val INITIAL_SEARCH_QUERY = ""
 
 // Pagination related constants, also match values in the API.
 private const val PAGING_PAGE_SIZE = 30
 private const val PAGING_INITIAL_PAGE = 1
-private const val PAGING_INCREMENT_SIZE = 1
+private const val PAGING_INCREMENT_RANGE = 1
 
 @HiltViewModel
 class RecipeListViewModel @Inject constructor(
@@ -34,7 +31,7 @@ class RecipeListViewModel @Inject constructor(
     var recipeListUiState: MutableState<RecipeListUiState> = mutableStateOf(RecipeListUiState.Loading)
         private set
 
-    var searchQuery: MutableState<String> = mutableStateOf(INITIAL_EMPTY_SEARCH_QUERY)
+    var searchQuery: MutableState<String> = mutableStateOf(INITIAL_SEARCH_QUERY)
         private set
 
     var selectedCategory: MutableState<Category> = mutableStateOf(Category.NotProvided)
@@ -68,7 +65,7 @@ class RecipeListViewModel @Inject constructor(
     }
 
     private fun incrementPageSize() {
-        currentPage.value = currentPage.value + PAGING_INCREMENT_SIZE
+        currentPage.value = currentPage.value + PAGING_INCREMENT_RANGE
     }
 
     fun onRecipeListScrollPositionChanged(position: Int) {
@@ -76,7 +73,7 @@ class RecipeListViewModel @Inject constructor(
 
         // Request next page items if the $recipeListScrollPosition has reached the end of the list and
         // UiState is not currently loading
-        if (hasReachedTheEndOfTheList() && !isUiStateLoading()) {
+        if (hasReachedTheEndOfTheList() && !isUiStateLoading) {
             executeNextPageSearch()
         }
     }
@@ -87,12 +84,10 @@ class RecipeListViewModel @Inject constructor(
     should be fetched only if the $recipeListScrollPosition has reached the end of the list
     */
     private fun hasReachedTheEndOfTheList(): Boolean {
-        return recipeListScrollPosition + PAGING_INCREMENT_SIZE >= currentPage.value * PAGING_PAGE_SIZE
+        return recipeListScrollPosition + PAGING_INCREMENT_RANGE >= currentPage.value * PAGING_PAGE_SIZE
     }
 
-    private fun isUiStateLoading(): Boolean {
-        return recipeListUiState.value is RecipeListUiState.Loading
-    }
+    private val isUiStateLoading: Boolean = recipeListUiState.value is RecipeListUiState.Loading
 
     private fun fetchRecipes() {
         viewModelScope.launch {
@@ -119,7 +114,6 @@ class RecipeListViewModel @Inject constructor(
     }
 
     fun onRecipeClicked(recipeId: Int) {
-        if (BuildConfig.DEBUG) Log.d(TAG, "onRecipeClicked: clicked on recipe id:$recipeId")
         val currentUiState: RecipeListUiState = recipeListUiState.value
         if (currentUiState is RecipeListUiState.Success) {
             recipeListUiState.value = currentUiState.copy(recipeId = recipeId)

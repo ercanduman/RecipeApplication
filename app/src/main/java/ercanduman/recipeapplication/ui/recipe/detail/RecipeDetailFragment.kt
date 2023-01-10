@@ -20,8 +20,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import ercanduman.recipeapplication.ui.common.theme.AppDimenDefaultDistance
 import ercanduman.recipeapplication.ui.recipe.detail.model.RecipeDetailUiState
 
-const val KEY_RECIPE_ID = "RecipeDetailFragment.recipeId"
-const val INVALID_RECIPE_ID = -1
+const val KEY_RECIPE_ID: String = "RecipeDetailFragment.recipeId"
+const val INVALID_RECIPE_ID: Int = -1
 
 @AndroidEntryPoint
 class RecipeDetailFragment : Fragment() {
