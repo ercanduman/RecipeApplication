@@ -1,15 +1,15 @@
 package ercanduman.recipeapplication.domain.mapper
 
-import android.util.Log
-import ercanduman.recipeapplication.BuildConfig
+import ercanduman.recipeapplication.R
 import ercanduman.recipeapplication.data.api.model.RecipeDto
 import ercanduman.recipeapplication.domain.model.Recipe
 import ercanduman.recipeapplication.ui.recipe.detail.model.RecipeDetailsUiState
+import ercanduman.recipeapplication.util.AppResourcesProvider
 import javax.inject.Inject
 
-private const val TAG = "RecipeDetailsMapper"
-
-class RecipeDetailsMapper @Inject constructor() {
+class RecipeDetailsMapper @Inject constructor(
+    private val resourcesProvider: AppResourcesProvider
+) {
 
     fun map(recipeDto: RecipeDto): RecipeDetailsUiState {
         return try {
@@ -23,8 +23,10 @@ class RecipeDetailsMapper @Inject constructor() {
             )
             RecipeDetailsUiState.Success(recipe)
         } catch (e: NullPointerException) {
-            val errorMessage = "RecipeDto fields should not be null! ${e.cause}"
-            if (BuildConfig.DEBUG) Log.e(TAG, errorMessage)
+            val errorMessage = resourcesProvider.getString(
+                resourceId = R.string.error_null_dto_field,
+                substitutingValue = "${e.cause}"
+            )
             RecipeDetailsUiState.Error(errorMessage)
         }
     }
