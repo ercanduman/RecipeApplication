@@ -21,7 +21,7 @@ private const val INGREDIENTS_TITLE = "Ingredients"
 private const val TITLE_MAX_LINES = Int.MAX_VALUE
 
 @Composable
-fun RecipeDetailComposable(recipe: Recipe) {
+fun RecipeDetailsComposable(recipe: Recipe) {
     Card(
         shape = MaterialTheme.shapes.medium,
         modifier = Modifier.verticalScroll(rememberScrollState())

@@ -1,3 +1,5 @@
+@file:Suppress("LongLine")
+
 package ercanduman.recipeapplication.ui.common.compose
 
 import android.util.Log

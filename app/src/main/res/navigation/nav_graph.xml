@@ -15,6 +15,6 @@
 
     <fragment
         android:id="@+id/recipeDetailFragment"
-        android:name="ercanduman.recipeapplication.ui.recipe.detail.RecipeDetailFragment"
+        android:name="ercanduman.recipeapplication.ui.recipe.detail.RecipeDetailsFragment"
         android:label="@string/label_recipe_detail_fragment" />
 </navigation>

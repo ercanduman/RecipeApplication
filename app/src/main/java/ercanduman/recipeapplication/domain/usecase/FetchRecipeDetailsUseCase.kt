@@ -1,20 +1,20 @@
 package ercanduman.recipeapplication.domain.usecase
 
 import ercanduman.recipeapplication.data.repository.RecipeRepository
-import ercanduman.recipeapplication.domain.mapper.RecipeDetailMapper
-import ercanduman.recipeapplication.ui.recipe.detail.model.RecipeDetailUiState
+import ercanduman.recipeapplication.domain.mapper.RecipeDetailsMapper
+import ercanduman.recipeapplication.ui.recipe.detail.model.RecipeDetailsUiState
 import ercanduman.recipeapplication.util.RecipeResult
 import javax.inject.Inject
 
 class FetchRecipeDetailsUseCase @Inject constructor(
     private val repository: RecipeRepository,
-    private val recipeDetailMapper: RecipeDetailMapper
+    private val recipeDetailsMapper: RecipeDetailsMapper
 ) {
-    suspend operator fun invoke(recipeId: Int): RecipeDetailUiState {
+    suspend operator fun invoke(recipeId: Int): RecipeDetailsUiState {
         return when (val result = repository.fetchRecipeDetails(recipeId)) {
-            RecipeResult.Loading -> RecipeDetailUiState.Loading
-            is RecipeResult.Error -> RecipeDetailUiState.Error(result.message)
-            is RecipeResult.Success -> recipeDetailMapper.map(result.data)
+            RecipeResult.Loading -> RecipeDetailsUiState.Loading
+            is RecipeResult.Error -> RecipeDetailsUiState.Error(result.message)
+            is RecipeResult.Success -> recipeDetailsMapper.map(result.data)
         }
     }
 }

@@ -17,17 +17,17 @@ import dagger.hilt.android.AndroidEntryPoint
 import ercanduman.recipeapplication.ui.common.compose.showErrorMessageInSnackbar
 import ercanduman.recipeapplication.ui.common.theme.AppText
 import ercanduman.recipeapplication.ui.common.theme.AppTheme
-import ercanduman.recipeapplication.ui.recipe.detail.compose.RecipeDetailComposable
+import ercanduman.recipeapplication.ui.recipe.detail.compose.RecipeDetailsComposable
 import ercanduman.recipeapplication.ui.recipe.detail.compose.RecipeDetailsShimmerComposable
-import ercanduman.recipeapplication.ui.recipe.detail.model.RecipeDetailUiState
+import ercanduman.recipeapplication.ui.recipe.detail.model.RecipeDetailsUiState
 
-const val KEY_RECIPE_ID: String = "RecipeDetailFragment.recipeId"
+const val KEY_RECIPE_ID: String = "RecipeDetailsFragment.recipeId"
 const val INVALID_RECIPE_ID: Int = -1
 
 @AndroidEntryPoint
-class RecipeDetailFragment : Fragment() {
+class RecipeDetailsFragment : Fragment() {
 
-    private val viewModel: RecipeDetailViewModel by viewModels()
+    private val viewModel: RecipeDetailsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,10 +53,11 @@ class RecipeDetailFragment : Fragment() {
         AppTheme(
             snackbarHostState = snackbarHostState
         ) {
-            when (val uiState = viewModel.recipeDetailUiState.value) {
-                RecipeDetailUiState.Loading -> RecipeDetailsShimmerComposable()
+            when (val uiState = viewModel.recipeDetailsUiState.value) {
+                RecipeDetailsUiState.Loading -> RecipeDetailsShimmerComposable()
+                is RecipeDetailsUiState.Success -> RecipeDetailsComposable(uiState.recipe)
 
-                is RecipeDetailUiState.Error -> {
+                is RecipeDetailsUiState.Error -> {
                     AppText(
                         text = uiState.errorMessage,
                         textColor = MaterialTheme.colorScheme.error
@@ -67,9 +68,6 @@ class RecipeDetailFragment : Fragment() {
                         coroutineScope = coroutineScope,
                         snackbarHostState = snackbarHostState
                     )
-                }
-                is RecipeDetailUiState.Success -> {
-                    RecipeDetailComposable(uiState.recipe)
                 }
             }
         }
