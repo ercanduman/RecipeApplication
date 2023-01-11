@@ -8,13 +8,13 @@ import androidx.compose.ui.text.font.FontWeight
 import ercanduman.recipeapplication.R
 
 // Set of Material typography styles to start with
-val fonts = FontFamily(
+val fonts: FontFamily = FontFamily(
     Font(R.font.roboto_bold, weight = FontWeight.Bold),
     Font(R.font.roboto_medium, weight = FontWeight.Medium),
     Font(R.font.roboto_regular, weight = FontWeight.Normal)
 )
 
-val Typography = Typography(
+val Typography: Typography = Typography(
     bodyMedium = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Normal,

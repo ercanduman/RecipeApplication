@@ -53,7 +53,7 @@ class RecipeDetailsFragment : Fragment() {
         AppTheme(
             snackbarHostState = snackbarHostState
         ) {
-            when (val uiState = viewModel.recipeDetailsUiState.value) {
+            when (val uiState = viewModel.detailsUiState.value) {
                 RecipeDetailsUiState.Loading -> RecipeDetailsShimmerComposable()
                 is RecipeDetailsUiState.Success -> RecipeDetailsComposable(uiState.recipe)
 

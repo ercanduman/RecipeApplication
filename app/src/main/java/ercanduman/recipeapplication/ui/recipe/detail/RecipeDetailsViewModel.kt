@@ -17,7 +17,7 @@ class RecipeDetailsViewModel @Inject constructor(
     private val fetchRecipeDetailsUseCase: FetchRecipeDetailsUseCase,
     private val appResourcesProvider: AppResourcesProvider
 ) : ViewModel() {
-    var recipeDetailsUiState: MutableState<RecipeDetailsUiState> = mutableStateOf(RecipeDetailsUiState.Loading)
+    var detailsUiState: MutableState<RecipeDetailsUiState> = mutableStateOf(RecipeDetailsUiState.Loading)
         private set
 
     fun fetchRecipeDetails(recipeId: Int) {
@@ -27,9 +27,9 @@ class RecipeDetailsViewModel @Inject constructor(
                     resourceId = R.string.error_invalid_recipe_id,
                     substitutingValue = "$recipeId"
                 )
-                recipeDetailsUiState.value = RecipeDetailsUiState.Error(errorMessage)
+                detailsUiState.value = RecipeDetailsUiState.Error(errorMessage)
             } else {
-                recipeDetailsUiState.value = fetchRecipeDetailsUseCase(recipeId)
+                detailsUiState.value = fetchRecipeDetailsUseCase(recipeId)
             }
         }
     }
