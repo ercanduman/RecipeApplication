@@ -25,7 +25,7 @@ private const val PAGING_INCREMENT_RANGE = 1
 @HiltViewModel
 class RecipeListViewModel @Inject constructor(
     private val searchRecipeUseCase: SearchRecipeUseCase,
-    private val foodCategoryProvider: FoodCategoryProvider
+    private val foodCategoryProvider: FoodCategoryProvider,
 ) : ViewModel() {
 
     var recipeListUiState: MutableState<RecipeListUiState> = mutableStateOf(RecipeListUiState.Loading)
@@ -40,9 +40,9 @@ class RecipeListViewModel @Inject constructor(
     var selectedCategoryPosition: Int = INITIAL_POSITION
         private set
 
-    private val currentPage = mutableStateOf(PAGING_INITIAL_PAGE)
+    private val currentPage: MutableState<Int> = mutableStateOf(PAGING_INITIAL_PAGE)
 
-    private var recipeListScrollPosition = INITIAL_POSITION
+    private var recipeListScrollPosition: Int = INITIAL_POSITION
 
     init {
         executeNewSearch()
@@ -87,7 +87,8 @@ class RecipeListViewModel @Inject constructor(
         return recipeListScrollPosition + PAGING_INCREMENT_RANGE >= currentPage.value * PAGING_PAGE_SIZE
     }
 
-    private val isUiStateLoading: Boolean = recipeListUiState.value is RecipeListUiState.Loading
+    private val isUiStateLoading: Boolean
+        get() = recipeListUiState.value is RecipeListUiState.Loading
 
     private fun fetchRecipes() {
         viewModelScope.launch {
