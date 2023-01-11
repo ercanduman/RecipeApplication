@@ -1,22 +1,26 @@
 package ercanduman.recipeapplication.ui.recipe.list
 
-import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ercanduman.recipeapplication.domain.usecase.SearchRecipeUseCase
+import ercanduman.recipeapplication.ui.recipe.detail.INVALID_RECIPE_ID
 import ercanduman.recipeapplication.ui.recipe.list.model.Category
 import ercanduman.recipeapplication.ui.recipe.list.model.FoodCategory
 import ercanduman.recipeapplication.ui.recipe.list.model.FoodCategoryProvider
+import ercanduman.recipeapplication.ui.recipe.list.model.RecipeListUiState
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-private const val INITIAL_PAGE_ID = 1
 private const val INITIAL_POSITION = 0
-private const val INITIAL_EMPTY_SEARCH_QUERY = ""
-private const val TAG = "RecipeListViewModel"
+private const val INITIAL_SEARCH_QUERY = ""
+
+// Pagination related constants, also match values in the API.
+private const val PAGING_PAGE_SIZE = 30
+private const val PAGING_INITIAL_PAGE = 1
+private const val PAGING_INCREMENT_RANGE = 1
 
 @HiltViewModel
 class RecipeListViewModel @Inject constructor(
@@ -27,7 +31,7 @@ class RecipeListViewModel @Inject constructor(
     var recipeListUiState: MutableState<RecipeListUiState> = mutableStateOf(RecipeListUiState.Loading)
         private set
 
-    var searchQuery: MutableState<String> = mutableStateOf(INITIAL_EMPTY_SEARCH_QUERY)
+    var searchQuery: MutableState<String> = mutableStateOf(INITIAL_SEARCH_QUERY)
         private set
 
     var selectedCategory: MutableState<Category> = mutableStateOf(Category.NotProvided)
@@ -36,26 +40,60 @@ class RecipeListViewModel @Inject constructor(
     var selectedCategoryPosition: Int = INITIAL_POSITION
         private set
 
+    private val currentPage = mutableStateOf(PAGING_INITIAL_PAGE)
+
+    private var recipeListScrollPosition = INITIAL_POSITION
+
     init {
         executeNewSearch()
     }
 
     fun executeNewSearch() {
-        val currentPageId: Int = getPageId()
-        fetchRecipes(currentPageId, searchQuery.value)
+        fetchRecipes()
     }
 
-    // FIXME: Get current pageId and Update it based on scroll position.
-    private fun getPageId(): Int {
-        return INITIAL_PAGE_ID
+    private fun executeNextPageSearch() {
+        incrementPageSize()
+        fetchRecipes()
     }
 
-    private fun fetchRecipes(page: Int, searchQuery: String) {
+    private fun resetSearchState() {
         recipeListUiState.value = RecipeListUiState.Loading
+        currentPage.value = PAGING_INITIAL_PAGE
+        recipeListScrollPosition = INITIAL_POSITION
+        searchRecipeUseCase.clearCurrentRecipeList()
+    }
+
+    private fun incrementPageSize() {
+        currentPage.value = currentPage.value + PAGING_INCREMENT_RANGE
+    }
+
+    fun onRecipeListScrollPositionChanged(position: Int) {
+        recipeListScrollPosition = position
+
+        // Request next page items if the $recipeListScrollPosition has reached the end of the list and
+        // UiState is not currently loading
+        if (hasReachedTheEndOfTheList() && !isUiStateLoading) {
+            executeNextPageSearch()
+        }
+    }
+
+    /*
+    Prevent duplicate events due to recompose happening quickly
+    Ex: If $currentPage=1, the fetched item size is currentPage*PAGE_SIZE -> 1*30=30. Next page items
+    should be fetched only if the $recipeListScrollPosition has reached the end of the list
+    */
+    private fun hasReachedTheEndOfTheList(): Boolean {
+        return recipeListScrollPosition + PAGING_INCREMENT_RANGE >= currentPage.value * PAGING_PAGE_SIZE
+    }
+
+    private val isUiStateLoading: Boolean = recipeListUiState.value is RecipeListUiState.Loading
+
+    private fun fetchRecipes() {
         viewModelScope.launch {
             recipeListUiState.value = searchRecipeUseCase(
-                page = page,
-                searchQuery = searchQuery
+                page = currentPage.value,
+                searchQuery = searchQuery.value
             )
         }
     }
@@ -65,6 +103,7 @@ class RecipeListViewModel @Inject constructor(
     }
 
     fun onQueryChanged(newQuery: String) {
+        resetSearchState()
         searchQuery.value = newQuery
         selectedCategory.value = foodCategoryProvider.getFoodCategory(newQuery)
         executeNewSearch()
@@ -75,7 +114,13 @@ class RecipeListViewModel @Inject constructor(
     }
 
     fun onRecipeClicked(recipeId: Int) {
-        Log.d("TAG", "onRecipeClicked: clicked on recipe id:$recipeId")
-        // FIXME: Navigate to RecipeDetailFragment
+        val currentUiState: RecipeListUiState = recipeListUiState.value
+        if (currentUiState is RecipeListUiState.Success) {
+            recipeListUiState.value = currentUiState.copy(recipeId = recipeId)
+        }
+    }
+
+    fun navigatedToDetails(success: RecipeListUiState.Success) {
+        recipeListUiState.value = success.copy(recipeId = INVALID_RECIPE_ID)
     }
 }

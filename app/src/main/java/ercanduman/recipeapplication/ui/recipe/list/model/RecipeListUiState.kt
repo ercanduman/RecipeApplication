@@ -1,6 +1,7 @@
-package ercanduman.recipeapplication.ui.recipe.list
+package ercanduman.recipeapplication.ui.recipe.list.model
 
 import ercanduman.recipeapplication.domain.model.Recipe
+import ercanduman.recipeapplication.ui.recipe.detail.INVALID_RECIPE_ID
 
 sealed class RecipeListUiState {
     object Loading : RecipeListUiState()
@@ -9,6 +10,7 @@ sealed class RecipeListUiState {
     ) : RecipeListUiState()
 
     data class Success(
-        val recipeList: List<Recipe>
+        val recipes: List<Recipe>,
+        val recipeId: Int = INVALID_RECIPE_ID
     ) : RecipeListUiState()
 }

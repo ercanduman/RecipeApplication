@@ -13,8 +13,8 @@ fun ChipsToolbarComposable(
     categories: List<FoodCategory>,
     selectedCategory: Category,
     selectedCategoryPosition: Int,
-    onValueChanged: (String) -> Unit,
-    onCategoryPositionChanged: (Int) -> Unit
+    onValueChange: (String) -> Unit,
+    onCategoryPositionChange: (Int) -> Unit
 ) {
     val horizontalScrollState = rememberScrollState()
     val rememberCoroutineScope = rememberCoroutineScope()
@@ -29,9 +29,9 @@ fun ChipsToolbarComposable(
         categories = categories,
         selectedCategory = selectedCategory,
         horizontalScrollState = horizontalScrollState,
-        onValueChanged = {
-            onValueChanged(it)
-            onCategoryPositionChanged(horizontalScrollState.value)
+        onValueChange = {
+            onValueChange(it)
+            onCategoryPositionChange(horizontalScrollState.value)
         }
     )
 }

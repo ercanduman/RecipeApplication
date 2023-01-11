@@ -12,7 +12,7 @@ import ercanduman.recipeapplication.ui.common.compose.RecipeImageComposable
 import ercanduman.recipeapplication.ui.common.theme.AppDimenDefaultDistance
 
 @Composable
-fun RecipeItemComposable(
+fun RecipeListItemComposable(
     recipe: Recipe,
     onRecipeClick: (Int) -> Unit
 ) {
