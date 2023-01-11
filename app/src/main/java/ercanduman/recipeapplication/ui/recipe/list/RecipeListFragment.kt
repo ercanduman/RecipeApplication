@@ -1,11 +1,9 @@
 package ercanduman.recipeapplication.ui.recipe.list
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -15,8 +13,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -29,10 +25,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
-import ercanduman.recipeapplication.BuildConfig
 import ercanduman.recipeapplication.R
 import ercanduman.recipeapplication.domain.model.Recipe
-import ercanduman.recipeapplication.ui.common.compose.AppSnackbarComposable
+import ercanduman.recipeapplication.ui.common.compose.showErrorMessageInSnackbar
 import ercanduman.recipeapplication.ui.common.theme.AppDimenDefaultDistance
 import ercanduman.recipeapplication.ui.common.theme.AppDimenSmallDistance
 import ercanduman.recipeapplication.ui.common.theme.AppTheme
@@ -43,8 +38,6 @@ import ercanduman.recipeapplication.ui.recipe.list.compose.shimmer.RecipeListShi
 import ercanduman.recipeapplication.ui.recipe.list.compose.toolbar.ChipsToolbarComposable
 import ercanduman.recipeapplication.ui.recipe.list.compose.toolbar.SearchToolbarComposable
 import ercanduman.recipeapplication.ui.recipe.list.model.RecipeListUiState
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 const val DEFAULT_CONTENT_DESCRIPTION: String = "Recipe app image"
 
@@ -75,63 +68,28 @@ class RecipeListFragment : Fragment() {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     private fun FragmentContent() {
-        AppTheme {
-            val coroutineScope = rememberCoroutineScope()
-            val snackbarHostState = remember { SnackbarHostState() }
+        val coroutineScope = rememberCoroutineScope()
+        val snackbarHostState = remember { SnackbarHostState() }
+        AppTheme(
+            topBar = { ToolbarContentComposable() },
+            snackbarHostState = snackbarHostState
+        ) {
+            when (val recipeListUiState = viewModel.recipeListUiState.value) {
+                RecipeListUiState.Loading -> RecipeListShimmerComposable()
 
-            Scaffold(
-                topBar = { ToolbarContentComposable() },
-                modifier = Modifier
-                    .background(MaterialTheme.colorScheme.background)
-                    .padding(
-                        end = AppDimenDefaultDistance,
-                        start = AppDimenDefaultDistance
-                    ),
-                snackbarHost = {
-                    AppSnackbarComposable(
-                        snackbarHostState = snackbarHostState,
-                        modifier = Modifier.padding(bottom = AppDimenDefaultDistance)
+                is RecipeListUiState.Error -> {
+                    showErrorMessageInSnackbar(
+                        errorMessage = recipeListUiState.errorMessage,
+                        coroutineScope = coroutineScope,
+                        snackbarHostState = snackbarHostState
                     )
                 }
-            ) { innerPaddings ->
-                Surface(
-                    shape = MaterialTheme.shapes.medium,
-                    modifier = Modifier.padding(innerPaddings)
-                ) {
-                    when (val recipeListUiState = viewModel.recipeListUiState.value) {
-                        RecipeListUiState.Loading -> RecipeListShimmerComposable()
 
-                        is RecipeListUiState.Error -> {
-                            showErrorMessageInSnackbar(
-                                errorMessage = recipeListUiState.errorMessage,
-                                coroutineScope = coroutineScope,
-                                snackbarHostState = snackbarHostState
-                            )
-                        }
-
-                        is RecipeListUiState.Success -> {
-                            RecipeContentComposable(recipeListUiState.recipes)
-                            checkUiStateForNavigatingToRecipeDetails(recipeListUiState)
-                        }
-                    }
+                is RecipeListUiState.Success -> {
+                    RecipeContentComposable(recipeListUiState.recipes)
+                    checkUiStateForNavigatingToRecipeDetails(recipeListUiState)
                 }
             }
-        }
-    }
-
-    private fun showErrorMessageInSnackbar(
-        errorMessage: String,
-        coroutineScope: CoroutineScope,
-        snackbarHostState: SnackbarHostState
-    ) {
-        if (BuildConfig.DEBUG) Log.d("TAG", errorMessage)
-        coroutineScope.launch {
-            // If there is already a message on the screen, dismiss it before displaying a new one.
-            snackbarHostState.currentSnackbarData?.dismiss()
-            snackbarHostState.showSnackbar(
-                message = errorMessage,
-                duration = SnackbarDuration.Short
-            )
         }
     }
 
