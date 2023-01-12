@@ -11,11 +11,14 @@ import ercanduman.recipeapplication.ui.recipe.list.model.Category
 import ercanduman.recipeapplication.ui.recipe.list.model.FoodCategory
 import ercanduman.recipeapplication.ui.recipe.list.model.FoodCategoryProvider
 import ercanduman.recipeapplication.ui.recipe.list.model.RecipeListUiState
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val INITIAL_POSITION = 0
 private const val INITIAL_SEARCH_QUERY = ""
+private const val DELAY_API_CALL_MILLIS = 1000L
 
 // Pagination related constants, also match values in the API.
 private const val PAGING_PAGE_SIZE = 30
@@ -25,7 +28,7 @@ private const val PAGING_INCREMENT_RANGE = 1
 @HiltViewModel
 class RecipeListViewModel @Inject constructor(
     private val searchRecipeUseCase: SearchRecipeUseCase,
-    private val foodCategoryProvider: FoodCategoryProvider,
+    private val foodCategoryProvider: FoodCategoryProvider
 ) : ViewModel() {
 
     var recipeListUiState: MutableState<RecipeListUiState> = mutableStateOf(RecipeListUiState.Loading)
@@ -44,6 +47,8 @@ class RecipeListViewModel @Inject constructor(
 
     private var recipeListScrollPosition: Int = INITIAL_POSITION
 
+    private var fetchRecipesJob: Job? = null
+
     init {
         executeNewSearch()
     }
@@ -58,10 +63,21 @@ class RecipeListViewModel @Inject constructor(
     }
 
     private fun resetSearchState() {
+        cancelRunningJob()
         recipeListUiState.value = RecipeListUiState.Loading
         currentPage.value = PAGING_INITIAL_PAGE
         recipeListScrollPosition = INITIAL_POSITION
         searchRecipeUseCase.clearCurrentRecipeList()
+    }
+
+    /**
+     * Cancels running job in order to prevent unnecessary network calls.
+     */
+    private fun cancelRunningJob() {
+        fetchRecipesJob?.let { job ->
+            job.cancel()
+            fetchRecipesJob = null
+        }
     }
 
     private fun incrementPageSize() {
@@ -91,12 +107,21 @@ class RecipeListViewModel @Inject constructor(
         get() = recipeListUiState.value is RecipeListUiState.Loading
 
     private fun fetchRecipes() {
-        viewModelScope.launch {
+        fetchRecipesJob = viewModelScope.launch {
+            delayApiCall()
             recipeListUiState.value = searchRecipeUseCase(
                 page = currentPage.value,
                 searchQuery = searchQuery.value
             )
         }
+    }
+
+    /**
+     * This function delays the API call until the user input is finished, so that no unnecessary network
+     * calls are made for each character typed in the text box.
+     */
+    private suspend fun delayApiCall() {
+        delay(timeMillis = DELAY_API_CALL_MILLIS)
     }
 
     fun getAllPredefinedFoodCategories(): List<FoodCategory> {
