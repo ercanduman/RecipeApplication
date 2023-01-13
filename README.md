@@ -1,29 +1,43 @@
 # RecipeApplication
 
 ## End user perspective:
-This is an android application where the primary function of the app is to search for Recipes and display them in a list.
 
-In addition to searching, Recipes can also be searched and filtered by Category Chips located under the Search Bar. There are 9 scrollable Chips to choose from, including Chicken, Beef, Soup, Pizza, and more.
+This is an android application where the primary function of the app is to search for Recipes and display them
+in a list.
+
+In addition to searching, Recipes can also be searched and filtered by Category Chips located under the Search
+Bar. There are 9 scrollable Chips to choose from, including Chicken, Beef, Soup, Pizza, and more.
 
 #### Recipes
+![ercanduman_RecipeApplication_recipe_list](https://user-images.githubusercontent.com/11629459/212318486-7c976704-ee4c-423b-bfe5-e738e0a57767.png)
 
-When one of the recipes is clicked, a navigation will take place to the Recipe Details screen and the details of the recipe will be displayed.
+
+When one of the recipes is clicked, a navigation will take place to the Recipe Details screen and the details
+of the recipe will be displayed.
 
 #### Recipe Details
-
+![ercanduman_RecipeApplication_recipes_details](https://user-images.githubusercontent.com/11629459/212318525-b8331b88-d83a-4977-aede-8675275c22ee.png)
 
 ## Developer perspective:
-This is a demo **android** app where the primary function of the app is to search for Recipes in the [Food2fork API](https://food2fork.ca/ "Food2fork API") and display them in a list built in Jetpack Compose components.
 
-When you type a search query in the search bar at the top of the screen or click a Category Chip at the bottom of the Search Bar, RecipeApplication will call the Food2fork API, display a Shimmer loading effect and list all recipes when fetched.
+This is a demo **android** app where the primary function of the app is to search for Recipes in
+the [Food2fork API](https://food2fork.ca/ "Food2fork API") and display them in a list built in Jetpack Compose
+components.
 
-With ***3000+*** recipes, there is also a **Pagination** logic where you can have a smooth scrolling behavior without draining phone resources.
+When you type a search query in the search bar at the top of the screen or click a Category Chip at the bottom
+of the Search Bar, RecipeApplication will call the Food2fork API, display a Shimmer loading effect and list
+all recipes when fetched.
 
-All UI elements were created using [Jetpack Compose](https://developer.android.com/jetpack/compose "Jetpack Compose").
+With ***3000+*** recipes, there is also a **Pagination** logic where you can have a smooth scrolling behavior
+without draining phone resources.
+
+All UI elements were created
+using [Jetpack Compose](https://developer.android.com/jetpack/compose "Jetpack Compose").
 
 This application is also structured to have **MVVM architecture** with **clean code principles**.
 
 ## Features:
+
 * Search feature
 * Category Chips
 * Recipes List Fragment
@@ -39,6 +53,7 @@ This application is also structured to have **MVVM architecture** with **clean c
 * Interacts with a public API to retrieve JSON objects
 * Food2fork API (Providing JSON data based on Autharization and token keys)
 * The JSON recipe objects have the following properties:
+
 ```json
 {
   "pk": 583,
@@ -61,10 +76,12 @@ This application is also structured to have **MVVM architecture** with **clean c
 ```
 
 ## API Usage
+
 **Food2Fork** API details can also be checked at the following URL:
 https://food2fork.ca/
 
 #### Searching Recipes
+
 Pagination **page size** = 30
 
 **GET**
@@ -74,6 +91,7 @@ https://food2fork.ca/api/recipe/search/?page=2&query=beef%20carrot
 Authorization Token 9c8b06d329136da358c2d00e76946b0111ce2c48
 
 ##### Success Response
+
 ```json
 {
   "count": 118,
@@ -122,18 +140,18 @@ Authorization Token 9c8b06d329136da358c2d00e76946b0111ce2c48
 ```
 
 **No Results**
+
 ```json
 {
-"count": 0,
-"next": null,
-"previous": null,
-"results": []
+  "count": 0,
+  "next": null,
+  "previous": null,
+  "results": []
 }
 ```
 
-
-
 ### GET Recipe by ID
+
 Find a specific recipe by referencing its unique id.
 
 **GET**
@@ -161,7 +179,8 @@ https://food2fork.ca/api/recipe/get/?id=583
 }
 ```
 
-
-
 ## Download the app
-APK file here
+![ercanduman_RecipeApplication_download_apk](https://user-images.githubusercontent.com/11629459/212318000-c955c8cd-9136-44db-9094-c7307785ff53.png)
+
+APK file can be found in **[/apk](https://github.com/ercanduman/RecipeApplication/tree/main/apk "/apk")** folder as  compressed** .zip** file or under **[/debug](https://github.com/ercanduman/RecipeApplication/tree/main/apk/debug "/debug")** folder as **apk** file.
+
