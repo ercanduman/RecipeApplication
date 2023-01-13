@@ -1,11 +1,13 @@
 # RecipeApplication
 
 ## End user perspective:
-The primary function of this app is to search for Recipes and display them in a list.
+This is an android application where the primary function of the app is to search for Recipes and display them in a list.
 
-Recipes can also be filtered by Chips located under the Search Bar. There are 9 scrollable Chips as search categories to choose from, including Chicken, Beef, Soup, Pizza, and more.
+In addition to searching, Recipes can also be searched and filtered by Category Chips located under the Search Bar. There are 9 scrollable Chips to choose from, including Chicken, Beef, Soup, Pizza, and more.
 
 #### Recipes
+
+When one of the recipes is clicked, a navigation will take place to the Recipe Details screen and the details of the recipe will be displayed.
 
 #### Recipe Details
 
@@ -37,7 +39,129 @@ This application is also structured to have **MVVM architecture** with **clean c
 * Interacts with a public API to retrieve JSON objects
 * Food2fork API (Providing JSON data based on Autharization and token keys)
 * The JSON recipe objects have the following properties:
-JSON content here:
+```json
+{
+  "pk": 583,
+  "title": "Pizza Potato Skins",
+  "publisher": "mitch",
+  "featured_image": "https://nyc3.digitaloceanspaces.com/food2fork/food2fork-static/featured_images/583/featured_image.png",
+  "rating": 16,
+  "ingredients": [
+    "Canola Oil",
+    "Kosher Salt",
+    "Butter, Melted",
+    "Diced Pepperoni",
+    "Minced Fresh Parsley",
+    "Grated Mozzarella Cheese",
+    "8 whole Small Russet Potatoes",
+    "Jarred Marinara Or Pizza Sauce",
+    "Miscellaneous Pizza Toppings: Cooked Sausage, Cooked Hamburger, Diced Bell Pepper, Diced Onion, Diced Mushrooms, Diced Canadian Bacon, Etc."
+  ]
+}
+```
+
+## API Usage
+**Food2Fork** API details can also be checked at the following URL:
+https://food2fork.ca/
+
+#### Searching Recipes
+Pagination **page size** = 30
+
+**GET**
+https://food2fork.ca/api/recipe/search/?page=2&query=beef%20carrot
+
+**Headers**
+Authorization Token 9c8b06d329136da358c2d00e76946b0111ce2c48
+
+##### Success Response
+```json
+{
+  "count": 118,
+  "next": "http://127.0.0.1:8000/api/recipe/search/?page=3&query=beef+carrot+potato+onion",
+  "previous": "https://food2fork.ca/api/recipe/search/?query=beef+carrot+potato+onion",
+  "results": [
+    {
+      "pk": 583,
+      "title": "Pizza Potato Skins",
+      "publisher": "mitch",
+      "featured_image": "https://nyc3.digitaloceanspaces.com/food2fork/food2fork-static/featured_images/583/featured_image.png",
+      "rating": 16,
+      "ingredients": [
+        "Canola Oil",
+        "Kosher Salt",
+        "Butter, Melted",
+        "Diced Pepperoni",
+        "Minced Fresh Parsley",
+        "Grated Mozzarella Cheese",
+        "8 whole Small Russet Potatoes",
+        "Jarred Marinara Or Pizza Sauce",
+        "Miscellaneous Pizza Toppings: Cooked Sausage, Cooked Hamburger, Diced Bell Pepper, Diced Onion, Diced Mushrooms, Diced Canadian Bacon, Etc."
+      ]
+    },
+    {
+      "pk": 583,
+      "title": "Pizza Potato Skins",
+      "publisher": "mitch",
+      "featured_image": "https://nyc3.digitaloceanspaces.com/food2fork/food2fork-static/featured_images/583/featured_image.png",
+      "rating": 16,
+      "source_url": "http://thepioneerwoman.com/cooking/2013/04/pizza-potato-skins/",
+      "ingredients": [
+        "Canola Oil",
+        "Kosher Salt",
+        "Butter, Melted",
+        "Diced Pepperoni",
+        "Minced Fresh Parsley",
+        "Grated Mozzarella Cheese",
+        "8 whole Small Russet Potatoes",
+        "Jarred Marinara Or Pizza Sauce",
+        "Miscellaneous Pizza Toppings: Cooked Sausage, Cooked Hamburger, Diced Bell Pepper, Diced Onion, Diced Mushrooms, Diced Canadian Bacon, Etc."
+      ]
+    }
+  ]
+}
+```
+
+**No Results**
+```json
+{
+"count": 0,
+"next": null,
+"previous": null,
+"results": []
+}
+```
+
+
+
+### GET Recipe by ID
+Find a specific recipe by referencing its unique id.
+
+**GET**
+https://food2fork.ca/api/recipe/get/?id=583
+
+```json
+{
+  "pk": 583,
+  "title": "Pizza Potato Skins",
+  "publisher": "mitch",
+  "featured_image": "https://nyc3.digitaloceanspaces.com/food2fork/food2fork-static/featured_images/583/featured_image.png",
+  "rating": 16,
+  "source_url": "http://thepioneerwoman.com/cooking/2013/04/pizza-potato-skins/",
+  "ingredients": [
+    "Canola Oil",
+    "Kosher Salt",
+    "Butter, Melted",
+    "Diced Pepperoni",
+    "Minced Fresh Parsley",
+    "Grated Mozzarella Cheese",
+    "8 whole Small Russet Potatoes",
+    "Jarred Marinara Or Pizza Sauce",
+    "Miscellaneous Pizza Toppings: Cooked Sausage, Cooked Hamburger, Diced Bell Pepper, Diced Onion, Diced Mushrooms, Diced Canadian Bacon, Etc."
+  ]
+}
+```
+
+
 
 ## Download the app
 APK file here
