@@ -1,3 +1,5 @@
+@file:Suppress("HardCodedStringLiteral")
+
 package ercanduman.recipeapplication.data.api
 
 import ercanduman.recipeapplication.data.api.model.RecipeDto

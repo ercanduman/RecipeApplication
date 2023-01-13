@@ -1,3 +1,5 @@
+@file:Suppress("HardCodedStringLiteral")
+
 package ercanduman.recipeapplication.util
 
 sealed class RecipeResult<out T> {

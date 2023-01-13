@@ -7,17 +7,17 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ercanduman.recipeapplication.R
 import ercanduman.recipeapplication.domain.usecase.FetchRecipeDetailsUseCase
-import ercanduman.recipeapplication.ui.recipe.detail.model.RecipeDetailUiState
+import ercanduman.recipeapplication.ui.recipe.detail.model.RecipeDetailsUiState
 import ercanduman.recipeapplication.util.AppResourcesProvider
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RecipeDetailViewModel @Inject constructor(
+class RecipeDetailsViewModel @Inject constructor(
     private val fetchRecipeDetailsUseCase: FetchRecipeDetailsUseCase,
     private val appResourcesProvider: AppResourcesProvider
 ) : ViewModel() {
-    var recipeDetailUiState: MutableState<RecipeDetailUiState> = mutableStateOf(RecipeDetailUiState.Loading)
+    var detailsUiState: MutableState<RecipeDetailsUiState> = mutableStateOf(RecipeDetailsUiState.Loading)
         private set
 
     fun fetchRecipeDetails(recipeId: Int) {
@@ -27,9 +27,9 @@ class RecipeDetailViewModel @Inject constructor(
                     resourceId = R.string.error_invalid_recipe_id,
                     substitutingValue = "$recipeId"
                 )
-                recipeDetailUiState.value = RecipeDetailUiState.Error(errorMessage)
+                detailsUiState.value = RecipeDetailsUiState.Error(errorMessage)
             } else {
-                recipeDetailUiState.value = fetchRecipeDetailsUseCase(recipeId)
+                detailsUiState.value = fetchRecipeDetailsUseCase(recipeId)
             }
         }
     }

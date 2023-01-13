@@ -1,3 +1,5 @@
+@file:Suppress("HardCodedStringLiteral")
+
 package ercanduman.recipeapplication.data.api.model
 
 import com.google.gson.annotations.SerializedName

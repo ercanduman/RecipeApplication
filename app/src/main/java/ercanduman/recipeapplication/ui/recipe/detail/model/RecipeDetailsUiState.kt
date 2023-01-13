@@ -2,13 +2,13 @@ package ercanduman.recipeapplication.ui.recipe.detail.model
 
 import ercanduman.recipeapplication.domain.model.Recipe
 
-sealed class RecipeDetailUiState {
-    object Loading : RecipeDetailUiState()
+sealed class RecipeDetailsUiState {
+    object Loading : RecipeDetailsUiState()
     data class Error(
         val errorMessage: String
-    ) : RecipeDetailUiState()
+    ) : RecipeDetailsUiState()
 
     data class Success(
         val recipe: Recipe
-    ) : RecipeDetailUiState()
+    ) : RecipeDetailsUiState()
 }
