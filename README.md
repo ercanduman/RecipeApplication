@@ -1,116 +1,43 @@
-# RecipeApp
+# RecipeApplication
 
-This is a demo android app that gets data from **Food2Fork** API and displays in **Compose** components.
+## End user perspective:
+The primary function of this app is to search for Recipes and display them in a list.
 
-Food2Fork API details: https://food2fork.ca/
+Recipes can also be filtered by Chips located under the Search Bar. There are 9 scrollable Chips as search categories to choose from, including Chicken, Beef, Soup, Pizza, and more.
 
-### Search Recipes
+#### Recipes
 
-Keyword search for recipes.
-**GET**
-https://food2fork.ca/api/recipe/search/?page=2&query=beef carrot potato onion
+#### Recipe Details
 
-##### Headers
 
-Authorization Token 9c8b06d329136da358c2d00e76946b0111ce2c48
+## Developer perspective:
+This is a demo **android** app where the primary function of the app is to search for Recipes in the [Food2fork API](https://food2fork.ca/ "Food2fork API") and display them in a list built in Jetpack Compose components.
 
-##### Pagination
+When you type a search query in the search bar at the top of the screen or click a Category Chip at the bottom of the Search Bar, RecipeApplication will call the Food2fork API, display a Shimmer loading effect and list all recipes when fetched.
 
-Page size = 30
-##### Success Response
-`{
-"count": 118,
-"next": "http://127.0.0.1:8000/api/recipe/search/?page=3&query=beef+carrot+potato+onion",
-"previous": "https://food2fork.ca/api/recipe/search/?query=beef+carrot+potato+onion",
-"results": [
-{
-"pk": 583,
-"title": "Pizza Potato Skins",
-"publisher": "mitch",
-"featured_image": "https://nyc3.digitaloceanspaces.com/food2fork/food2fork-static/featured_images/583/featured_image.png",
-"rating": 16,
-"source_url": "http://thepioneerwoman.com/cooking/2013/04/pizza-potato-skins/",
-"description": "N/A",
-"cooking_instructions": null,
-"ingredients": [
-"Canola Oil",
-"Kosher Salt",
-"Butter, Melted",
-"Diced Pepperoni",
-"Minced Fresh Parsley",
-"Grated Mozzarella Cheese",
-"8 whole Small Russet Potatoes",
-"Jarred Marinara Or Pizza Sauce",
-"Miscellaneous Pizza Toppings: Cooked Sausage, Cooked Hamburger, Diced Bell Pepper, Diced Onion, Diced Mushrooms, Diced Canadian Bacon, Etc."
-],
-"date_added": "November 11 2020",
-"date_updated": "November 11 2020",
-"long_date_added": 1606349126,
-"long_date_updated": 1606349126
-},
-{
-"pk": 584,
-"title": "Loaded Sweet Potato Nachos",
-"publisher": "mitch",
-"featured_image": "https://nyc3.digitaloceanspaces.com/food2fork/food2fork-static/featured_images/584/featured_image.png",
-"rating": 9,
-"source_url": "http://www.twopeasandtheirpod.com/loaded-sweet-potato-nachos/",
-"description": "N/A",
-"cooking_instructions": null,
-"ingredients": [
-"1 tablespoon olive oil",
-"1/4 cup chopped cilantro",
-"Salt and pepper, to taste",
-"Sour cream or Greek yogurt",
-"1/4 cup chopped green onions",
-"1 1/2 cups shredded Cheddar cheese",
-"1 cup black beans, drained and rinsed",
-"1 large avocado, pit removed and diced",
-"3 large sweet potatoes, washed and sliced into 1/4-inch rounds"
-],
-"date_added": "November 11 2020",
-"date_updated": "November 11 2020",
-"long_date_added": 1606349126,
-"long_date_updated": 1606349126
-},
-]
-}`
+With ***3000+*** recipes, there is also a **Pagination** logic where you can have a smooth scrolling behavior without draining phone resources.
 
-###### No Results
-`{
-"count": 0,
-"next": null,
-"previous": null,
-"results": []
-}`
+All UI elements were created using [Jetpack Compose](https://developer.android.com/jetpack/compose "Jetpack Compose").
 
-### GET Recipe by ID
-Find a specific recipe by referencing its unique id.
-**GET**
-URL= https://food2fork.ca/api/recipe/get/?id=9
+This application is also structured to have **MVVM architecture** with **clean code principles**.
 
-`{
-"pk": 583,
-"title": "Pizza Potato Skins",
-"publisher": "mitch",
-"featured_image": "https://nyc3.digitaloceanspaces.com/food2fork/food2fork-static/featured_images/583/featured_image.png",
-"rating": 16,
-"source_url": "http://thepioneerwoman.com/cooking/2013/04/pizza-potato-skins/",
-"description": "N/A",
-"cooking_instructions": null,
-"ingredients": [
-"Canola Oil",
-"Kosher Salt",
-"Butter, Melted",
-"Diced Pepperoni",
-"Minced Fresh Parsley",
-"Grated Mozzarella Cheese",
-"8 whole Small Russet Potatoes",
-"Jarred Marinara Or Pizza Sauce",
-"Miscellaneous Pizza Toppings: Cooked Sausage, Cooked Hamburger, Diced Bell Pepper, Diced Onion, Diced Mushrooms, Diced Canadian Bacon, Etc."
-],
-"date_added": "November 11 2020",
-"date_updated": "November 11 2020",
-"long_date_added": 1606349126,
-"long_date_updated": 1606349126
-}`
+## Features:
+* Search feature
+* Category Chips
+* Recipes List Fragment
+* Recipes Details Fragment
+* MVVM architecture
+* Navigation Component
+* UI Design build with Jetpack Compose
+* Built the app using Kotlin language
+* Displaying a placeholders for loading images
+* Coroutines (Concurrency and non-blocking executions)
+* Retroıfit library (Connecting application to back-end services (REST and JSON))
+* Dagger-Hilt (for Dependency injection)
+* Interacts with a public API to retrieve JSON objects
+* Food2fork API (Providing JSON data based on Autharization and token keys)
+* The JSON recipe objects have the following properties:
+JSON content here:
+
+## Download the app
+APK file here
