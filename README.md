@@ -9,6 +9,7 @@ In addition to searching, Recipes can also be searched and filtered by Category 
 Bar. There are 9 scrollable Chips to choose from, including Chicken, Beef, Soup, Pizza, and more.
 
 #### Recipes
+
 <img src="https://user-images.githubusercontent.com/11629459/212318486-7c976704-ee4c-423b-bfe5-e738e0a57767.png" width=30% height=30%>
 
 
@@ -16,8 +17,8 @@ When one of the recipes is clicked, a navigation will take place to the Recipe D
 of the recipe will be displayed.
 
 #### Recipe Details
-<img src="https://user-images.githubusercontent.com/11629459/212318525-b8331b88-d83a-4977-aede-8675275c22ee.png" width=30% height=30%>
 
+<img src="https://user-images.githubusercontent.com/11629459/212318525-b8331b88-d83a-4977-aede-8675275c22ee.png" width=30% height=30%>
 
 ## Developer perspective
 
@@ -181,6 +182,7 @@ https://food2fork.ca/api/recipe/get/?id=583
 ```
 
 ## Download the app
+
 <img src="https://user-images.githubusercontent.com/11629459/212318000-c955c8cd-9136-44db-9094-c7307785ff53.png" width=30% height=30%>
 
 APK file can be found in **[/apk](https://github.com/ercanduman/RecipeApplication/tree/main/apk "/apk")**
