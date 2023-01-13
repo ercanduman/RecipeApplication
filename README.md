@@ -48,10 +48,10 @@ This application is also structured to have **MVVM architecture** with **clean c
 * Built the app using Kotlin language
 * Displaying a placeholders for loading images
 * Coroutines (Concurrency and non-blocking executions)
-* Retroıfit library (Connecting application to back-end services (REST and JSON))
+* Retrofit library (Connecting application to back-end services (REST and JSON))
 * Dagger-Hilt (for Dependency injection)
 * Interacts with a public API to retrieve JSON objects
-* Food2fork API (Providing JSON data based on Autharization and token keys)
+* Food2fork API (Providing JSON data based on Authorization and token keys)
 * The JSON recipe objects have the following properties:
 
 ```json
