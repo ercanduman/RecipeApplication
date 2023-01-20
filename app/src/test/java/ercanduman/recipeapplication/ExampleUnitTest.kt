@@ -1,5 +1,6 @@
 package ercanduman.recipeapplication
 
+import kotlinx.coroutines.flow.flow
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -9,6 +10,10 @@ import org.junit.Test
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 class ExampleUnitTest {
+    private fun observeCount() = flow<Int> {
+        emit(1)
+    }
+
     @Test
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
