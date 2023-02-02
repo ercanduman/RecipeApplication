@@ -52,7 +52,7 @@ class RecipeListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         return ComposeView(requireContext()).apply {
             setContent { FragmentContent() }
@@ -74,21 +74,20 @@ class RecipeListFragment : Fragment() {
             topBar = { ToolbarContentComposable() },
             snackbarHostState = snackbarHostState
         ) {
-            when (val recipeListUiState = viewModel.recipeListUiState.value) {
-                RecipeListUiState.Loading -> RecipeListShimmerComposable()
+            val uiState: RecipeListUiState = viewModel.recipeListUiState
 
-                is RecipeListUiState.Error -> {
-                    showErrorMessageInSnackbar(
-                        errorMessage = recipeListUiState.errorMessage,
-                        coroutineScope = coroutineScope,
-                        snackbarHostState = snackbarHostState
-                    )
-                }
+            if (uiState.isLoading) RecipeListShimmerComposable()
 
-                is RecipeListUiState.Success -> {
-                    RecipeContentComposable(recipeListUiState.recipes)
-                    checkUiStateForNavigatingToRecipeDetails(recipeListUiState)
-                }
+            if (uiState.recipes.isNotEmpty()) RecipeContentComposable(uiState.recipes)
+
+            if (uiState.recipeId != INVALID_RECIPE_ID) navigateToRecipeDetailFragment(uiState.recipeId)
+
+            if (uiState.errorMessage.isNotEmpty()) {
+                showErrorMessageInSnackbar(
+                    errorMessage = uiState.errorMessage,
+                    coroutineScope = coroutineScope,
+                    snackbarHostState = snackbarHostState
+                )
             }
         }
     }
@@ -143,17 +142,14 @@ class RecipeListFragment : Fragment() {
         }
     }
 
-    private fun checkUiStateForNavigatingToRecipeDetails(recipeListUiState: RecipeListUiState.Success) {
-        val recipeId = recipeListUiState.recipeId
-        if (recipeId != INVALID_RECIPE_ID) {
-            val bundle = bundleOf(KEY_RECIPE_ID to recipeId)
-            findNavController().navigate(
-                args = bundle,
-                resId = R.id.action_navigate_to_recipeDetailFragment
-            )
+    private fun navigateToRecipeDetailFragment(recipeId: Int) {
+        val bundle = bundleOf(KEY_RECIPE_ID to recipeId)
+        findNavController().navigate(
+            args = bundle,
+            resId = R.id.action_navigate_to_recipeDetailFragment
+        )
 
-            // After navigation, reset the UiState for the clicked item
-            viewModel.navigatedToDetails(recipeListUiState)
-        }
+        // After navigation, reset the UiState for the clicked item
+        viewModel.navigationProcessed()
     }
 }

@@ -1,7 +1,9 @@
 package ercanduman.recipeapplication.ui.recipe.list
 
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,10 +13,10 @@ import ercanduman.recipeapplication.ui.recipe.list.model.Category
 import ercanduman.recipeapplication.ui.recipe.list.model.FoodCategory
 import ercanduman.recipeapplication.ui.recipe.list.model.FoodCategoryProvider
 import ercanduman.recipeapplication.ui.recipe.list.model.RecipeListUiState
+import javax.inject.Inject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 private const val INITIAL_POSITION = 0
 private const val INITIAL_SEARCH_QUERY = ""
@@ -30,10 +32,10 @@ private const val PAGING_NEXT_PAGE_INTERVAL = 4
 @HiltViewModel
 class RecipeListViewModel @Inject constructor(
     private val searchRecipeUseCase: SearchRecipeUseCase,
-    private val foodCategoryProvider: FoodCategoryProvider
+    private val foodCategoryProvider: FoodCategoryProvider,
 ) : ViewModel() {
 
-    var recipeListUiState: MutableState<RecipeListUiState> = mutableStateOf(RecipeListUiState.Loading)
+    var recipeListUiState: RecipeListUiState by mutableStateOf(RecipeListUiState())
         private set
 
     var searchQuery: MutableState<String> = mutableStateOf(INITIAL_SEARCH_QUERY)
@@ -91,27 +93,24 @@ class RecipeListViewModel @Inject constructor(
 
         // Request next page items if the $recipeListScrollPosition has reached to the end of the list and
         // UiState is not currently loading
-        if (isEligibleToMakeNextPageSearch() && !isUiStateLoading) {
+        if (isEligibleToMakeNextPageSearch() && !recipeListUiState.isLoading) {
             executeNextPageSearch()
         }
     }
 
     /**
-     Prevent duplicate events due to recompose happening quickly
-     Ex: If $currentPage=1, the fetched item size is currentPage*PAGE_SIZE -> 1*30=30. Next page items
-     should be fetched only if the $recipeListScrollPosition has reached the last $PAGING_NEXT_PAGE_INTERVAL
-     elements at the end of the list.
+    Prevent duplicate events due to recompose happening quickly
+    Ex: If $currentPage=1, the fetched item size is currentPage*PAGE_SIZE -> 1*30=30. Next page items
+    should be fetched only if the $recipeListScrollPosition has reached the last $PAGING_NEXT_PAGE_INTERVAL
+    elements at the end of the list.
 
-     i.e: PAGING_NEXT_PAGE_INTERVAL=4, the next page should be loaded before the user reaches the last 4
-     items. So by the time the user reaches the end, the new items are already loaded and there will be a
-     smooth transition.
+    i.e: PAGING_NEXT_PAGE_INTERVAL=4, the next page should be loaded before the user reaches the last 4
+    items. So by the time the user reaches the end, the new items are already loaded and there will be a
+    smooth transition.
      */
     private fun isEligibleToMakeNextPageSearch(): Boolean {
         return recipeListScrollPosition + PAGING_NEXT_PAGE_INTERVAL >= currentPage.value * PAGING_PAGE_SIZE
     }
-
-    private val isUiStateLoading: Boolean
-        get() = recipeListUiState.value is RecipeListUiState.Loading
 
     private fun fetchRecipes() {
         fetchRecipesJob = viewModelScope.launch {
@@ -147,13 +146,10 @@ class RecipeListViewModel @Inject constructor(
     }
 
     fun onRecipeClicked(recipeId: Int) {
-        val currentUiState: RecipeListUiState = recipeListUiState.value
-        if (currentUiState is RecipeListUiState.Success) {
-            recipeListUiState.value = currentUiState.copy(recipeId = recipeId)
-        }
+        recipeListUiState = recipeListUiState.copy(recipeId = recipeId)
     }
 
-    fun navigatedToDetails(success: RecipeListUiState.Success) {
-        recipeListUiState.value = success.copy(recipeId = INVALID_RECIPE_ID)
+    fun navigationProcessed() {
+        recipeListUiState = recipeListUiState.copy(recipeId = INVALID_RECIPE_ID)
     }
 }
