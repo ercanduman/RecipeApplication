@@ -32,7 +32,7 @@ private const val PAGING_NEXT_PAGE_INTERVAL = 4
 @HiltViewModel
 class RecipeListViewModel @Inject constructor(
     private val searchRecipeUseCase: SearchRecipeUseCase,
-    private val foodCategoryProvider: FoodCategoryProvider,
+    private val foodCategoryProvider: FoodCategoryProvider
 ) : ViewModel() {
 
     var recipeListUiState: RecipeListUiState by mutableStateOf(RecipeListUiState())
@@ -99,14 +99,14 @@ class RecipeListViewModel @Inject constructor(
     }
 
     /**
-    Prevent duplicate events due to recompose happening quickly
-    Ex: If $currentPage=1, the fetched item size is currentPage*PAGE_SIZE -> 1*30=30. Next page items
-    should be fetched only if the $recipeListScrollPosition has reached the last $PAGING_NEXT_PAGE_INTERVAL
-    elements at the end of the list.
+     Prevent duplicate events due to recompose happening quickly
+     Ex: If $currentPage=1, the fetched item size is currentPage*PAGE_SIZE -> 1*30=30. Next page items
+     should be fetched only if the $recipeListScrollPosition has reached the last $PAGING_NEXT_PAGE_INTERVAL
+     elements at the end of the list.
 
-    i.e: PAGING_NEXT_PAGE_INTERVAL=4, the next page should be loaded before the user reaches the last 4
-    items. So by the time the user reaches the end, the new items are already loaded and there will be a
-    smooth transition.
+     i.e: PAGING_NEXT_PAGE_INTERVAL=4, the next page should be loaded before the user reaches the last 4
+     items. So by the time the user reaches the end, the new items are already loaded and there will be a
+     smooth transition.
      */
     private fun isEligibleToMakeNextPageSearch(): Boolean {
         return recipeListScrollPosition + PAGING_NEXT_PAGE_INTERVAL >= currentPage.value * PAGING_PAGE_SIZE

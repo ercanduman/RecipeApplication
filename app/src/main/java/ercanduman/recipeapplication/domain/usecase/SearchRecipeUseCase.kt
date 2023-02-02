@@ -12,13 +12,13 @@ import javax.inject.Inject
 class SearchRecipeUseCase @Inject constructor(
     private val repository: RecipeRepository,
     private val recipeListMapper: RecipeListMapper,
-    private val appResourcesProvider: AppResourcesProvider,
+    private val appResourcesProvider: AppResourcesProvider
 ) {
     private val currentRecipeList: MutableList<Recipe> = mutableListOf()
 
     suspend operator fun invoke(
         page: Int,
-        searchQuery: String,
+        searchQuery: String
     ): RecipeListUiState {
         return when (val searchResult = repository.searchRecipes(page, searchQuery)) {
             RecipeResult.Loading -> RecipeListUiState()
