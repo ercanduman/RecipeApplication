@@ -31,6 +31,7 @@ import ercanduman.recipeapplication.ui.common.compose.showErrorMessageInSnackbar
 import ercanduman.recipeapplication.ui.common.theme.AppDimenDefaultDistance
 import ercanduman.recipeapplication.ui.common.theme.AppDimenSmallDistance
 import ercanduman.recipeapplication.ui.common.theme.AppTheme
+import ercanduman.recipeapplication.ui.recipe.detail.INVALID_ERROR_MESSAGE
 import ercanduman.recipeapplication.ui.recipe.detail.INVALID_RECIPE_ID
 import ercanduman.recipeapplication.ui.recipe.detail.KEY_RECIPE_ID
 import ercanduman.recipeapplication.ui.recipe.list.compose.RecipeListItemComposable
@@ -82,7 +83,7 @@ class RecipeListFragment : Fragment() {
 
             if (uiState.recipeId != INVALID_RECIPE_ID) navigateToRecipeDetailFragment(uiState.recipeId)
 
-            if (uiState.errorMessage.isNotEmpty()) {
+            if (uiState.errorMessage != INVALID_ERROR_MESSAGE) {
                 showErrorMessageInSnackbar(
                     errorMessage = uiState.errorMessage,
                     coroutineScope = coroutineScope,
