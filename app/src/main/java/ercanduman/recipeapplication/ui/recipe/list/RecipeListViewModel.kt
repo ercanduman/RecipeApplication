@@ -68,7 +68,7 @@ class RecipeListViewModel @Inject constructor(
 
     private fun resetSearchState() {
         cancelRunningJob()
-        recipeListUiState.value = RecipeListUiState.Loading
+        recipeListUiState = RecipeListUiState()
         currentPage.value = PAGING_INITIAL_PAGE
         recipeListScrollPosition = INITIAL_POSITION
         searchRecipeUseCase.clearCurrentRecipeList()
@@ -115,7 +115,7 @@ class RecipeListViewModel @Inject constructor(
     private fun fetchRecipes() {
         fetchRecipesJob = viewModelScope.launch {
             delayApiCall()
-            recipeListUiState.value = searchRecipeUseCase(
+            recipeListUiState = searchRecipeUseCase(
                 page = currentPage.value,
                 searchQuery = searchQuery.value
             )
