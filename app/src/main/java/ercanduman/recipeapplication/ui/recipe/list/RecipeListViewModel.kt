@@ -13,10 +13,10 @@ import ercanduman.recipeapplication.ui.recipe.list.model.Category
 import ercanduman.recipeapplication.ui.recipe.list.model.FoodCategory
 import ercanduman.recipeapplication.ui.recipe.list.model.FoodCategoryProvider
 import ercanduman.recipeapplication.ui.recipe.list.model.RecipeListUiState
-import javax.inject.Inject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 private const val INITIAL_POSITION = 0
 private const val INITIAL_SEARCH_QUERY = ""
