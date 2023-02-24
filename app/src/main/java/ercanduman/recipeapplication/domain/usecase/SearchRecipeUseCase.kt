@@ -21,11 +21,11 @@ class SearchRecipeUseCase @Inject constructor(
         searchQuery: String
     ): RecipeListUiState {
         return when (val searchResult = repository.searchRecipes(page, searchQuery)) {
-            RecipeResult.Loading -> RecipeListUiState.Loading
+            RecipeResult.Loading -> RecipeListUiState()
 
             is RecipeResult.Error -> {
                 val errorMessage: String = searchResult.message
-                RecipeListUiState.Error(errorMessage)
+                RecipeListUiState(errorMessage = errorMessage)
             }
 
             is RecipeResult.Success -> {
@@ -44,9 +44,12 @@ class SearchRecipeUseCase @Inject constructor(
         val appendedRecipeList: List<Recipe> = currentRecipeList.toList()
         return if (appendedRecipeList.isEmpty()) {
             val errorMessage = appResourcesProvider.getString(R.string.error_no_data_found)
-            RecipeListUiState.Error(errorMessage = errorMessage)
+            RecipeListUiState(errorMessage = errorMessage)
         } else {
-            RecipeListUiState.Success(appendedRecipeList)
+            RecipeListUiState(
+                recipes = appendedRecipeList,
+                isLoading = false
+            )
         }
     }
 

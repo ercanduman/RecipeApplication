@@ -31,6 +31,7 @@ import ercanduman.recipeapplication.ui.common.compose.showErrorMessageInSnackbar
 import ercanduman.recipeapplication.ui.common.theme.AppDimenDefaultDistance
 import ercanduman.recipeapplication.ui.common.theme.AppDimenSmallDistance
 import ercanduman.recipeapplication.ui.common.theme.AppTheme
+import ercanduman.recipeapplication.ui.recipe.detail.INVALID_ERROR_MESSAGE
 import ercanduman.recipeapplication.ui.recipe.detail.INVALID_RECIPE_ID
 import ercanduman.recipeapplication.ui.recipe.detail.KEY_RECIPE_ID
 import ercanduman.recipeapplication.ui.recipe.list.compose.RecipeListItemComposable
@@ -74,21 +75,20 @@ class RecipeListFragment : Fragment() {
             topBar = { ToolbarContentComposable() },
             snackbarHostState = snackbarHostState
         ) {
-            when (val recipeListUiState = viewModel.recipeListUiState.value) {
-                RecipeListUiState.Loading -> RecipeListShimmerComposable()
+            val uiState: RecipeListUiState = viewModel.recipeListUiState
 
-                is RecipeListUiState.Error -> {
-                    showErrorMessageInSnackbar(
-                        errorMessage = recipeListUiState.errorMessage,
-                        coroutineScope = coroutineScope,
-                        snackbarHostState = snackbarHostState
-                    )
-                }
+            if (uiState.isLoading) RecipeListShimmerComposable()
 
-                is RecipeListUiState.Success -> {
-                    RecipeContentComposable(recipeListUiState.recipes)
-                    checkUiStateForNavigatingToRecipeDetails(recipeListUiState)
-                }
+            if (uiState.recipes.isNotEmpty()) RecipeContentComposable(uiState.recipes)
+
+            if (uiState.recipeId != INVALID_RECIPE_ID) navigateToRecipeDetailFragment(uiState.recipeId)
+
+            if (uiState.errorMessage != INVALID_ERROR_MESSAGE) {
+                showErrorMessageInSnackbar(
+                    errorMessage = uiState.errorMessage,
+                    coroutineScope = coroutineScope,
+                    snackbarHostState = snackbarHostState
+                )
             }
         }
     }
@@ -143,17 +143,14 @@ class RecipeListFragment : Fragment() {
         }
     }
 
-    private fun checkUiStateForNavigatingToRecipeDetails(recipeListUiState: RecipeListUiState.Success) {
-        val recipeId = recipeListUiState.recipeId
-        if (recipeId != INVALID_RECIPE_ID) {
-            val bundle = bundleOf(KEY_RECIPE_ID to recipeId)
-            findNavController().navigate(
-                args = bundle,
-                resId = R.id.action_navigate_to_recipeDetailFragment
-            )
+    private fun navigateToRecipeDetailFragment(recipeId: Int) {
+        val bundle = bundleOf(KEY_RECIPE_ID to recipeId)
+        findNavController().navigate(
+            args = bundle,
+            resId = R.id.action_navigate_to_recipeDetailFragment
+        )
 
-            // After navigation, reset the UiState for the clicked item
-            viewModel.navigatedToDetails(recipeListUiState)
-        }
+        // After navigation, reset the UiState for the clicked item
+        viewModel.navigationProcessed()
     }
 }

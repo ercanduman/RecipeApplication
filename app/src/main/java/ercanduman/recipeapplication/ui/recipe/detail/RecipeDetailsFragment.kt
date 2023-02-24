@@ -23,6 +23,7 @@ import ercanduman.recipeapplication.ui.recipe.detail.model.RecipeDetailsUiState
 
 const val KEY_RECIPE_ID: String = "RecipeDetailsFragment.recipeId"
 const val INVALID_RECIPE_ID: Int = -1
+const val INVALID_ERROR_MESSAGE: String = ""
 
 @AndroidEntryPoint
 class RecipeDetailsFragment : Fragment() {

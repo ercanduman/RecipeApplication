@@ -1,7 +1,9 @@
 package ercanduman.recipeapplication.ui.recipe.list
 
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,7 +35,7 @@ class RecipeListViewModel @Inject constructor(
     private val foodCategoryProvider: FoodCategoryProvider
 ) : ViewModel() {
 
-    var recipeListUiState: MutableState<RecipeListUiState> = mutableStateOf(RecipeListUiState.Loading)
+    var recipeListUiState: RecipeListUiState by mutableStateOf(RecipeListUiState())
         private set
 
     var searchQuery: MutableState<String> = mutableStateOf(INITIAL_SEARCH_QUERY)
@@ -66,7 +68,7 @@ class RecipeListViewModel @Inject constructor(
 
     private fun resetSearchState() {
         cancelRunningJob()
-        recipeListUiState.value = RecipeListUiState.Loading
+        recipeListUiState = RecipeListUiState()
         currentPage.value = PAGING_INITIAL_PAGE
         recipeListScrollPosition = INITIAL_POSITION
         searchRecipeUseCase.clearCurrentRecipeList()
@@ -91,7 +93,7 @@ class RecipeListViewModel @Inject constructor(
 
         // Request next page items if the $recipeListScrollPosition has reached to the end of the list and
         // UiState is not currently loading
-        if (isEligibleToMakeNextPageSearch() && !isUiStateLoading) {
+        if (isEligibleToMakeNextPageSearch() && !recipeListUiState.isLoading) {
             executeNextPageSearch()
         }
     }
@@ -110,13 +112,10 @@ class RecipeListViewModel @Inject constructor(
         return recipeListScrollPosition + PAGING_NEXT_PAGE_INTERVAL >= currentPage.value * PAGING_PAGE_SIZE
     }
 
-    private val isUiStateLoading: Boolean
-        get() = recipeListUiState.value is RecipeListUiState.Loading
-
     private fun fetchRecipes() {
         fetchRecipesJob = viewModelScope.launch {
             delayApiCall()
-            recipeListUiState.value = searchRecipeUseCase(
+            recipeListUiState = searchRecipeUseCase(
                 page = currentPage.value,
                 searchQuery = searchQuery.value
             )
@@ -147,13 +146,10 @@ class RecipeListViewModel @Inject constructor(
     }
 
     fun onRecipeClicked(recipeId: Int) {
-        val currentUiState: RecipeListUiState = recipeListUiState.value
-        if (currentUiState is RecipeListUiState.Success) {
-            recipeListUiState.value = currentUiState.copy(recipeId = recipeId)
-        }
+        recipeListUiState = recipeListUiState.copy(recipeId = recipeId)
     }
 
-    fun navigatedToDetails(success: RecipeListUiState.Success) {
-        recipeListUiState.value = success.copy(recipeId = INVALID_RECIPE_ID)
+    fun navigationProcessed() {
+        recipeListUiState = recipeListUiState.copy(recipeId = INVALID_RECIPE_ID)
     }
 }
