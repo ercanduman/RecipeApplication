@@ -18,27 +18,28 @@ import ercanduman.recipeapplication.ui.recipe.list.model.FoodCategory
 
 @Composable
 fun CategoryChipsComposable(
-    categories: List<FoodCategory>,
+    foodCategories: List<FoodCategory>,
     selectedCategory: Category,
-    onValueChange: (String) -> Unit,
+    onCategorySelected: (String) -> Unit,
     horizontalScrollState: ScrollState
 ) {
     Row(
         modifier = Modifier.horizontalScroll(horizontalScrollState),
         horizontalArrangement = Arrangement.spacedBy(AppDimenSmallDistance)
     ) {
-        categories.forEach { category ->
-            val isSelected: Boolean = isFoodCategorySelected(category, selectedCategory)
+        foodCategories.forEach { category ->
+            val isSelected: Boolean = isProvidedFoodCategorySelected(category, selectedCategory)
             CategoryChipItemComposable(
                 category = category,
                 isSelected = isSelected,
-                onValueChange = onValueChange
+                onCategorySelected = onCategorySelected
             )
         }
     }
 }
 
-fun isFoodCategorySelected(category: FoodCategory, selectedCategory: Category): Boolean {
+// Returns true if the given provided food category is selected.
+private fun isProvidedFoodCategorySelected(category: FoodCategory, selectedCategory: Category): Boolean {
     return (selectedCategory is Category.Provided && category == selectedCategory.foodCategory)
 }
 
@@ -46,8 +47,9 @@ fun isFoodCategorySelected(category: FoodCategory, selectedCategory: Category): 
 private fun CategoryChipItemComposable(
     category: FoodCategory,
     isSelected: Boolean = false,
-    onValueChange: (String) -> Unit
+    onCategorySelected: (String) -> Unit
 ) {
+    // The background color is either MaterialTheme.colorScheme.secondary or MaterialTheme.colorScheme.secondaryContainer, depending on whether the category is selected or not.
     val backgroundColor: Color =
         if (!isSelected) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.secondaryContainer
 
@@ -56,7 +58,7 @@ private fun CategoryChipItemComposable(
         color = backgroundColor,
         modifier = Modifier.toggleable(
             value = isSelected,
-            onValueChange = { onValueChange(category.value) }
+            onValueChange = { onCategorySelected(category.value) }
         )
     ) {
         AppText(

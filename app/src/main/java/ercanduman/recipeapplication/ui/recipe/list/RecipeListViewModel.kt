@@ -8,15 +8,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ercanduman.recipeapplication.domain.usecase.SearchRecipeUseCase
-import ercanduman.recipeapplication.ui.recipe.detail.INVALID_RECIPE_ID
 import ercanduman.recipeapplication.ui.recipe.list.model.Category
 import ercanduman.recipeapplication.ui.recipe.list.model.FoodCategory
 import ercanduman.recipeapplication.ui.recipe.list.model.FoodCategoryProvider
+import ercanduman.recipeapplication.ui.recipe.list.model.INVALID_RECIPE_ID
 import ercanduman.recipeapplication.ui.recipe.list.model.RecipeListUiState
+import javax.inject.Inject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 private const val INITIAL_POSITION = 0
 private const val INITIAL_SEARCH_QUERY = ""
@@ -99,14 +99,14 @@ class RecipeListViewModel @Inject constructor(
     }
 
     /**
-     Prevent duplicate events due to recompose happening quickly
-     Ex: If $currentPage=1, the fetched item size is currentPage*PAGE_SIZE -> 1*30=30. Next page items
-     should be fetched only if the $recipeListScrollPosition has reached the last $PAGING_NEXT_PAGE_INTERVAL
-     elements at the end of the list.
+    Prevent duplicate events due to recompose happening quickly
+    Ex: If $currentPage=1, the fetched item size is currentPage*PAGE_SIZE -> 1*30=30. Next page items
+    should be fetched only if the $recipeListScrollPosition has reached the last $PAGING_NEXT_PAGE_INTERVAL
+    elements at the end of the list.
 
-     i.e: PAGING_NEXT_PAGE_INTERVAL=4, the next page should be loaded before the user reaches the last 4
-     items. So by the time the user reaches the end, the new items are already loaded and there will be a
-     smooth transition.
+    i.e: PAGING_NEXT_PAGE_INTERVAL=4, the next page should be loaded before the user reaches the last 4
+    items. So by the time the user reaches the end, the new items are already loaded and there will be a
+    smooth transition.
      */
     private fun isEligibleToMakeNextPageSearch(): Boolean {
         return recipeListScrollPosition + PAGING_NEXT_PAGE_INTERVAL >= currentPage.value * PAGING_PAGE_SIZE

@@ -105,13 +105,13 @@ class RecipeListFragment : Fragment() {
                 )
                 Spacer(modifier = Modifier.padding(bottom = AppDimenDefaultDistance))
 
-                val categories = viewModel.getAllPredefinedFoodCategories()
+                val foodCategories = viewModel.getAllPredefinedFoodCategories()
                 val selectedCategory = viewModel.selectedCategory.value
                 val selectedCategoryPosition = viewModel.selectedCategoryPosition
                 ChipsToolbarComposable(
-                    categories = categories,
+                    foodCategories = foodCategories,
                     selectedCategory = selectedCategory,
-                    onValueChange = viewModel::onQueryChanged,
+                    onCategorySelected = viewModel::onQueryChanged,
                     selectedCategoryPosition = selectedCategoryPosition,
                     onCategoryPositionChange = viewModel::onCategoryPositionChanged
                 )
@@ -130,7 +130,7 @@ class RecipeListFragment : Fragment() {
             ),
             verticalArrangement = Arrangement.spacedBy(AppDimenDefaultDistance)
         ) {
-            itemsIndexed(items = recipes) { index: Int, recipe: Recipe ->
+            itemsIndexed(items = recipes, key = { _, recipe -> recipe.id }) { index: Int, recipe: Recipe ->
                 RecipeListItemComposable(
                     recipe = recipe,
                     onRecipeClick = viewModel::onRecipeClicked

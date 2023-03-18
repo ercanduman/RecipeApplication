@@ -10,10 +10,10 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun ChipsToolbarComposable(
-    categories: List<FoodCategory>,
+    foodCategories: List<FoodCategory>,
     selectedCategory: Category,
     selectedCategoryPosition: Int,
-    onValueChange: (String) -> Unit,
+    onCategorySelected: (String) -> Unit,
     onCategoryPositionChange: (Int) -> Unit
 ) {
     val horizontalScrollState = rememberScrollState()
@@ -26,11 +26,11 @@ fun ChipsToolbarComposable(
     }
 
     CategoryChipsComposable(
-        categories = categories,
+        foodCategories = foodCategories,
         selectedCategory = selectedCategory,
         horizontalScrollState = horizontalScrollState,
-        onValueChange = {
-            onValueChange(it)
+        onCategorySelected = {
+            onCategorySelected(it)
             onCategoryPositionChange(horizontalScrollState.value)
         }
     )
