@@ -31,13 +31,13 @@ import ercanduman.recipeapplication.ui.common.compose.showErrorMessageInSnackbar
 import ercanduman.recipeapplication.ui.common.theme.AppDimenDefaultDistance
 import ercanduman.recipeapplication.ui.common.theme.AppDimenSmallDistance
 import ercanduman.recipeapplication.ui.common.theme.AppTheme
-import ercanduman.recipeapplication.ui.recipe.detail.INVALID_ERROR_MESSAGE
-import ercanduman.recipeapplication.ui.recipe.detail.INVALID_RECIPE_ID
-import ercanduman.recipeapplication.ui.recipe.detail.KEY_RECIPE_ID
 import ercanduman.recipeapplication.ui.recipe.list.compose.RecipeListItemComposable
 import ercanduman.recipeapplication.ui.recipe.list.compose.shimmer.RecipeListShimmerComposable
 import ercanduman.recipeapplication.ui.recipe.list.compose.toolbar.ChipsToolbarComposable
 import ercanduman.recipeapplication.ui.recipe.list.compose.toolbar.SearchToolbarComposable
+import ercanduman.recipeapplication.ui.recipe.list.model.INVALID_ERROR_MESSAGE
+import ercanduman.recipeapplication.ui.recipe.list.model.INVALID_RECIPE_ID
+import ercanduman.recipeapplication.ui.recipe.list.model.KEY_RECIPE_ID
 import ercanduman.recipeapplication.ui.recipe.list.model.RecipeListUiState
 
 @AndroidEntryPoint
@@ -75,18 +75,17 @@ class RecipeListFragment : Fragment() {
         ) {
             val uiState: RecipeListUiState = viewModel.recipeListUiState
 
-            if (uiState.isLoading) RecipeListShimmerComposable()
-
-            if (uiState.recipes.isNotEmpty()) RecipeContentComposable(uiState.recipes)
-
-            if (uiState.recipeId != INVALID_RECIPE_ID) navigateToRecipeDetailFragment(uiState.recipeId)
-
-            if (uiState.errorMessage != INVALID_ERROR_MESSAGE) {
-                showErrorMessageInSnackbar(
-                    errorMessage = uiState.errorMessage,
-                    coroutineScope = coroutineScope,
-                    snackbarHostState = snackbarHostState
-                )
+            when {
+                uiState.isLoading -> RecipeListShimmerComposable()
+                uiState.recipes.isNotEmpty() -> RecipeContentComposable(uiState.recipes)
+                uiState.recipeId != INVALID_RECIPE_ID -> navigateToRecipeDetailFragment(uiState.recipeId)
+                uiState.errorMessage != INVALID_ERROR_MESSAGE -> {
+                    showErrorMessageInSnackbar(
+                        errorMessage = uiState.errorMessage,
+                        coroutineScope = coroutineScope,
+                        snackbarHostState = snackbarHostState
+                    )
+                }
             }
         }
     }

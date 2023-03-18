@@ -20,10 +20,8 @@ import ercanduman.recipeapplication.ui.common.theme.AppTheme
 import ercanduman.recipeapplication.ui.recipe.detail.compose.RecipeDetailsComposable
 import ercanduman.recipeapplication.ui.recipe.detail.compose.RecipeDetailsShimmerComposable
 import ercanduman.recipeapplication.ui.recipe.detail.model.RecipeDetailsUiState
-
-const val KEY_RECIPE_ID: String = "RecipeDetailsFragment.recipeId"
-const val INVALID_RECIPE_ID: Int = -1
-const val INVALID_ERROR_MESSAGE: String = ""
+import ercanduman.recipeapplication.ui.recipe.list.model.INVALID_RECIPE_ID
+import ercanduman.recipeapplication.ui.recipe.list.model.KEY_RECIPE_ID
 
 @AndroidEntryPoint
 class RecipeDetailsFragment : Fragment() {

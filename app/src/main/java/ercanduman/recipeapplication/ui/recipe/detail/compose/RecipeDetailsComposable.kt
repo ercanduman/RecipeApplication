@@ -17,9 +17,6 @@ import ercanduman.recipeapplication.ui.common.theme.AppText
 import ercanduman.recipeapplication.ui.common.theme.AppTextSize20
 import ercanduman.recipeapplication.ui.recipe.list.compose.RecipeTitleAndRatingComposable
 
-private const val INGREDIENTS_TITLE = "Ingredients"
-private const val TITLE_MAX_LINES = Int.MAX_VALUE
-
 @Composable
 fun RecipeDetailsComposable(recipe: Recipe) {
     Card(
@@ -51,7 +48,10 @@ private fun RecipeIngredientsComposable(ingredients: List<String>) {
         fontWeight = FontWeight.Bold
     )
     Spacer(modifier = Modifier.padding(bottom = AppDimenDefaultDistance))
-    for (ingredient in ingredients) {
+    ingredients.forEach { ingredient ->
         AppText(text = ingredient)
     }
 }
+
+private const val INGREDIENTS_TITLE = "Ingredients"
+private const val TITLE_MAX_LINES = Int.MAX_VALUE
