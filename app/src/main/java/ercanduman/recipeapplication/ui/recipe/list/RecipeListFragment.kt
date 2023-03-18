@@ -40,8 +40,6 @@ import ercanduman.recipeapplication.ui.recipe.list.compose.toolbar.ChipsToolbarC
 import ercanduman.recipeapplication.ui.recipe.list.compose.toolbar.SearchToolbarComposable
 import ercanduman.recipeapplication.ui.recipe.list.model.RecipeListUiState
 
-const val DEFAULT_CONTENT_DESCRIPTION: String = "Recipe app image"
-
 @AndroidEntryPoint
 class RecipeListFragment : Fragment() {
 

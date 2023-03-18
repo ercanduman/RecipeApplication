@@ -12,7 +12,7 @@ import ercanduman.recipeapplication.ui.recipe.detail.INVALID_RECIPE_ID
  * https://developer.android.com/topic/architecture/ui-layer/events#handle-viewmodel-events
  */
 data class RecipeListUiState(
-    val isLoading: Boolean = true,
+    val isLoading: Boolean = false,
     val recipes: List<Recipe> = emptyList(),
     val recipeId: Int = INVALID_RECIPE_ID,
     val errorMessage: String = INVALID_ERROR_MESSAGE

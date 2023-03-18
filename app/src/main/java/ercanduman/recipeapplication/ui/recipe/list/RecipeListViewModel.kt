@@ -85,7 +85,7 @@ class RecipeListViewModel @Inject constructor(
     }
 
     private fun incrementPageSize() {
-        currentPage.value = currentPage.value + PAGING_INCREMENT_RANGE
+        currentPage.value += PAGING_INCREMENT_RANGE
     }
 
     fun onRecipeListScrollPositionChanged(position: Int) {

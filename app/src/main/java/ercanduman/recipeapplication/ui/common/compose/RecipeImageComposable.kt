@@ -9,9 +9,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import ercanduman.recipeapplication.R
-import ercanduman.recipeapplication.ui.recipe.list.DEFAULT_CONTENT_DESCRIPTION
-
-const val RECIPE_IMAGE_HEIGHT: Int = 256
 
 @Composable
 fun RecipeImageComposable(imageUrl: String) {
@@ -22,6 +19,10 @@ fun RecipeImageComposable(imageUrl: String) {
             .fillMaxWidth()
             .height(RECIPE_IMAGE_HEIGHT.dp),
         placeholder = painterResource(id = R.drawable.recipe_placeholder_image),
-        contentScale = ContentScale.Crop
+        contentScale = ContentScale.Crop,
+        fallback = painterResource(id = R.drawable.recipe_placeholder_image)
     )
 }
+
+const val RECIPE_IMAGE_HEIGHT: Int = 256
+const val DEFAULT_CONTENT_DESCRIPTION: String = "Recipe app image"
